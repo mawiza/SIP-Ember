@@ -20,8 +20,8 @@ module.exports = function(config) {
         'js/libs/ember.js',
         'js/libs/ember-data.js',
         'js/libs/bootstrap.min.js',
-        "templates/*.handlebars",
-        "js/app.coffee",
+        "js/app/templates/*.handlebars",
+        "js/app/app.coffee",
         'js/**/*.coffee',
         'tests/*{.spec,_spec,Spec}.coffee',
         'tests/**/*{.spec,_spec,Spec}.coffee'
@@ -37,9 +37,10 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     //
     preprocessors: {
-        "**/*.handlebars": ['ember'],
-        '**/*.coffee': ['coffee'],
-        '**/js/app.js': ['coverage']
+        "**/app/**/*.handlebars": ['ember'],
+        '**/app/**/*.coffee': ['coffee'],
+        '**/tests/**/*.coffee': ['coffee'],
+        '**/app/**/*.js': ['coverage']
     },
 
 
