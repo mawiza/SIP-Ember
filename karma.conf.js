@@ -19,9 +19,11 @@ module.exports = function(config) {
         'js/libs/handlebars-1.1.2.js',
         'js/libs/ember.js',
         'js/libs/ember-data.js',
+        'js/libs/adapter.js',
         'js/libs/bootstrap.min.js',
-        "js/app/templates/*.handlebars",
+        "js/app/templates/*.hbs",
         "js/app/app.coffee",
+        "js/app/templates.js",
         'js/**/*.coffee',
         'tests/*{.spec,_spec,Spec}.coffee',
         'tests/**/*{.spec,_spec,Spec}.coffee'
@@ -37,7 +39,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     //
     preprocessors: {
-        "**/app/**/*.handlebars": ['ember'],
+        "**/app/**/*.hbs": ['ember'],
         '**/app/**/*.coffee': ['coffee'],
         '**/tests/**/*.coffee': ['coffee'],
         '**/app/**/*.js': ['coverage']
