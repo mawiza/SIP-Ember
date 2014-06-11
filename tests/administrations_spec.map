@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "administrations_spec.js",
+  "sourceRoot": "",
+  "sources": [
+    "administrations_spec.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,QAAA,CAAS,yBAAT,EAAoC,SAAA,GAAA;AAChC,IAAA,UAAA,CAAW,SAAA,GAAA;aACP,KAAA,CAAM,kBAAN,EADO;IAAA,CAAX,CAAA,CAAA;WAGA,EAAA,CAAG,0CAAH,EAA+C,SAAA,GAAA,CAA/C,EAJgC;EAAA,CAApC,CAAA,CAAA;AAAA"
+}

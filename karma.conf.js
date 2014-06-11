@@ -25,6 +25,7 @@ module.exports = function(config) {
         "js/app/app.coffee",
         "js/app/templates.js",
         'js/**/*.coffee',
+        'tests/test_helper.coffee',
         'tests/*{.spec,_spec,Spec}.coffee',
         'tests/**/*{.spec,_spec,Spec}.coffee'
     ],

@@ -1,40 +1,39 @@
-#expect = require('chai').expect
+describe "The home page should display", ->
+    beforeEach ->
+        visit("/")
 
-# Run before each test case.
-beforeEach ->
+    it 'the app title and description elements', ->
+        andThen ->
+            findWithAssert('h2');
+            findWithAssert('div.description');
 
-    # Put the application into a known state, and destroy the defaultStore.
-    # Be careful about DS.Model instances stored in App; they'll be invalid
-    # after this.
-    # This is broken in some versions of Ember and Ember Data, see:
-    # https://github.com/emberjs/data/issues/847
-    Ember.run ->
-        App.reset()
-        return
+    describe 'a navbar that has a', ->
+        it 'a working title link', ->
+            andThen ->
+                $el = findWithAssert('.title-link')
+                click($el)
+                expect(currentURL()).to.equal('/')
 
+        it 'a working administrations link', ->
+            andThen ->
+                $el = findWithAssert('.administrations-link')
+                click($el)
+                expect(currentURL()).to.equal('/administrations')
 
-    # Display an error if asynchronous operations are queued outside of
-    # Ember.run.  You need this if you want to stay sane.
-    Ember.testing = true
-    return
+        it 'a working themes link', ->
+            andThen ->
+                $el = findWithAssert('.themes-link')
+                click($el)
+                expect(currentURL()).to.equal('/themes')
 
+        it 'a working focus areas link', ->
+            andThen ->
+                $el = findWithAssert('.focusareas-link')
+                click($el)
+                expect(currentURL()).to.equal('/focusareas')
 
-# Run after each test case.
-afterEach ->
-    Ember.testing = false
-    return
-
-
-# Optional: Clean up after our last test so you can try out the app
-# in the jsFiddle.  This isn't normally required.
-after ->
-    Ember.run ->
-        App.reset()
-        return
-
-    return
-
-describe "Array", ->
-    it "should return -1 when the value is not present", ->
-        expect(true).to.equal(true)
-    return
+        it 'a working about link', ->
+            andThen ->
+                $el = findWithAssert('.about-link')
+                click($el)
+                expect(currentURL()).to.equal('/about')
