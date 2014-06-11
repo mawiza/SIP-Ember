@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                {{#link-to 'index' class="navbar-brand title-link"}}Strategiske Indsatsplan{{/link-to}}
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>{{#link-to 'administrations' class="administrations-link"}}Forvaltninger{{/link-to}}</li>
+                    <li>{{#link-to 'themes' class="themes-link"}}Temaer{{/link-to}}</li>
+                    <li>{{#link-to 'focusareas' class="focusareas-link"}}Fokus områder{{/link-to}}</li>
+                    <li>{{#link-to 'about' class="about-link"}}Om{{/link-to}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{outlet}}
+</div>
+<footer class="container"></footer>
