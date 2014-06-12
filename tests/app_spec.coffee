@@ -1,39 +1,23 @@
 describe "The home page should display", ->
-    beforeEach ->
-        visit("/")
 
     it 'the app title and description elements', ->
+        visit("/")
         andThen ->
             findWithAssert('h2');
             findWithAssert('div.description');
 
-    describe 'a navbar that has a', ->
+    describe 'a navbar that has', ->
         it 'a working title link', ->
-            andThen ->
-                $el = findWithAssert('.title-link')
-                click($el)
-                expect(currentURL()).to.equal('/')
+            assertNavbarLink('')
 
         it 'a working administrations link', ->
-            andThen ->
-                $el = findWithAssert('.administrations-link')
-                click($el)
-                expect(currentURL()).to.equal('/administrations')
+            assertNavbarLink('administrations')
 
         it 'a working themes link', ->
-            andThen ->
-                $el = findWithAssert('.themes-link')
-                click($el)
-                expect(currentURL()).to.equal('/themes')
+            assertNavbarLink('themes')
 
         it 'a working focus areas link', ->
-            andThen ->
-                $el = findWithAssert('.focusareas-link')
-                click($el)
-                expect(currentURL()).to.equal('/focusareas')
+            assertNavbarLink('focusareas')
 
         it 'a working about link', ->
-            andThen ->
-                $el = findWithAssert('.about-link')
-                click($el)
-                expect(currentURL()).to.equal('/about')
+            assertNavbarLink('about')

@@ -17,6 +17,20 @@
     Ember.testing = false;
   });
 
+  Ember.Test.registerAsyncHelper("assertNavbarLink", function(app, value) {
+    visit("/");
+    andThen(function() {
+      var $el;
+      if (value !== '') {
+        $el = findWithAssert('.' + value + '-link');
+      } else {
+        $el = findWithAssert('.title-link');
+      }
+      click($el);
+      return expect(currentURL()).to.equal('/' + value);
+    });
+  });
+
 }).call(this);
 
 //# sourceMappingURL=test_helper.map

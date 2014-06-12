@@ -13,9 +13,17 @@
     return this.route('focusareas');
   });
 
-  App.IndexRoute = Ember.Route.extend({
+  App.AdministrationsRoute = Ember.Route.extend({
     model: function() {
-      return ["red", "yellow", "blue"];
+      return [
+        {
+          name: "OPB",
+          color: "#000"
+        }, {
+          name: "SSB",
+          color: "#fff"
+        }
+      ];
     }
   });
 

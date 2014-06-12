@@ -13,3 +13,17 @@ beforeEach ->
 afterEach ->
     Ember.testing = false
     return
+
+#
+# Test to see if the navbar has the specified link and if it is functioning
+#
+Ember.Test.registerAsyncHelper "assertNavbarLink", (app, value) ->
+    visit("/")
+    andThen ->
+        if value isnt ''
+            $el = findWithAssert('.' + value + '-link')
+        else
+            $el = findWithAssert('.title-link')
+        click($el)
+        expect(currentURL()).to.equal('/' + value)
+    return

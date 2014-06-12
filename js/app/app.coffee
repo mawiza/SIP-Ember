@@ -8,11 +8,17 @@ App.Router.map ->
     @route('focusareas')
 
 # put your routes here
-App.IndexRoute = Ember.Route.extend(
+App.AdministrationsRoute = Ember.Route.extend(
     model: ->
         [
-            "red"
-            "yellow"
-            "blue"
+            {
+                name: "OPB"
+                color: "#000"
+            }
+            {
+                name: "SSB"
+                color: "#fff"
+            }
         ]
 )
+
