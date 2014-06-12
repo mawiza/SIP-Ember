@@ -10,10 +10,30 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 Ember.TEMPLATES['administrations'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
   
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\r\n            <tr>\r\n                <td>");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "administration.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</td>\r\n                <td>");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "administration.color", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</td>\r\n                <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n                    <button class=\"btn btn-default btn-sm\">View</button>\r\n                    <button class=\"btn btn-default btn-sm\">Edit</button>\r\n                    <button class=\"btn btn-danger btn-sm\">Delete</button>\r\n                </td>\r\n            </tr>\r\n        ");
+  return buffer;
+  }
 
-
-  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Administration</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
+  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Forvaltning</th>\r\n        <th>Farve</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "administration", "in", "model", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\r\n    </tbody>\r\n</table>\r\n");
+  return buffer;
   
 });
 Ember.TEMPLATES['application'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
@@ -108,15 +128,6 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th style=\"width:200px\">Focus areas</th>\r\n        <th>Description</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td style=\"width:200px\">data</td>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
   
 });
-Ember.TEMPLATES['themes'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
-this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  
-
-
-  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th style=\"width:200px\">Themes</th>\r\n        <th>Description</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td style=\"width:200px\">data</td>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
-  
-});
 Ember.TEMPLATES['index'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
@@ -124,5 +135,14 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 
   data.buffer.push("<h2>Oversigt</h2>\r\n<div class=\"description\"></div>\r\n");
+  
+});
+Ember.TEMPLATES['themes'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  
+
+
+  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th style=\"width:200px\">Themes</th>\r\n        <th>Description</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td style=\"width:200px\">data</td>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
   
 });

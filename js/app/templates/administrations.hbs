@@ -1,18 +1,22 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Administration</th>
+        <th>Forvaltning</th>
+        <th>Farve</th>
         <th style="width: 240px; text-align:center;">Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>data</td>
-        <td style="width: 240px; text-align:center;" class="pull-right">
-            <button class="btn btn-default">View</button>
-            <button class="btn btn-default">Edit</button>
-            <button class="btn btn-danger">Delete</button>
-        </td>
-    </tr>
+        {{#each administration in model}}
+            <tr>
+                <td>{{administration.name}}</td>
+                <td>{{administration.color}}</td>
+                <td style="width: 240px; text-align:center;" class="pull-right">
+                    <button class="btn btn-default btn-sm">View</button>
+                    <button class="btn btn-default btn-sm">Edit</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        {{/each}}
     </tbody>
 </table>
