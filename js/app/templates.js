@@ -6,15 +6,21 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("<div>This is a template</div>");
+  data.buffer.push("<div>This is a template</div>\r\n");
   
 });
 Ember.TEMPLATES['administrations'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, stack2, hashContexts, hashTypes, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
+  
+  
+  data.buffer.push("Tilføj forvaltning");
+  }
+
+function program3(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("\r\n            <tr>\r\n                <td>");
@@ -25,16 +31,86 @@ function program1(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "administration.color", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</td>\r\n                <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n                    <button class=\"btn btn-default btn-sm\">View</button>\r\n                    <button class=\"btn btn-default btn-sm\">Edit</button>\r\n                    <button class=\"btn btn-danger btn-sm\">Delete</button>\r\n                </td>\r\n            </tr>\r\n        ");
+  data.buffer.push("</td>\r\n            </tr>\r\n        ");
   return buffer;
   }
 
-  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Forvaltning</th>\r\n        <th>Farve</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n        ");
+  data.buffer.push("<div>\r\n    ");
+  hashContexts = {'clicked': depth0,'class': depth0};
+  hashTypes = {'clicked': "STRING",'class': "STRING"};
+  options = {hash:{
+    'clicked': ("showModal"),
+    'class': ("add-administration btn btn-primary pull-right")
+  },inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "administrations.new", options) : helperMissing.call(depth0, "link-to", "administrations.new", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\r\n</div>\r\n");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "administration", "in", "model", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Forvaltning</th>\r\n        <th>Farve</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  stack2 = helpers.each.call(depth0, "administration", "in", "model", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\r\n    </tbody>\r\n</table>\r\n");
+  return buffer;
+  
+});
+Ember.TEMPLATES['administrations/new'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, stack2, hashContexts, hashTypes, options, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = '', stack1, stack2, hashContexts, hashTypes, options;
+  data.buffer.push("\r\n    <form class=\"form-control\">\r\n        ");
+  hashContexts = {'type': depth0,'value': depth0,'id': depth0};
+  hashTypes = {'type': "STRING",'value': "ID",'id': "STRING"};
+  options = {hash:{
+    'type': ("text"),
+    'value': ("name"),
+    'id': ("name")
+  },inverse:self.noop,fn:self.program(2, program2, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\r\n        ");
+  hashContexts = {'type': depth0,'value': depth0,'id': depth0};
+  hashTypes = {'type': "STRING",'value': "ID",'id': "STRING"};
+  options = {hash:{
+    'type': ("text"),
+    'value': ("color"),
+    'id': ("color")
+  },inverse:self.noop,fn:self.program(4, program4, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\r\n    </form>\r\n");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  
+  data.buffer.push("Navn");
+  }
+
+function program4(depth0,data) {
+  
+  
+  data.buffer.push("Farve");
+  }
+
+  hashContexts = {'name': depth0,'fade': depth0,'footerButtonsBinding': depth0,'title': depth0};
+  hashTypes = {'name': "STRING",'fade': "BOOLEAN",'footerButtonsBinding': "STRING",'title': "STRING"};
+  options = {hash:{
+    'name': ("administrationsNewModal"),
+    'fade': (true),
+    'footerButtonsBinding': ("modalButtons"),
+    'title': ("Opret ny forvaltning")
+  },inverse:self.noop,fn:self.program(1, program1, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  stack2 = ((stack1 = helpers['bs-modal'] || (depth0 && depth0['bs-modal'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bs-modal", options));
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\r\n");
   return buffer;
   
 });
@@ -127,7 +203,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th style=\"width:200px\">Focus areas</th>\r\n        <th>Description</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td style=\"width:200px\">data</td>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
+  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Focus areas</th>\r\n        <th>Description</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td>data</td>\r\n        <td>data</td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
   
 });
 Ember.TEMPLATES['index'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
@@ -145,6 +221,6 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th style=\"width:200px\">Themes</th>\r\n        <th>Description</th>\r\n        <th style=\"width: 240px; text-align:center;\">Action</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td style=\"width:200px\">data</td>\r\n        <td>data</td>\r\n        <td style=\"width: 240px; text-align:center;\" class=\"pull-right\">\r\n            <button class=\"btn btn-default\">View</button>\r\n            <button class=\"btn btn-default\">Edit</button>\r\n            <button class=\"btn btn-danger\">Delete</button>\r\n        </td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
+  data.buffer.push("<table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n        <th>Themes</th>\r\n        <th>Description</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr>\r\n        <td>data</td>\r\n        <td>data</td>\r\n    </tr>\r\n    </tbody>\r\n</table>");
   
 });
