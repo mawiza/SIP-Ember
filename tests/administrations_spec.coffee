@@ -1,7 +1,18 @@
-describe 'The administration page should', ->
+describe 'The administrations page should', ->
     beforeEach ->
         visit("/administrations")
 
+    #
+    # Model
+    #
+    describe 'have a model', ->
+        it 'should have properties', ->
+            expect(App.Administration.metaForProperty('name')).to.exist
+            expect(App.Administration.metaForProperty('color')).to.exist
+
+    #
+    # NEW
+    #
     describe 'should have an add new administrations button', ->
         it 'should direct to the new route when clicked', ->
             andThen ->
@@ -20,12 +31,14 @@ describe 'The administration page should', ->
         it 'should create a new administrations entry when create gets clicked', ->
             andThen ->
                 click('a.add-administration')
-                #enter the values
                 fillIn('#name', 'OPB')
                 fillIn('#color', '#000')
                 #click('button:submit')
                 #expect(currentURL()).to.equal('/administrations')
 
+    #
+    # INDEX
+    #
     describe 'have a table', ->
             it 'with a header and two columns', ->
                 andThen ->

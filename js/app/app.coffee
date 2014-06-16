@@ -4,3 +4,5 @@ window.App = Ember.Application.createWithMixins
     LOG_VIEW_LOOKUPS: true
     LOG_BINDINGS: true
     LOG_ACTIVE_GENERATION: true
+
+App.ApplicationAdapter = DS.FixtureAdapter

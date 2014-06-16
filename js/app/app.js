@@ -8,6 +8,8 @@
     LOG_ACTIVE_GENERATION: true
   });
 
+  App.ApplicationAdapter = DS.FixtureAdapter;
+
 }).call(this);
 
 //# sourceMappingURL=app.map

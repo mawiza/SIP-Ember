@@ -56,7 +56,8 @@ walker.on('file', function(root, stat, next) {
 var result = uglifyJS.minify([
     "js/app/app.js",
     "js/app/routes.js",
-    "js/app/controllers/administrations.js"
+    "js/app/controllers/administrations.js",
+    "js/app/models/administration.js"
 ],
     {
         outSourceMap: "app-compiled.min.map"
