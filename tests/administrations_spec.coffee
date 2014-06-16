@@ -9,20 +9,21 @@ describe 'The administration page should', ->
                 click('a.add-administration')
                 expect(currentURL()).to.equal('/administrations/new')
 
-        it 'should open a modal dialog when clicked', ->
+        it 'should open a page to add a new administration', ->
             andThen ->
                 click('a.add-administration')
-                expect(findWithAssert('div.modal').css("display")).to.not.equal('none')
                 findWithAssert('form')
-                fillIn('#name', 'OPB')
-                fillIn('#color', '#000')
+                findWithAssert('#name')
+                findWithAssert('#color')
+                findWithAssert("button:submit")
 
         it 'should create a new administrations entry when create gets clicked', ->
             andThen ->
                 click('a.add-administration')
                 #enter the values
-                findWithAssert("button:contains('Submit')")
-                #click('button.create')
+                fillIn('#name', 'OPB')
+                fillIn('#color', '#000')
+                #click('button:submit')
                 #expect(currentURL()).to.equal('/administrations')
 
     describe 'have a table', ->

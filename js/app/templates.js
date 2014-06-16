@@ -59,57 +59,32 @@ function program3(depth0,data) {
 Ember.TEMPLATES['administrations/new'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, stack2, hashContexts, hashTypes, options, self=this, helperMissing=helpers.helperMissing;
+  var buffer = '', stack1, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
-function program1(depth0,data) {
-  
-  var buffer = '', stack1, stack2, hashContexts, hashTypes, options;
-  data.buffer.push("\r\n    <form class=\"form-control\">\r\n        ");
-  hashContexts = {'type': depth0,'value': depth0,'id': depth0};
-  hashTypes = {'type': "STRING",'value': "ID",'id': "STRING"};
+
+  data.buffer.push("<div class=\"\">\r\n    <div class=\"col-md-6 col-md-offset-3\">\r\n        <form role=\"form-control\">\r\n            <div class=\"panel panel-info\">\r\n                <div class=\"panel-heading\">\r\n                    Opret nye forvaltning\r\n                </div>\r\n                <div class=\"panel-body\">\r\n                    <div class=\"form-group\">\r\n                        <label for=\"exampleInputEmail1\">Navn</label>\r\n                        ");
+  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
+  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
   options = {hash:{
     'type': ("text"),
+    'class': ("form-control"),
     'value': ("name"),
-    'id': ("name")
-  },inverse:self.noop,fn:self.program(2, program2, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options));
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n        ");
-  hashContexts = {'type': depth0,'value': depth0,'id': depth0};
-  hashTypes = {'type': "STRING",'value': "ID",'id': "STRING"};
+    'id': ("name"),
+    'placeholder': ("Navn...")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        <label for=\"exampleInputPassword1\">Password</label>\r\n                        ");
+  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
+  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
   options = {hash:{
     'type': ("text"),
+    'class': ("form-control"),
     'value': ("color"),
-    'id': ("color")
-  },inverse:self.noop,fn:self.program(4, program4, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options));
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n    </form>\r\n");
-  return buffer;
-  }
-function program2(depth0,data) {
-  
-  
-  data.buffer.push("Navn");
-  }
-
-function program4(depth0,data) {
-  
-  
-  data.buffer.push("Farve");
-  }
-
-  hashContexts = {'name': depth0,'fade': depth0,'footerButtonsBinding': depth0,'title': depth0};
-  hashTypes = {'name': "STRING",'fade': "BOOLEAN",'footerButtonsBinding': "STRING",'title': "STRING"};
-  options = {hash:{
-    'name': ("administrationsNewModal"),
-    'fade': (true),
-    'footerButtonsBinding': ("modalButtons"),
-    'title': ("Opret ny forvaltning")
-  },inverse:self.noop,fn:self.program(1, program1, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['bs-modal'] || (depth0 && depth0['bs-modal'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bs-modal", options));
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n");
+    'id': ("color"),
+    'placeholder': ("Farve...")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button type=\"submit\" class=\"btn btn-default\">Opret</button>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n");
   return buffer;
   
 });

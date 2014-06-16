@@ -12,19 +12,20 @@
           return expect(currentURL()).to.equal('/administrations/new');
         });
       });
-      it('should open a modal dialog when clicked', function() {
+      it('should open a page to add a new administration', function() {
         return andThen(function() {
           click('a.add-administration');
-          expect(findWithAssert('div.modal').css("display")).to.not.equal('none');
           findWithAssert('form');
-          fillIn('#name', 'OPB');
-          return fillIn('#color', '#000');
+          findWithAssert('#name');
+          findWithAssert('#color');
+          return findWithAssert("button:submit");
         });
       });
       return it('should create a new administrations entry when create gets clicked', function() {
         return andThen(function() {
           click('a.add-administration');
-          return findWithAssert("button:contains('Submit')");
+          fillIn('#name', 'OPB');
+          return fillIn('#color', '#000');
         });
       });
     });
