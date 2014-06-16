@@ -2,16 +2,28 @@ describe 'The administration page should', ->
     beforeEach ->
         visit("/administrations")
 
-    it 'have an add button', ->
-        andThen ->
-            expect(findWithAssert('a.add-administration')).to.exist
-            click('a.add-administration')
-            expect(currentURL()).to.equal('/administrations/new')
-            #findWithAssert('form')
-            fillIn('#name', 'OPB')
-            fillIn('#color', '#000')
-            #click('button.create')
-            #expect(currentURL()).to.equal('/administrations')
+    describe 'should have an add new administrations button', ->
+        it 'should direct to the new route when clicked', ->
+            andThen ->
+                expect(findWithAssert('a.add-administration')).to.exist
+                click('a.add-administration')
+                expect(currentURL()).to.equal('/administrations/new')
+
+        it 'should open a modal dialog when clicked', ->
+            andThen ->
+                click('a.add-administration')
+                expect(findWithAssert('div.modal').css("display")).to.not.equal('none')
+                findWithAssert('form')
+                fillIn('#name', 'OPB')
+                fillIn('#color', '#000')
+
+        it 'should create a new administrations entry when create gets clicked', ->
+            andThen ->
+                click('a.add-administration')
+                #enter the values
+                findWithAssert("button:contains('Submit')")
+                #click('button.create')
+                #expect(currentURL()).to.equal('/administrations')
 
     describe 'have a table', ->
             it 'with a header and two columns', ->

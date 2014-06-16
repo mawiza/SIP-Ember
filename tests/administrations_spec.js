@@ -4,13 +4,28 @@
     beforeEach(function() {
       return visit("/administrations");
     });
-    it('have an add button', function() {
-      return andThen(function() {
-        expect(findWithAssert('a.add-administration')).to.exist;
-        click('a.add-administration');
-        expect(currentURL()).to.equal('/administrations/new');
-        fillIn('#name', 'OPB');
-        return fillIn('#color', '#000');
+    describe('should have an add new administrations button', function() {
+      it('should direct to the new route when clicked', function() {
+        return andThen(function() {
+          expect(findWithAssert('a.add-administration')).to.exist;
+          click('a.add-administration');
+          return expect(currentURL()).to.equal('/administrations/new');
+        });
+      });
+      it('should open a modal dialog when clicked', function() {
+        return andThen(function() {
+          click('a.add-administration');
+          expect(findWithAssert('div.modal').css("display")).to.not.equal('none');
+          findWithAssert('form');
+          fillIn('#name', 'OPB');
+          return fillIn('#color', '#000');
+        });
+      });
+      return it('should create a new administrations entry when create gets clicked', function() {
+        return andThen(function() {
+          click('a.add-administration');
+          return findWithAssert("button:contains('Submit')");
+        });
       });
     });
     return describe('have a table', function() {

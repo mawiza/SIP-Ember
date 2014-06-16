@@ -36,10 +36,9 @@ function program3(depth0,data) {
   }
 
   data.buffer.push("<div>\r\n    ");
-  hashContexts = {'clicked': depth0,'class': depth0};
-  hashTypes = {'clicked': "STRING",'class': "STRING"};
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
   options = {hash:{
-    'clicked': ("showModal"),
     'class': ("add-administration btn btn-primary pull-right")
   },inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "administrations.new", options) : helperMissing.call(depth0, "link-to", "administrations.new", options));

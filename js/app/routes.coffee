@@ -1,14 +1,12 @@
-# put your routes here
-#App.AdministrationsRoute = Ember.Route.extend(
-#    model: ->
-#        [
-#            {
-#                name: "OPB"
-#                color: "#000"
-#            }
-#            {
-#                name: "SSB"
-#                color: "#fff"
-#            }
-#        ]
-#)
+App.Router.map ->
+    @resource "administrations", ->
+        @route("new")
+    @route('about')
+    @route('themes')
+    @route('focusareas')
+
+App.AdministrationsRoute = Ember.Route.extend
+    mode: ->
+        ''
+    #afterModel: ->
+    #    Bootstrap.ModalManager.show 'administrationsNewModal'
