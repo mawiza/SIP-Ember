@@ -22,10 +22,8 @@ module.exports = function(config) {
         'js/libs/adapter.js',
         'js/libs/bootstrap/bs-core.min.js',
         'js/libs/bootstrap/*.js',
-        "js/app/templates/*.hbs",
-        "js/app/app.coffee",
+        'js/app/app-compiled.min.js',
         "js/app/templates.js",
-        'js/**/*.coffee',
         'tests/test_helper.coffee',
         'tests/*{.spec,_spec,Spec}.coffee',
         'tests/**/*{.spec,_spec,Spec}.coffee'
