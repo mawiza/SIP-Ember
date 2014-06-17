@@ -22,8 +22,8 @@ describe 'The administrations page should', ->
                     name: 'TOM'
                     color: '#ccc'
                 )
-                administrations = store.all('administration')
-                expect(administrations.toArray().length).to.equal(1)
+                #administrations = store.all('administration')
+                expect(administration.get('name')).to.equal('TOM')
 
     #
     # NEW
@@ -49,7 +49,8 @@ describe 'The administrations page should', ->
                 fillIn('#name', 'OPB')
                 fillIn('#color', '#000')
                 click('button:submit')
-                expect(currentURL()).to.equal('/administrations')
+                andThen ->
+                    expect(currentURL()).to.equal('/administrations')
 
     #
     # INDEX
@@ -60,10 +61,7 @@ describe 'The administrations page should', ->
                     findWithAssert('table.table')
                     expect(find('table.table thead tr th').length).to.equal(2)
 
-#            describe 'with a table body', ->
-#                it 'with rows of administrations', ->
-#                    andThen ->
-#                        expect(find('table.table tbody tr').length).to.equal(2)
-#
-#                it 'the last columns of each row should contain RUD buttons', ->
-#                    expect(find('table.table tbody tr td button').length).to.equal(6)
+            describe 'with a table body', ->
+                it 'that has rows of administrations', ->
+                    andThen ->
+                        expect(find('table.table tbody tr').length).to.equal(2)

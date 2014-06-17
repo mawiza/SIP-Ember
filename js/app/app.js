@@ -2,6 +2,25 @@
 (function() {
   window.App = Ember.Application.create();
 
+  App.ApplicationAdapter = DS.LSAdapter.extend({
+    namespace: 'sip'
+  });
+
+  DS.LSAdapter.create({
+    namespace: 'sip'
+  });
+
+  Ember.I18n.translations = {
+    administrations: {
+      index: {
+        title: "Forvaltning"
+      },
+      "new": {
+        title: "Opret nye forvaltning"
+      }
+    }
+  };
+
 }).call(this);
 
 //# sourceMappingURL=app.map

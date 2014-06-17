@@ -17,15 +17,14 @@
       });
       return it('can be created', function() {
         return Ember.run(function() {
-          var administration, administrations, store;
+          var administration, store;
           store = App.__container__.lookup("controller:administrations").store;
           administration = store.createRecord("administration", {
             id: 1,
             name: 'TOM',
             color: '#ccc'
           });
-          administrations = store.all('administration');
-          return expect(administrations.toArray().length).to.equal(1);
+          return expect(administration.get('name')).to.equal('TOM');
         });
       });
     });
@@ -52,15 +51,24 @@
           fillIn('#name', 'OPB');
           fillIn('#color', '#000');
           click('button:submit');
-          return expect(currentURL()).to.equal('/administrations');
+          return andThen(function() {
+            return expect(currentURL()).to.equal('/administrations');
+          });
         });
       });
     });
     return describe('have a table', function() {
-      return it('with a header and two columns', function() {
+      it('with a header and two columns', function() {
         return andThen(function() {
           findWithAssert('table.table');
           return expect(find('table.table thead tr th').length).to.equal(2);
+        });
+      });
+      return describe('with a table body', function() {
+        return it('that has rows of administrations', function() {
+          return andThen(function() {
+            return expect(find('table.table tbody tr').length).to.equal(2);
+          });
         });
       });
     });
