@@ -1,6 +1,24 @@
-{{#bs-modal name="administrationsNewModal" fade=true footerButtonsBinding="modalButtons" title="Opret ny forvaltning"}}
-    <form class="form-control">
-        {{#input type="text" value=name id="name"}}Navn{{/input}}
-        {{#input type="text" value=color id="color"}}Farve{{/input}}
-    </form>
-{{/bs-modal}}
+<div class="">
+    <div class="col-md-6 col-md-offset-3">
+        <form role="form-control">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Opret nye forvaltning
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Navn</label>
+                        {{input type="text" class="form-control" value=name id="name" placeholder="Navn..."}}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        {{input type="text" class="form-control" value=color id="color" placeholder="Farve..."}}
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" {{action submit}} class="btn btn-default">Opret</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
