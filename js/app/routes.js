@@ -12,7 +12,7 @@
 
   App.AdministrationsRoute = Ember.Route.extend({
     model: function() {
-      return this.store.all('administration');
+      return this.store.find('administration');
     }
   });
 

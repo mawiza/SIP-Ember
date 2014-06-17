@@ -22,6 +22,7 @@ module.exports = function(config) {
         'js/libs/localstorage_adapter.js',
         'js/libs/adapter.js',
         'js/libs/bootstrap.min.js',
+        'js/libs/plurals.js',
         'js/libs/i18n.js',
         'js/app/app-compiled.min.js',
         "js/app/templates.js",

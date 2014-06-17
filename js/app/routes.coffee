@@ -8,7 +8,7 @@ App.Router.map ->
 
 App.AdministrationsRoute = Ember.Route.extend
     model: ->
-        this.store.all('administration')
+        this.store.find('administration')
 
 
 App.AdministrationsNewRoute = Ember.Route.extend

@@ -1,6 +1,9 @@
 before ->
-    App.ApplicationAdapter = DS.FixtureAdapter
-        simulateRemoteResponse: false
+    #App.ApplicationAdapter = DS.FixtureAdapter
+    #    simulateRemoteResponse: false
+
+    App.ApplicationStore = DS.Store.extend
+        adapter:DS.FixtureAdapter
 
     Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 

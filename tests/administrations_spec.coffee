@@ -1,6 +1,19 @@
 describe 'The administrations page should', ->
-    beforeEach ->
-        visit("/administrations")
+    before ->
+        #They do not get loaded???
+        Ember.run ->
+            App.Administration.FIXTURES = [
+                {
+                    id: 1
+                    name: "OPB"
+                    color: "#000"
+                }
+                {
+                    id: 2
+                    name: "SSB"
+                    color: "#123"
+                }
+            ]
 
     #
     # Model
@@ -15,20 +28,25 @@ describe 'The administrations page should', ->
             expect(colorProperty.type).to.equal('string')
 
         it 'can be created', ->
-            Ember.run ->
-                store = App.__container__.lookup("controller:administrations").store
-                administration = store.createRecord("administration",
-                    id: 1
-                    name: 'TOM'
-                    color: '#ccc'
-                )
-                #administrations = store.all('administration')
-                expect(administration.get('name')).to.equal('TOM')
+            visit("/administrations")
+            andThen ->
+                Ember.run ->
+                    store = App.__container__.lookup("controller:administrations").store
+                    administration = store.createRecord("administration",
+                        id: 3
+                        name: 'TOM'
+                        color: '#ccc'
+                    )
+                    #administrations = store.all('administration')
+                    expect(administration.get('name')).to.equal('TOM')
 
     #
     # NEW
     #
     describe 'should have an add new administrations button', ->
+        beforeEach ->
+            visit("/administrations")
+
         it 'should direct to the new route when clicked', ->
             andThen ->
                 expect(findWithAssert('a.add-administration')).to.exist
@@ -47,21 +65,28 @@ describe 'The administrations page should', ->
             andThen ->
                 click('a.add-administration')
                 fillIn('#name', 'OPB')
-                fillIn('#color', '#000')
-                click('button:submit')
-                andThen ->
+                .fillIn('#color', '#000')
+                .click('button:submit')
+                .then ->
                     expect(currentURL()).to.equal('/administrations')
 
     #
     # INDEX
     #
     describe 'have a table', ->
-            it 'with a header and two columns', ->
-                andThen ->
-                    findWithAssert('table.table')
-                    expect(find('table.table thead tr th').length).to.equal(2)
 
-            describe 'with a table body', ->
-                it 'that has rows of administrations', ->
-                    andThen ->
-                        expect(find('table.table tbody tr').length).to.equal(2)
+        it 'with a header and two columns', ->
+            andThen ->
+                visit("/administrations")
+                findWithAssert('table.table')
+                expect(find('table.table thead tr th').length).to.equal(2)
+
+        describe 'with a table body', ->
+            it 'that has rows of administrations', ->
+                visit("/administrations/new")
+                andThen ->
+                    fillIn('#name', 'OPB')
+                    .fillIn('#color', '#000')
+                    .click('button:submit')
+                    .then ->
+                        expect(find('table.table tbody tr').length).to.equal(1)

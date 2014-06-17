@@ -5,6 +5,9 @@ window.App = Ember.Application.create()
     #LOG_BINDINGS: true
     #LOG_ACTIVE_GENERATION: true
 
+#App.ApplicationStore = DS.Store.extend
+#    adapter:DS.FixtureAdapter
+
 App.ApplicationAdapter = DS.LSAdapter.extend
     namespace: 'sip'
 
