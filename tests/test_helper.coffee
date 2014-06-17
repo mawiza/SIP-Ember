@@ -1,5 +1,9 @@
 before ->
-    Ember.Test.adapter = Ember.Test.MochaAdapter.create(null)
+    App.ApplicationAdapter = DS.FixtureAdapter
+        simulateRemoteResponse: false
+
+    Ember.Test.adapter = Ember.Test.MochaAdapter.create()
+
     App.setupForTesting()
     App.injectTestHelpers()
 

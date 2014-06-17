@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "administrationsNew.js",
+  "sourceRoot": "",
+  "sources": [
+    "administrationsNew.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,kBAAJ,GAAyB,KAAK,CAAC,UAAU,CAAC,MAAjB,CACrB;AAAA,IAAA,MAAA,EAAQ,SAAA,GAAA;aAKJ,YAAA,CAAa,kBAAb,EALI;IAAA,CAAR;GADqB,CAAzB,CAAA;AAAA"
+}

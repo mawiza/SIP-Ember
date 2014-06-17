@@ -4,10 +4,29 @@
     beforeEach(function() {
       return visit("/administrations");
     });
-    describe('have a model', function() {
-      return it('should have properties', function() {
-        expect(App.Administration.metaForProperty('name')).to.exist;
-        return expect(App.Administration.metaForProperty('color')).to.exist;
+    describe('have a model that', function() {
+      it('should have a name property', function() {
+        var nameProperty;
+        nameProperty = App.Administration.metaForProperty('name');
+        return expect(nameProperty.type).to.equal('string');
+      });
+      it('should have a color property', function() {
+        var colorProperty;
+        colorProperty = App.Administration.metaForProperty('color');
+        return expect(colorProperty.type).to.equal('string');
+      });
+      return it('can be created', function() {
+        return Ember.run(function() {
+          var administration, administrations, store;
+          store = App.__container__.lookup("controller:administrations").store;
+          administration = store.createRecord("administration", {
+            id: 1,
+            name: 'TOM',
+            color: '#ccc'
+          });
+          administrations = store.all('administration');
+          return expect(administrations.toArray().length).to.equal(1);
+        });
       });
     });
     describe('should have an add new administrations button', function() {
@@ -31,7 +50,9 @@
         return andThen(function() {
           click('a.add-administration');
           fillIn('#name', 'OPB');
-          return fillIn('#color', '#000');
+          fillIn('#color', '#000');
+          click('button:submit');
+          return expect(currentURL()).to.equal('/administrations');
         });
       });
     });

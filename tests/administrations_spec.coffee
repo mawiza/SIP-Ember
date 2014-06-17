@@ -5,10 +5,25 @@ describe 'The administrations page should', ->
     #
     # Model
     #
-    describe 'have a model', ->
-        it 'should have properties', ->
-            expect(App.Administration.metaForProperty('name')).to.exist
-            expect(App.Administration.metaForProperty('color')).to.exist
+    describe 'have a model that', ->
+        it 'should have a name property', ->
+            nameProperty = App.Administration.metaForProperty('name')
+            expect(nameProperty.type).to.equal('string')
+
+        it 'should have a color property', ->
+            colorProperty = App.Administration.metaForProperty('color')
+            expect(colorProperty.type).to.equal('string')
+
+        it 'can be created', ->
+            Ember.run ->
+                store = App.__container__.lookup("controller:administrations").store
+                administration = store.createRecord("administration",
+                    id: 1
+                    name: 'TOM'
+                    color: '#ccc'
+                )
+                administrations = store.all('administration')
+                expect(administrations.toArray().length).to.equal(1)
 
     #
     # NEW
@@ -33,8 +48,8 @@ describe 'The administrations page should', ->
                 click('a.add-administration')
                 fillIn('#name', 'OPB')
                 fillIn('#color', '#000')
-                #click('button:submit')
-                #expect(currentURL()).to.equal('/administrations')
+                click('button:submit')
+                expect(currentURL()).to.equal('/administrations')
 
     #
     # INDEX

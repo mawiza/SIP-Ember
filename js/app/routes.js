@@ -10,6 +10,18 @@
     return this.route('focusareas');
   });
 
+  App.AdministrationsNewRoute = Ember.Route.extend({
+    model: function() {
+      return this.store.createRecord('administration');
+    },
+    actions: {
+      submit: function() {
+        console.log("Hell Yeah");
+        return this.transitionTo('/administrations');
+      }
+    }
+  });
+
 }).call(this);
 
 //# sourceMappingURL=routes.map
