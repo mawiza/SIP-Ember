@@ -1,5 +1,9 @@
 <div>
-    {{#link-to 'administrations.new' class="add-administration btn btn-primary pull-right"}}Tilføj forvaltning{{/link-to}}
+    {{#link-to 'administrations.new' class="add-administration btn btn-primary pull-right"}}
+        Tilføj forvaltning
+        <span class="badge">{{administrationsCount}}</span>
+    {{/link-to}}
+
 </div>
 {{outlet}}
 <table class="table">
