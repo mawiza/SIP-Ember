@@ -1,4 +1,4 @@
-describe 'The administrations page should', ->
+describe 'Administrations should', ->
     before ->
         #They do not get loaded???
         Ember.run ->
@@ -31,6 +31,7 @@ describe 'The administrations page should', ->
             visit("/administrations")
             andThen ->
                 Ember.run ->
+                    localStorage.clear()
                     store = App.__container__.lookup("controller:administrations").store
                     administration = store.createRecord("administration",
                         id: 3
@@ -40,28 +41,44 @@ describe 'The administrations page should', ->
                     #administrations = store.all('administration')
                     expect(administration.get('name')).to.equal('TOM')
 
+
     #
-    # NEW
+    # Index
     #
-    describe 'should have an add new administrations button', ->
+    describe 'an administration page that', ->
         beforeEach ->
             visit("/administrations")
 
+        it 'have an add new administration button', ->
+            findWithAssert('a.add-administration')
+
         it 'should direct to the new route when clicked', ->
             andThen ->
-                expect(findWithAssert('a.add-administration')).to.exist
                 click('a.add-administration')
                 expect(currentURL()).to.equal('/administrations/new')
 
-        it 'should open a page to add a new administration', ->
+        it 'should have table with a header and two columns', ->
             andThen ->
-                click('a.add-administration')
-                findWithAssert('form')
-                findWithAssert('#name')
-                findWithAssert('#color')
-                findWithAssert("button:submit")
+                findWithAssert('table.table')
+                expect(find('table.table thead tr th').length).to.equal(2)
 
-        it 'should create a new administrations entry when create gets clicked', ->
+
+    #
+    # NEW
+    #
+    describe 'a new administration page that', ->
+        beforeEach ->
+            visit("/administrations")
+
+        it 'should have fields and a submit button', ->
+            andThen ->
+                click('a.add-administration').then ->
+                    findWithAssert('form')
+                    findWithAssert('#name')
+                    findWithAssert('#color')
+                    findWithAssert("button:submit")
+
+        it 'should create a new administrations entry when submit gets clicked', ->
             andThen ->
                 click('a.add-administration')
                 fillIn('#name', 'OPB')
@@ -70,23 +87,46 @@ describe 'The administrations page should', ->
                 .then ->
                     expect(currentURL()).to.equal('/administrations')
 
-    #
-    # INDEX
-    #
-    describe 'have a table', ->
-
-        it 'with a header and two columns', ->
+        it 'should transition to the the administrations page', ->
+            visit("/administrations/new")
             andThen ->
-                visit("/administrations")
-                findWithAssert('table.table')
-                expect(find('table.table thead tr th').length).to.equal(2)
+                fillIn('#name', 'OPB')
+                .fillIn('#color', '#000')
+                .click('button:submit')
+                .then ->
+                    expect(find('table.table tbody tr').length).to.equal(2)
 
-        describe 'with a table body', ->
-            it 'that has rows of administrations', ->
-                visit("/administrations/new")
-                andThen ->
-                    fillIn('#name', 'OPB')
-                    .fillIn('#color', '#000')
-                    .click('button:submit')
+        it 'should have administrations that each can be clicked to be edited', ->
+            visit("/administrations")
+            andThen ->
+                findWithAssert('td.administration-name:contains("OPB") a')
+
+    #
+    # Edit
+    #
+    describe 'an edit administration page that', ->
+        it 'should be accessed from the administrations page', ->
+            visit("/administrations")
+            andThen ->
+                click('td.administration-name:contains("OPB") a')
+                .then ->
+                    findWithAssert('form')
+                    findWithAssert('#name')
+                    findWithAssert('#color')
+                    findWithAssert("button.update-button")
+                    findWithAssert("button.delete-button")
+
+        it 'should be possible to update the record', ->
+            visit("/administrations")
+            andThen ->
+                click('td.administration-name:contains("OPB") a')
+                .then ->
+                    fillIn('#color', '#123')
+                    .click('button.update-button')
                     .then ->
-                        expect(find('table.table tbody tr').length).to.equal(1)
+                        expect(currentURL()).to.equal('/administrations')
+
+                        #expect() color to be #123
+
+
+        #it 'should be possible to delete the record', ->

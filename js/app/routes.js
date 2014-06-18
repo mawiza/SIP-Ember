@@ -5,6 +5,9 @@
     this.resource("administrations.new", {
       path: '/administrations/new'
     });
+    this.resource("administrations.edit", {
+      path: '/administrations/edit/:id'
+    });
     this.route('about');
     this.route('themes');
     return this.route('focusareas');
@@ -19,6 +22,12 @@
   App.AdministrationsNewRoute = Ember.Route.extend({
     model: function() {
       return this.store.createRecord('administration');
+    }
+  });
+
+  App.AdministrationsEditRoute = Ember.Route.extend({
+    model: function() {
+      return this.modelFor('administration');
     }
   });
 

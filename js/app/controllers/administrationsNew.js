@@ -3,6 +3,9 @@
   App.AdministrationsNewController = Ember.ObjectController.extend({
     actions: {
       submit: function() {
+        var administration;
+        administration = this.get('model');
+        administration.save();
         return this.transitionToRoute('/administrations');
       }
     }

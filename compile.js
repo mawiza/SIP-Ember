@@ -58,7 +58,8 @@ var result = uglifyJS.minify([
     "js/app/models/administration.js",
     "js/app/routes.js",
     "js/app/controllers/administrations.js",
-    "js/app/controllers/administrationsNew.js"
+    "js/app/controllers/administrationsNew.js",
+    "js/app/controllers/administrationsEdit.js"
 
 ],
     {

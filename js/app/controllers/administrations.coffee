@@ -5,3 +5,5 @@ App.AdministrationsController = Ember.ArrayController.extend
             return 0
         else return length
     ).property('@each')
+
+
