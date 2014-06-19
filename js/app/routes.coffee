@@ -11,7 +11,6 @@ App.AdministrationsRoute = Ember.Route.extend
     model: ->
         this.store.find('administration')
 
-
 App.AdministrationsNewRoute = Ember.Route.extend
     model: ->
         this.store.createRecord('administration')

@@ -6,3 +6,24 @@
 li > a.active {
     font-weight: bold;
 }
+
+.notify-message {
+    cursor: pointer;
+}
+
+.notify-message:hover button.close {
+    color: #000;
+    opacity: .5;
+}
+
+div.x-notify-message-container.pre-insert, div.x-notify-message-container.destroyed {
+    /*   -webkit-transform: scaleY(0); */
+    opacity: 0;
+}
+
+div.x-notify-message-container {
+    /*   -webkit-transform: scaleY(1);
+      -webkit-transform-origin: top;
+       */
+    -webkit-transition: all 0.25s ease;
+}

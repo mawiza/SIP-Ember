@@ -2,18 +2,21 @@
 (function() {
   describe('Administrations should', function() {
     before(function() {
-      return Ember.run(function() {
+      Ember.run(function() {
         return App.Administration.FIXTURES = [
           {
             id: 1,
-            name: "OPB",
+            name: "SSB",
             color: "#000"
           }, {
             id: 2,
-            name: "SSB",
+            name: "BEK",
             color: "#123"
           }
         ];
+      });
+      return Ember.Notify.reopen({
+        timeout: 500
       });
     });
     describe('have a model that', function() {
@@ -83,6 +86,14 @@
           click('a.add-administration');
           return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button:submit').then(function() {
             return expect(currentURL()).to.equal('/administrations');
+          });
+        });
+      });
+      it('should be valid', function() {
+        visit("/administrations/new");
+        return andThen(function() {
+          return fillIn('#name', '').fillIn('#color', '').click('button:submit').then(function() {
+            return expect(currentURL()).to.equal('/administrations/new');
           });
         });
       });

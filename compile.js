@@ -54,6 +54,7 @@ walker.on('file', function(root, stat, next) {
  * Compile the application javascript files into a minified version.
  */
 var result = uglifyJS.minify([
+    "js/app/translations.js",
     "js/app/app.js",
     "js/app/models/administration.js",
     "js/app/routes.js",

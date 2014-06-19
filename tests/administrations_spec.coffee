@@ -5,15 +5,19 @@ describe 'Administrations should', ->
             App.Administration.FIXTURES = [
                 {
                     id: 1
-                    name: "OPB"
+                    name: "SSB"
                     color: "#000"
                 }
                 {
                     id: 2
-                    name: "SSB"
+                    name: "BEK"
                     color: "#123"
                 }
             ]
+
+        #Reduce the notify timeout to 0.5 seconds otherwise this takes for ever to finish
+        Ember.Notify.reopen
+            timeout: 500
 
     #
     # Model
@@ -86,6 +90,15 @@ describe 'Administrations should', ->
                 .click('button:submit')
                 .then ->
                     expect(currentURL()).to.equal('/administrations')
+
+        it 'should be valid', ->
+            visit("/administrations/new")
+            andThen ->
+                fillIn('#name', '')
+                .fillIn('#color', '')
+                .click('button:submit')
+                .then ->
+                    expect(currentURL()).to.equal('/administrations/new')
 
         it 'should transition to the the administrations page', ->
             visit("/administrations/new")
