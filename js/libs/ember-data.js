@@ -3,7 +3,7 @@
  * @copyright Copyright 2011-2014 Tilde Inc. and contributors.
  *            Portions Copyright 2011 LivingSocial Inc.
  * @license   Licensed under MIT license (see license.js)
- * @version   1.0.0-beta.8.2a68c63a
+ * @version   1.0.0-beta.9+canary.e5b43c4d
  */
 (function(global) {
 var define, requireModule, require, requirejs;
@@ -137,6 +137,10 @@ define("activemodel-adapter/lib/system/active_model_adapter",
 
       The ActiveModelAdapter expects the JSON returned from your server to follow
       the REST adapter conventions substituting underscored keys for camelcased ones.
+      
+      Unlike the DS.RESTAdapter, async relationship keys must be the singular form
+      of the relationship name, followed by "_id" for DS.belongsTo relationships,
+      or "_ids" for DS.hasMany relationships.
 
       ### Conventional Names
 
@@ -158,10 +162,47 @@ define("activemodel-adapter/lib/system/active_model_adapter",
       ```js
       {
         "famous_person": {
+          "id": 1,
           "first_name": "Barack",
           "last_name": "Obama",
           "occupation": "President"
         }
+      }
+      ```
+
+      Let's imagine that `Occupation` is just another model:
+
+      ```js
+      App.Person = DS.Model.extend({
+        firstName: DS.attr('string'),
+        lastName: DS.attr('string'),
+        occupation: DS.belongsTo('occupation')
+      });
+
+      App.Occupation = DS.Model.extend({
+        name: DS.attr('string'),
+        salary: DS.attr('number'),
+        people: DS.hasMany('person')
+      });
+      ```
+
+      The JSON needed to avoid extra server calls, should look like this:
+
+      ```js
+      {
+        "people": [{
+          "id": 1,
+          "first_name": "Barack",
+          "last_name": "Obama",
+          "occupation_id": 1
+        }],
+
+        "occupations": [{
+          "id": 1,
+          "name": "President",
+          "salary": 100000,
+          "person_ids": [1]
+        }]
       }
       ```
 
@@ -287,10 +328,47 @@ define("activemodel-adapter/lib/system/active_model_serializer",
       ```js
       {
         "famous_person": {
+          "id": 1,
           "first_name": "Barack",
           "last_name": "Obama",
           "occupation": "President"
         }
+      }
+      ```
+
+      Let's imagine that `Occupation` is just another model:
+
+      ```js
+      App.Person = DS.Model.extend({
+        firstName: DS.attr('string'),
+        lastName: DS.attr('string'),
+        occupation: DS.belongsTo('occupation')
+      });
+
+      App.Occupation = DS.Model.extend({
+        name: DS.attr('string'),
+        salary: DS.attr('number'),
+        people: DS.hasMany('person')
+      });
+      ```
+
+      The JSON needed to avoid extra server calls, should look like this:
+
+      ```js
+      {
+        "people": [{
+          "id": 1,
+          "first_name": "Barack",
+          "last_name": "Obama",
+          "occupation_id": 1
+        }],
+
+        "occupations": [{
+          "id": 1,
+          "name": "President",
+          "salary": 100000,
+          "person_ids": [1]
+        }]
       }
       ```
 
@@ -531,7 +609,7 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
       The `attrs` property can be set on the ApplicationSerializer or a per-type
       serializer.
 
-      In the case where embedded JSON is expected while extracting a payoad (reading)
+      In the case where embedded JSON is expected while extracting a payload (reading)
       the setting is `deserialize: 'records'`, there is no need to use `ids` when
       extracting as that is the default behavior without this mixin if you are using
       the vanilla ActiveModelAdapter. Likewise, to embed JSON in the payload while
@@ -545,7 +623,7 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
       will behave in the following way:
 
       BelongsTo: `{serialize:'id', deserialize:'id'}`
-      HasMany:   `{serialize:no,  deserialize:'ids'}`
+      HasMany:   `{serialize:'no',  deserialize:'ids'}`
 
       ### Model Relationships
 
@@ -749,7 +827,7 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
           key = this.keyForRelationship(attr, relationship.kind);
           json[key] = get(record, attr).mapBy('id');
         } else if (includeRecords) {
-          key = this.keyForAttribute(attr);
+          key = getKeyForAttribute.call(this, attr);
           json[key] = get(record, attr).map(function(embeddedRecord) {
             var serializedEmbeddedRecord = embeddedRecord.serialize({includeId: true});
             this.removeEmbeddedForeignKey(record, embeddedRecord, relationship, serializedEmbeddedRecord);
@@ -840,8 +918,9 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
         @return Object the primary response to the original request
       */
       extractSingle: function(store, primaryType, payload, recordId) {
-        var root = this.keyForAttribute(primaryType.typeKey),
-            partial = payload[root];
+        var key = primaryType.typeKey;
+        var root = getKeyForAttribute.call(this, key);
+        var partial = payload[root];
 
         updatePayloadWithEmbedded(this, store, primaryType, payload, partial);
 
@@ -899,8 +978,9 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
           to the original query.
       */
       extractArray: function(store, primaryType, payload) {
-        var root = this.keyForAttribute(primaryType.typeKey),
-            partials = payload[pluralize(root)];
+        var key = primaryType.typeKey;
+        var root = getKeyForAttribute.call(this, key);
+        var partials = payload[pluralize(root)];
 
         forEach(partials, function(partial) {
           updatePayloadWithEmbedded(this, store, primaryType, payload, partial);
@@ -909,6 +989,11 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
         return this._super(store, primaryType, payload);
       }
     });
+
+    // `keyForAttribute` is optional but may be defined when extending a serializer prototype
+    var getKeyForAttribute = function(attr) {
+     return (this.keyForAttribute) ? this.keyForAttribute(attr) : attr;
+    };
 
     // checks config for attrs option to embedded (always) - serialize and deserialize
     function hasEmbeddedAlwaysOption(attrs, attr) {
@@ -980,7 +1065,7 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
       // it is needed when main type === relationship.type
       var embeddedTypeKey = '_' + serializer.typeForRoot(relationship.type.typeKey);
       var expandedKey = serializer.keyForRelationship(primaryType, relationship.kind);
-      var attribute  = serializer.keyForAttribute(primaryType);
+      var attribute = getKeyForAttribute.call(serializer, primaryType);
       var ids = [];
 
       if (!partial[attribute]) {
@@ -1014,7 +1099,7 @@ define("activemodel-adapter/lib/system/embedded_records_mixin",
       var primaryKey = get(_serializer, 'primaryKey');
       var embeddedTypeKey = Ember.String.pluralize(attr); // TODO don't use pluralize
       var expandedKey = _serializer.keyForRelationship(primaryType, relationship.kind);
-      var attribute = _serializer.keyForAttribute(primaryType);
+      var attribute = getKeyForAttribute.call(_serializer, primaryType);
 
       if (!partial[attribute]) {
         return;
@@ -1065,7 +1150,7 @@ define("ember-data/lib/adapters/fixture_adapter",
     /**
       `DS.FixtureAdapter` is an adapter that loads records from memory.
       It's primarily used for development and testing. You can also use
-      `DS.FixtureAdapter` while working on the API but are not ready to
+      `DS.FixtureAdapter` while working on the API but is not ready to
       integrate yet. It is a fully functioning adapter. All CRUD methods
       are implemented. You can also implement query logic that a remote
       system would do. It's possible to develop your entire application
@@ -1191,10 +1276,10 @@ define("ember-data/lib/adapters/fixture_adapter",
         var fixtures = this.fixturesForType(type),
             fixture;
 
-        Ember.assert("Unable to find fixtures for model type "+type.toString(), fixtures);
+        Ember.assert("Unable to find fixtures for model type "+type.toString() +". If you're defining your fixtures using `Model.FIXTURES = ...`, please change it to `Model.reopenClass({ FIXTURES: ... })`.", fixtures);
 
         if (fixtures) {
-          fixture = Ember.A(fixtures).findProperty('id', id);
+          fixture = Ember.A(fixtures).findBy('id', id);
         }
 
         if (fixture) {
@@ -1403,7 +1488,7 @@ define("ember-data/lib/adapters/rest_adapter",
     */
 
     var Adapter = __dependency1__["default"];
-    var get = Ember.get, set = Ember.set;
+    var get = Ember.get;
     var forEach = Ember.ArrayPolyfills.forEach;
 
     /**
@@ -1520,7 +1605,7 @@ define("ember-data/lib/adapters/rest_adapter",
       object outside of Ember's observer system (for example
       `document.cookie`). You can use the
       [volatile](/api/classes/Ember.ComputedProperty.html#method_volatile)
-      function to set the property into a non-chached mode causing the headers to
+      function to set the property into a non-cached mode causing the headers to
       be recomputed with every request.
 
       ```js
@@ -1530,7 +1615,7 @@ define("ember-data/lib/adapters/rest_adapter",
             "API_KEY": Ember.get(document.cookie.match(/apiKey\=([^;]*)/), "1"),
             "ANOTHER_HEADER": "Some header value"
           };
-        }.property().volatile();
+        }.property().volatile()
       });
       ```
 
@@ -2014,7 +2099,7 @@ define("ember-data/lib/adapters/rest_adapter",
           };
 
           Ember.$.ajax(hash);
-        }, "DS: RestAdapter#ajax " + type + " to " + url);
+        }, "DS: RESTAdapter#ajax " + type + " to " + url);
       },
 
       /**
@@ -2073,11 +2158,11 @@ define("ember-data/lib/core",
       /**
         @property VERSION
         @type String
-        @default '1.0.0-beta.8.2a68c63a'
+        @default '1.0.0-beta.9+canary.e5b43c4d'
         @static
       */
       DS = Ember.Namespace.create({
-        VERSION: '1.0.0-beta.8.2a68c63a'
+        VERSION: '1.0.0-beta.9+canary.e5b43c4d'
       });
 
       if (Ember.libraries) {
@@ -2512,7 +2597,7 @@ define("ember-data/lib/serializers/json_serializer",
         The `attrs` object can be used to declare a simple mapping between
         property names on `DS.Model` records and payload keys in the
         serialized JSON object representing the record. An object with the
-        propery `key` can also be used to designate the attribute's key on
+        property `key` can also be used to designate the attribute's key on
         the response payload.
 
         Example
@@ -2696,7 +2781,7 @@ define("ember-data/lib/serializers/json_serializer",
             var json = {
               POST_TTL: post.get('title'),
               POST_BDY: post.get('body'),
-              POST_CMS: post.get('comments').mapProperty('id')
+              POST_CMS: post.get('comments').mapBy('id')
             }
 
             if (options.includeId) {
@@ -3311,7 +3396,7 @@ define("ember-data/lib/serializers/rest_serializer",
 
       ## Across the Board Normalization
 
-      There are also a number of hooks that you might find useful to defined
+      There are also a number of hooks that you might find useful to define
       across-the-board rules for your payload. These rules will be useful
       if your server is consistent, or if you're building an adapter for
       an infrastructure service, like Parse, and want to encode service
@@ -3938,7 +4023,7 @@ define("ember-data/lib/serializers/rest_serializer",
             var json = {
               POST_TTL: post.get('title'),
               POST_BDY: post.get('body'),
-              POST_CMS: post.get('comments').mapProperty('id')
+              POST_CMS: post.get('comments').mapBy('id')
             }
 
             if (options.includeId) {
@@ -5635,6 +5720,9 @@ define("ember-data/lib/system/model/errors",
       Every DS.Model has an `errors` property that is an instance of
       `DS.Errors`. This can be used to display validation error
       messages returned from the server when a `record.save()` rejects.
+      This works automatically with `DS.ActiveModelAdapter`, but you
+      can implement [ajaxError](api/data/classes/DS.RESTAdapter.html#method_ajaxError)
+      in other adapters as well.
 
       For Example, if you had an `User` model that looked like this:
 
@@ -7048,7 +7136,7 @@ define("ember-data/lib/system/model/states",
       it would be in the `root.loaded.created.uncommitted` state.  If a
       record has had local modifications made to it that are in the
       process of being saved, the record would be in the
-      `root.loaded.updated.inFlight` state. (These state paths will be
+      `root.loaded.updated.inFlight` state. (This state paths will be
       explained in more detail below.)
 
       Events are sent by the record or its store to the record's
@@ -7092,7 +7180,7 @@ define("ember-data/lib/system/model/states",
         * loading
       ```
 
-      The `DS.Model` states are themselves stateless. What we mean is
+      The `DS.Model` states are themselves stateless. What that means is
       that, the hierarchical states that each of *those* points to is a
       shared data structure. For performance reasons, instead of each
       record getting its own copy of the hierarchy of states, each record
@@ -8343,7 +8431,7 @@ define("ember-data/lib/system/record_arrays/many_array",
             store = get(this, 'store'),
             owner = get(this, 'owner');
 
-        var unloadedRecords = records.filterProperty('isEmpty', true);
+        var unloadedRecords = records.filterBy('isEmpty', true);
         store.fetchMany(unloadedRecords, owner);
       },
 
@@ -9019,17 +9107,24 @@ define("ember-data/lib/system/relationships/ext",
 
         if (options.inverse === null) { return null; }
 
-        var inverseName, inverseKind;
+        var inverseName, inverseKind, inverse;
 
         if (options.inverse) {
           inverseName = options.inverse;
-          inverseKind = Ember.get(inverseType, 'relationshipsByName').get(inverseName).kind;
+          inverse = Ember.get(inverseType, 'relationshipsByName').get(inverseName);
+
+          Ember.assert("We found no inverse relationships by the name of '" + inverseName + "' on the '" + inverseType.typeKey + 
+            "' model. This is most likely due to a missing attribute on your model definition.", !Ember.isNone(inverse));
+
+          inverseKind = inverse.kind;
         } else {
           var possibleRelationships = findPossibleInverses(this, inverseType);
 
           if (possibleRelationships.length === 0) { return null; }
 
-          Ember.assert("You defined the '" + name + "' relationship on " + this + ", but multiple possible inverse relationships of type " + this + " were found on " + inverseType + ". Look at http://emberjs.com/guides/models/defining-models/#toc_explicit-inverses for how to explicitly specify inverses", possibleRelationships.length === 1);
+          Ember.assert("You defined the '" + name + "' relationship on " + this + ", but multiple possible inverse relationships of type " + 
+            this + " were found on " + inverseType + ". Look at http://emberjs.com/guides/models/defining-models/#toc_explicit-inverses for how to explicitly specify inverses",
+            possibleRelationships.length === 1);
 
           inverseName = possibleRelationships[0].name;
           inverseKind = possibleRelationships[0].kind;
@@ -9434,7 +9529,7 @@ define("ember-data/lib/system/relationships/has_many",
       return Ember.computed('data', function(key) {
         return buildRelationship(this, key, options, function(store, data) {
           var records = data[key];
-          Ember.assert("You looked up the '" + key + "' relationship on '" + this + "' but some of the associated records were not loaded. Either make sure they are all loaded together with the parent record, or specify that the relationship is async (`DS.hasMany({ async: true })`)", Ember.A(records).everyProperty('isEmpty', false));
+          Ember.assert("You looked up the '" + key + "' relationship on '" + this + "' but some of the associated records were not loaded. Either make sure they are all loaded together with the parent record, or specify that the relationship is async (`DS.hasMany({ async: true })`)", Ember.A(records).isEvery('isEmpty', false));
           return store.findMany(this, data[key], typeForRelationshipMeta(store, meta));
         });
       }).meta(meta).readOnly();
@@ -9993,17 +10088,22 @@ define("ember-data/lib/system/store",
       /**
         Get a record by a given type and ID without triggering a fetch.
 
-        This method will synchronously return the record if it's available.
-        Otherwise, it will return null.
+        This method will synchronously return the record if it is available in the store,
+        otherwise it will return `null`. A record is available if it has been fetched earlier, or
+        pushed manually into the store.
+
+        _Note: This is an synchronous method and does not return a promise._
 
         ```js
         var post = store.getById('post', 1);
+        
+        post.get('id'); // 1
         ```
 
         @method getById
         @param {String or subclass of DS.Model} type
         @param {String|Integer} id
-        @param {DS.Model} record
+        @return {DS.Model|null} record
       */
       getById: function(type, id) {
         if (this.hasRecordForId(type, id)) {
@@ -10072,7 +10172,7 @@ define("ember-data/lib/system/store",
         var promises = [];
 
         forEach(recordsByTypeMap, function(type, records) {
-          var ids = records.mapProperty('id'),
+          var ids = records.mapBy('id'),
               adapter = this.adapterFor(type);
 
           Ember.assert("You tried to load many records but you have no adapter (for " + type + ")", adapter);
@@ -10112,10 +10212,10 @@ define("ember-data/lib/system/store",
         type = this.modelFor(type);
 
         id = coerceId(id);
+        var idToRecord = this.typeMapFor(type).idToRecord;
+        var record = idToRecord[id];
 
-        var record = this.typeMapFor(type).idToRecord[id];
-
-        if (!record) {
+        if (!record || !idToRecord.hasOwnProperty(id)) {
           record = this.buildRecord(type, id);
         }
 
@@ -10136,7 +10236,7 @@ define("ember-data/lib/system/store",
 
         records = Ember.A(records);
 
-        var unloadedRecords = records.filterProperty('isEmpty', true),
+        var unloadedRecords = records.filterBy('isEmpty', true),
             manyArray = this.recordArrayManager.createManyArray(type, records);
 
         forEach(unloadedRecords, function(record) {
@@ -10778,7 +10878,7 @@ define("ember-data/lib/system/store",
         By default, the data will be deserialized using a default
         serializer (the application serializer if it exists).
 
-        Alternativly, `pushPayload` will accept a model type which
+        Alternatively, `pushPayload` will accept a model type which
         will determine which serializer will process the payload.
         However, the serializer itself (processing this data via
         `normalizePayload`) will not know which model it is
@@ -10890,7 +10990,7 @@ define("ember-data/lib/system/store",
         var typeMap = this.typeMapFor(type),
             idToRecord = typeMap.idToRecord;
 
-        Ember.assert('The id ' + id + ' has already been used with another record of type ' + type.toString() + '.', !id || !idToRecord[id]);
+        Ember.assert('The id ' + id + ' has already been used with another record of type ' + type.toString() + '.', !id || !idToRecord.hasOwnProperty(id));
         Ember.assert("`" + Ember.inspect(type)+ "` does not appear to be an ember-data model", (typeof type._create === 'function') );
 
         // lookupFactory should really return an object that creates
@@ -11135,8 +11235,16 @@ define("ember-data/lib/system/store",
     // in the payload, so add them back in manually.
     function addUnsavedRecords(record, key, data) {
       if(record) {
-        Ember.A(data).pushObjects(record.get(key).filterBy('isNew'));
+        var unsavedRecords = uniqById(Ember.A(data), record.get(key).filterBy('isNew'));
+        Ember.A(data).pushObjects(unsavedRecords);
       }
+    }
+
+    function uniqById(data, records) {
+      var currentIds = data.mapBy("id");
+      return records.reject(function(record) {
+        return Ember.A(currentIds).contains(record.id);
+      });
     }
 
     // Delegation to the adapter and promise management
@@ -11420,7 +11528,7 @@ define("ember-data/lib/transforms/base",
       var attr = DS.attr;
       App.Requirement = DS.Model.extend({
         name: attr('string'),
-        optionsArray: attr('raw')
+        temperature: attr('temperature')
       });
       ```
 
