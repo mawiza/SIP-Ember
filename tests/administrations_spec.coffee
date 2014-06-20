@@ -85,7 +85,7 @@ describe 'Administrations should', ->
         it 'should create a new administrations entry when submit gets clicked', ->
             andThen ->
                 click('a.add-administration')
-                fillIn('#name', 'OPB')
+                fillIn('#name', 'SSB')
                 .fillIn('#color', '#000')
                 .click('button:submit')
                 .then ->
@@ -138,8 +138,19 @@ describe 'Administrations should', ->
                     .click('button.update-button')
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
+                        # This might be a little bit thin, but at the
+                        # moment I know that I'm the only that has entered the value #123
+                        findWithAssert('td.administration-color:contains("#123")')
 
-                        #expect() color to be #123
+
+        it 'should be possible to delete the record', ->
+            visit('/administrations')
+            andThen ->
+                click('td.administration-name:contains("OPB") a')
+                .then ->
+                    click('button.delete-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/administrations')
+                        expect(find('table.table tbody tr').length).to.equal(1)
 
 
-        #it 'should be possible to delete the record', ->

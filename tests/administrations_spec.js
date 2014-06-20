@@ -84,7 +84,7 @@
       it('should create a new administrations entry when submit gets clicked', function() {
         return andThen(function() {
           click('a.add-administration');
-          return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button:submit').then(function() {
+          return fillIn('#name', 'SSB').fillIn('#color', '#000').click('button:submit').then(function() {
             return expect(currentURL()).to.equal('/administrations');
           });
         });
@@ -125,12 +125,24 @@
           });
         });
       });
-      return it('should be possible to update the record', function() {
+      it('should be possible to update the record', function() {
         visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return fillIn('#color', '#123').click('button.update-button').then(function() {
-              return expect(currentURL()).to.equal('/administrations');
+              expect(currentURL()).to.equal('/administrations');
+              return findWithAssert('td.administration-color:contains("#123")');
+            });
+          });
+        });
+      });
+      return it('should be possible to delete the record', function() {
+        visit('/administrations');
+        return andThen(function() {
+          return click('td.administration-name:contains("OPB") a').then(function() {
+            return click('button.delete-button').then(function() {
+              expect(currentURL()).to.equal('/administrations');
+              return expect(find('table.table tbody tr').length).to.equal(1);
             });
           });
         });

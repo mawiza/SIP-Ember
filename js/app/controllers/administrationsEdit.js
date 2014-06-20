@@ -6,6 +6,12 @@
         var administration;
         administration = this.get('model');
         return this.utility.updateOrSave(this, administration);
+      },
+      "delete": function() {
+        var administration;
+        administration = this.get('model');
+        administration.destroyRecord();
+        return this.transitionToRoute('/administrations');
       }
     }
   });
