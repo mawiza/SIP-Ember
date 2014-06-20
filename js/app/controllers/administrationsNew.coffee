@@ -1,3 +1,4 @@
+#TODO add focus to the first element
 App.AdministrationsNewController = Ember.ObjectController.extend
     actions:
         submit: ->

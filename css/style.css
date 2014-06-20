@@ -1,6 +1,19 @@
 /* Put your CSS here */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+body > .container {
+    padding: 60px 15px 0;
+}
+
 .ember-application {
-    margin: 20px;
+    margin-top: 20px;
 }
 
 li > a.active {
@@ -26,4 +39,18 @@ div.x-notify-message-container {
       -webkit-transform-origin: top;
        */
     -webkit-transition: all 0.25s ease;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #eee;
+}
+#footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 20px;
 }

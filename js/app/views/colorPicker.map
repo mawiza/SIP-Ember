@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "colorPicker.js",
+  "sourceRoot": "",
+  "sources": [
+    "colorPicker.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,WAAJ,GAAkB,EAAE,CAAC,IAAI,CAAC,MAAR,CACd;AAAA,IAAA,gBAAA,EAAkB,SAAA,GAAA;aACd,CAAA,CAAE,QAAF,CAAW,CAAC,WAAZ,CAAA,EADc;IAAA,CAAlB;GADc,CAAlB,CAAA;AAAA"
+}
