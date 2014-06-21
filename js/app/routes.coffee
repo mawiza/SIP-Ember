@@ -2,9 +2,10 @@ App.Router.map ->
     @resource("administrations")
     @resource("administrations.new", {path:'/administrations/new'})
     @resource("administrations.edit", {path:'/administrations/edit/:id'})
-    @route('about')
-    @route('themes')
-    @route('focusareas')
+    @resource('about')
+    @resource('themes')
+    @resource('themes.new', {path:'/themes/new'})
+    @resource('focusareas')
 
 App.AdministrationsRoute = Ember.Route.extend
     model: ->

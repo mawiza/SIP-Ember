@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "theme.js",
+  "sourceRoot": "",
+  "sources": [
+    "theme.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,KAAJ,GAAY,EAAE,CAAC,KAAK,CAAC,MAAT,CACR;AAAA,IAAA,OAAA,EAAS,EAAE,CAAC,IAAH,CAAQ,QAAR,CAAT;AAAA,IACA,UAAA,EAAY,EAAE,CAAC,OAAH,CAAW,WAAX,EACR;AAAA,MAAA,KAAA,EAAO,IAAP;KADQ,CADZ;GADQ,CAAZ,CAAA;AAAA"
+}

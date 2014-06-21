@@ -61,6 +61,8 @@ var result = uglifyJS.minify([
     "js/app/components/notify.js",
     "js/app/views/colorPicker.js",
     "js/app/models/administration.js",
+    "js/app/models/theme.js",
+    "js/app/models/focusarea.js",
     "js/app/routes.js",
     "js/app/controllers/administrations.js",
     "js/app/controllers/administrationsNew.js",

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "focusarea.js",
+  "sourceRoot": "",
+  "sources": [
+    "focusarea.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,SAAJ,GAAgB,EAAE,CAAC,KAAK,CAAC,MAAzB,CAAA;AAAA"
+}

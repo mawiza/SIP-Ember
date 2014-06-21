@@ -32,6 +32,11 @@ Ember.I18n.translations =
             cancel: "Annullere"
             modal:
                 info: "Er du sikker at du vil gerne slette {{name}}"
+    themes:
+        index:
+            add: 'Tilføj tema'
+            content: 'Inhold'
+
     notify:
         danger: "Fejl"
         warning: "Bemærk"

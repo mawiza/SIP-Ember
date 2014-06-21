@@ -41,6 +41,12 @@
         }
       }
     },
+    themes: {
+      index: {
+        add: 'Tilføj tema',
+        content: 'Inhold'
+      }
+    },
     notify: {
       danger: "Fejl",
       warning: "Bemærk",

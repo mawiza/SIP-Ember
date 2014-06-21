@@ -1,14 +1,28 @@
-<table class="table">
-    <thead>
-    <tr>
-        <th>Themes</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>data</td>
-        <td>data</td>
-    </tr>
-    </tbody>
-</table>
+<div>
+    {{#link-to 'themes.new' class="add-theme btn btn-primary"}}
+        {{t themes.index.add}}
+    {{/link-to}}
+</div>
+<br/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{t themes.index.content}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each themes in model}}
+                <tr>
+                    <td class="administration-name">
+                        {{#link-to 'themes.edit' theme}}
+                            {{theme.content}}
+                        {{/link-to}}
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

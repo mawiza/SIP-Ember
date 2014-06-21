@@ -8,9 +8,12 @@
     this.resource("administrations.edit", {
       path: '/administrations/edit/:id'
     });
-    this.route('about');
-    this.route('themes');
-    return this.route('focusareas');
+    this.resource('about');
+    this.resource('themes');
+    this.resource('themes.new', {
+      path: '/themes/new'
+    });
+    return this.resource('focusareas');
   });
 
   App.AdministrationsRoute = Ember.Route.extend({

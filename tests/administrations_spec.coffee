@@ -53,7 +53,7 @@ describe 'Administrations should', ->
         beforeEach ->
             visit("/administrations")
 
-        it 'have an add new administration button', ->
+        it 'should have an add new administration button', ->
             findWithAssert('a.add-administration')
 
         it 'should direct to the new route when clicked', ->

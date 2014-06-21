@@ -51,7 +51,7 @@
       beforeEach(function() {
         return visit("/administrations");
       });
-      it('have an add new administration button', function() {
+      it('should have an add new administration button', function() {
         return findWithAssert('a.add-administration');
       });
       it('should direct to the new route when clicked', function() {
