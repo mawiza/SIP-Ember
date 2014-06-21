@@ -3,23 +3,23 @@
         <form role="form-control">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Redigere forvaltningen
+                    {{t administrations.edit.heading}}
                 </div>
                 <div class="panel-body">
                     {{x-notify}}
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Navn</label>
+                        <label for="exampleInputEmail1">{{t administrations.edit.name}}</label>
                         {{input type="text" class="form-control" value=name id="name" placeholder="Navn..."}}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Farve</label>
+                        <label for="exampleInputPassword1">{{t administrations.edit.color}}</label>
                         {{input type="text" class="color-picker form-control" value=color id="color" placeholder="Farve..."}}
                         {{view App.ColorPicker}}
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button {{action update}} class="update-button btn btn-default">Opdatere</button>
-                    <button data-toggle="modal" data-target="#delete-administration" class="btn btn-default">Slet</button>
+                    <button {{action update}} class="update-button btn btn-default">{{t administrations.edit.update}}</button>
+                    <button data-toggle="modal" data-target="#delete-administration" class="btn btn-default">{{t administrations.edit.delete}}</button>
                 </div>
             </div>
         </form>
@@ -31,14 +31,14 @@
         <div class="modal-content"  style="width:400px">
             <div class="modal-header modal-warning">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Slet</h4>
+                <h4 class="modal-title">{{t administrations.edit.delete}}</h4>
             </div>
             <div class="modal-body">
-                <p>Er du sikker at du vil gerne slette {{name}}</p>
+                <p>{{t administrations.edit.modal.info nameBinding="name"}} </p>
             </div>
             <div class="modal-footer">
-                <button {{action "delete"}} data-dismiss="modal" class="delete-button btn btn-danger">Slet</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>
+                <button {{action "delete"}} data-dismiss="modal" class="delete-button btn btn-danger">{{t administrations.edit.delete}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{t administrations.edit.cancel}}</button>
             </div>
         </div>
     </div>

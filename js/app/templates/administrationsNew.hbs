@@ -3,22 +3,22 @@
         <form role="form-control">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Opret nye forvaltning
+                    {{t administrations.new.heading}}
                 </div>
                 <div class="panel-body">
                     {{x-notify}}
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Navn</label>
+                        <label for="exampleInputEmail1">{{t administrations.new.name}}</label>
                         {{input type="text" class="form-control" value=name id="name" placeholder="Navn..."}}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Farve</label>
+                        <label for="exampleInputPassword1">{{t administrations.new.color}}</label>
                         {{input type="text" class="form-control" value=color id="color" placeholder="Farve..."}}
                         {{view App.ColorPicker}}
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="submit" {{action submit}} class="submit-button btn btn-default">Opret</button>
+                    <button type="submit" {{action submit}} class="submit-button btn btn-default">{{t administrations.new.create}}</button>
                 </div>
             </div>
         </form>

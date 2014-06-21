@@ -2,7 +2,10 @@
 (function() {
   App.Administration = DS.Model.extend({
     name: DS.attr('string'),
-    color: DS.attr('string')
+    color: DS.attr('string'),
+    style: (function() {
+      return "background-color:" + this.get('color');
+    }).property("color")
   });
 
 }).call(this);

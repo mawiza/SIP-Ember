@@ -1,6 +1,6 @@
 <div>
     {{#link-to 'administrations.new' class="add-administration btn btn-primary"}}
-        Tilføj forvaltning
+        {{t administrations.index.add}}
     {{/link-to}}
 </div>
 <br/>
@@ -9,8 +9,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Forvaltning</th>
-                <th>Farve</th>
+                <th>{{t administrations.index.name}}</th>
+                <th>{{t administrations.index.color}}</th>
             </tr>
             </thead>
             <tbody>
@@ -21,7 +21,7 @@
                             {{administration.name}}
                         {{/link-to}}
                     </td>
-                    <td class="administration-color">{{administration.color}}</td>
+                    <td class="administration-color"><span class="label label-default" {{bind-attr style=administration.style}}>{{administration.color}}</span></td>
                 </tr>
             {{/each}}
             </tbody>
