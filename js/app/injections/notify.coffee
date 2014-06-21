@@ -1,3 +1,6 @@
+#
+# Borrowed this from WOOF and made some modifications
+#
 Ember.Notify = Ember.ArrayProxy.extend(
     content: Ember.A()
     timeout: 5000
