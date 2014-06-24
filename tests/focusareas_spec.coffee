@@ -1,41 +1,4 @@
 describe 'Focusareas should', ->
-    before ->
-        Ember.run ->
-            App.Theme.FIXTURES = [
-                {
-                    id: 1
-                    definition: "theme1"
-                    focusareas: [1,2]
-                }
-                {
-                    id: 2
-                    definition: "theme2"
-                    focusareas: [3,4]
-                }
-            ]
-
-            App.Focusarea.FIXTURES = [
-                {
-                    id: 1
-                    definition: "focusarea1"
-                    theme: 1
-                }
-                {
-                    id: 2
-                    definition: "focusarea2"
-                    theme: 1
-                }
-                {
-                    id: 3
-                    definition: "focusarea3"
-                    theme: 2
-                }
-                {
-                    id: 4
-                    definition: "focusarea4"
-                    theme: 2
-                }
-            ]
 
     describe 'should have a model that', ->
         it 'should have a content property', ->
@@ -52,7 +15,7 @@ describe 'Focusareas should', ->
                 Ember.run ->
                     localStorage.clear()
 
-                    store = App.__container__.lookup("controller:focusareas").store
+                    store = App.__container__.lookup('store:main')
 
                     theme = store.createRecord("theme",
                         id: 3
@@ -60,7 +23,7 @@ describe 'Focusareas should', ->
                     )
 
                     focusarea = store.createRecord("focusarea",
-                        id: 4
+                        id: 5
                         definition: 'focusarea definition'
                     )
 
@@ -89,10 +52,10 @@ describe 'Focusareas should', ->
                 click('a.add-focusarea')
                 expect(currentURL()).to.equal('/focusareas/new')
 
-        it 'should have table with a header and one columns', ->
+        it 'should have table with a header and two columns', ->
             andThen ->
                 findWithAssert('table.table')
-                expect(find('table.table thead tr th').length).to.equal(1)
+                expect(find('table.table thead tr th').length).to.equal(2)
 
     #
     # NEW
@@ -101,11 +64,12 @@ describe 'Focusareas should', ->
         beforeEach ->
             visit("/focusareas")
 
-        it 'should have a field and a submit button', ->
+        it 'should have a field, a select box and a submit button', ->
             andThen ->
                 click('a.add-focusarea').then ->
                     findWithAssert('form')
                     findWithAssert('#definition')
+                    findWithAssert('select.focusarea-theme')
                     findWithAssert("button.submit-button")
 
         it 'should create a new focusarea entry when submit gets clicked', ->
@@ -130,7 +94,7 @@ describe 'Focusareas should', ->
                 fillIn('#definition', 'focusarea-definition2')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(2)
+                    expect(find('table.table tbody tr').length).to.equal(6)
 
         it 'should have focusareas that each can be clicked to be edited', ->
             visit("/focusareas")
@@ -181,4 +145,4 @@ describe 'Focusareas should', ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/focusareas')
-                        expect(find('table.table tbody tr').length).to.equal(1)
+                        expect(find('table.table tbody tr').length).to.equal(5)

@@ -123,10 +123,9 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "administrations.edit.color", options) : helperMissing.call(depth0, "t", "administrations.edit.color", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("color-picker form-control"),
     'value': ("color"),
     'id': ("color"),
@@ -211,10 +210,9 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "administrations.new.name", options) : helperMissing.call(depth0, "t", "administrations.new.name", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("form-control"),
     'value': ("name"),
     'id': ("name"),
@@ -482,7 +480,7 @@ function program3(depth0,data) {
   options = {hash:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "focusareas.edit", "focusarea", options) : helperMissing.call(depth0, "link-to", "focusareas.edit", "focusarea", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n                    </td>\r\n                </tr>\r\n            ");
+  data.buffer.push("\r\n                    </td>\r\n                    <td class=\"focusarea-theme\">\r\n\r\n                    </td>\r\n                </tr>\r\n            ");
   return buffer;
   }
 function program4(depth0,data) {
@@ -509,6 +507,11 @@ function program4(depth0,data) {
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.index.definition", options) : helperMissing.call(depth0, "t", "focusareas.index.definition", options))));
+  data.buffer.push("</th>\r\n                <th>");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.index.theme", options) : helperMissing.call(depth0, "t", "focusareas.index.theme", options))));
   data.buffer.push("</th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            ");
   hashTypes = {};
   hashContexts = {};
@@ -539,16 +542,16 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.name", options) : helperMissing.call(depth0, "t", "focusareas.edit.name", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("form-control"),
     'value': ("definition"),
     'id': ("definition"),
+    'rows': ("6"),
     'placeholder': ("Beskrivelse...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
   data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
   hashTypes = {};
   hashContexts = {};
@@ -623,16 +626,25 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.new.definition", options) : helperMissing.call(depth0, "t", "focusareas.new.definition", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("form-control"),
     'value': ("definition"),
     'id': ("definition"),
+    'rows': ("6"),
     'placeholder': ("Inhold...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
+  data.buffer.push("\r\n                        <br/>\r\n                        ");
+  hashContexts = {'content': depth0,'optionValuePath': depth0,'optionLabelPath': depth0,'classNames': depth0};
+  hashTypes = {'content': "ID",'optionValuePath': "STRING",'optionLabelPath': "STRING",'classNames': "STRING"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.Select", {hash:{
+    'content': ("themes"),
+    'optionValuePath': ("content.id"),
+    'optionLabelPath': ("content.definition"),
+    'classNames': ("focusarea-theme form-control")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
   hashTypes = {};
   hashContexts = {};
@@ -758,16 +770,16 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "themes.edit.name", options) : helperMissing.call(depth0, "t", "themes.edit.name", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("form-control"),
     'value': ("definition"),
     'id': ("definition"),
+    'rows': ("6"),
     'placeholder': ("Beskrivelse...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
   data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
   hashTypes = {};
   hashContexts = {};
@@ -842,16 +854,16 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "themes.new.definition", options) : helperMissing.call(depth0, "t", "themes.new.definition", options))));
   data.buffer.push("</label>\r\n                        ");
-  hashContexts = {'type': depth0,'class': depth0,'value': depth0,'id': depth0,'placeholder': depth0};
-  hashTypes = {'type': "STRING",'class': "STRING",'value': "ID",'id': "STRING",'placeholder': "STRING"};
+  hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
+  hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
-    'type': ("text"),
     'class': ("form-control"),
     'value': ("definition"),
     'id': ("definition"),
+    'rows': ("6"),
     'placeholder': ("Inhold...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
   data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
   hashTypes = {};
   hashContexts = {};

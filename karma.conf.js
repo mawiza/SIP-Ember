@@ -27,6 +27,7 @@ module.exports = function(config) {
         'js/libs/i18n.js',
         'js/app/app-compiled.min.js',
         "js/app/templates.js",
+        'tests/fixtures.coffee',
         'tests/test_helper.coffee',
         'tests/*{.spec,_spec,Spec}.coffee',
         'tests/**/*{.spec,_spec,Spec}.coffee'

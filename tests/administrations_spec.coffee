@@ -1,23 +1,4 @@
 describe 'Administrations should', ->
-    before ->
-        #They do not get loaded???
-        Ember.run ->
-            App.Administration.FIXTURES = [
-                {
-                    id: 1
-                    name: "SSB"
-                    color: "#000"
-                }
-                {
-                    id: 2
-                    name: "BEK"
-                    color: "#123"
-                }
-            ]
-
-        #Reduce the notify timeout to 0.5 seconds otherwise this takes for ever to finish
-        Ember.Notify.reopen
-            timeout: 500
 
     #
     # Model
@@ -35,8 +16,7 @@ describe 'Administrations should', ->
             visit("/administrations")
             andThen ->
                 Ember.run ->
-                    localStorage.clear()
-                    store = App.__container__.lookup("controller:administrations").store
+                    store = App.__container__.lookup('store:main')
                     administration = store.createRecord("administration",
                         id: 3
                         name: 'TOM'
@@ -94,7 +74,7 @@ describe 'Administrations should', ->
             visit("/administrations")
             andThen ->
                 click('a.add-administration')
-                fillIn('#name', 'SSB')
+                fillIn('#name', 'BOU')
                 .fillIn('#color', '#000')
                 .click('button.submit-button')
                 .then ->
@@ -116,7 +96,7 @@ describe 'Administrations should', ->
                 .fillIn('#color', '#000')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(2)
+                    expect(find('table.table tbody tr').length).to.equal(4)
 
         it 'should have administrations that each can be clicked to be edited', ->
             visit("/administrations")
@@ -167,4 +147,4 @@ describe 'Administrations should', ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
-                        expect(find('table.table tbody tr').length).to.equal(1)
+                        expect(find('table.table tbody tr').length).to.equal(3)

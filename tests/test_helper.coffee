@@ -1,6 +1,6 @@
 before ->
-    #App.ApplicationAdapter = DS.FixtureAdapter
-    #    simulateRemoteResponse: false
+    App.ApplicationAdapter = DS.FixtureAdapter
+        simulateRemoteResponse: false
 
     App.ApplicationStore = DS.Store.extend
         adapter:DS.FixtureAdapter
@@ -9,6 +9,10 @@ before ->
 
     App.setupForTesting()
     App.injectTestHelpers()
+
+    #Reduce the notify timeout to 0.5 seconds otherwise this takes for ever to finish
+    Ember.Notify.reopen
+        timeout: 500
 
 beforeEach ->
     Ember.run ->

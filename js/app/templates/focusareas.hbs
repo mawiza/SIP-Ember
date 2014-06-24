@@ -10,6 +10,7 @@
             <thead>
             <tr>
                 <th>{{t focusareas.index.definition}}</th>
+                <th>{{t focusareas.index.theme}}</th>
             </tr>
             </thead>
             <tbody>
@@ -19,6 +20,9 @@
                         {{#link-to 'focusareas.edit' focusarea}}
                             {{focusarea.definition}}
                         {{/link-to}}
+                    </td>
+                    <td class="focusarea-theme">
+
                     </td>
                 </tr>
             {{/each}}

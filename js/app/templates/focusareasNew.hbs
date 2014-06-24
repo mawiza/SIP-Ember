@@ -9,7 +9,14 @@
                     {{x-notify}}
                     <div class="form-group">
                         <label>{{t focusareas.new.definition}}</label>
-                        {{input type="text" class="form-control" value=definition id="definition" placeholder="Inhold..."}}
+                        {{textarea class="form-control" value=definition id="definition" rows="6" placeholder="Inhold..."}}
+                        <br/>
+                        {{view Ember.Select
+                                content=themes
+                                optionValuePath="content.id"
+                                optionLabelPath="content.definition"
+                                classNames="focusarea-theme form-control"
+                        }}
                     </div>
                 </div>
                 <div class="panel-footer">
