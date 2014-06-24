@@ -9,3 +9,6 @@ App.AdministrationsEditController = Ember.ObjectController.extend
             administration = @get('model')
             administration.destroyRecord()
             @transitionToRoute('/administrations')
+
+        cancel: ->
+            @transitionToRoute('/administrations')

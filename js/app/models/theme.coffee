@@ -1,5 +1,5 @@
 App.Theme = DS.Model.extend
-    content: DS.attr('string')
+    definition: DS.attr('string')
     focusareas: DS.hasMany('focusarea',
         async: true
     )

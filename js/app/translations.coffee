@@ -3,9 +3,12 @@ Ember.I18n.translations =
     application:
         title: "Strategiske Indsatsplan"
         navbar:
+            index: "Oversigt"
+            edit: "Redigere SIP"
             administrations: "Forvaltninger"
             themes: "Temaer"
             focusareas: "Fokus Område"
+            settings: "Indstillinger"
             about: "Om"
         footer:
             organization: "Herning Kommune"
@@ -35,7 +38,19 @@ Ember.I18n.translations =
     themes:
         index:
             add: 'Tilføj tema'
-            content: 'Inhold'
+            definition: 'Beskrivelse'
+        new:
+            heading: "Opret nye tema"
+            definition: "Beksrivelse"
+            create: "Opret"
+        edit:
+            heading: "Redigere thema"
+            name: "Beskrivelse"
+            update: "Opdatere"
+            delete: "Slet"
+            cancel: "Annullere"
+            modal:
+                info: "Er du sikker at du vil gerne slette {{definition}}"
 
     notify:
         danger: "Fejl"

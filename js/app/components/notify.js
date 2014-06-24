@@ -26,6 +26,11 @@
         }), self.notify.timeout);
       }
     },
+    willDestroyElement: function() {
+      var self;
+      self = this;
+      self.set("insertState", "destroyed");
+    },
     click: function() {
       var self;
       self = this;

@@ -1,0 +1,22 @@
+<div class="">
+    <div class="col-md-6 col-md-offset-3">
+        <form role="form-control">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{t themes.new.heading}}
+                </div>
+                <div class="panel-body">
+                    {{x-notify}}
+                    <div class="form-group">
+                        <label>{{t themes.new.definition}}</label>
+                        {{input type="text" class="form-control" value=definition id="definition" placeholder="Inhold..."}}
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" {{action submit}} class="submit-button btn btn-default">{{t themes.new.create}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -71,23 +71,32 @@ describe 'Administrations should', ->
     # NEW
     #
     describe 'a new administration page that', ->
-        beforeEach ->
-            visit("/administrations")
-
         it 'should have fields and a submit button', ->
+            visit("/administrations")
             andThen ->
                 click('a.add-administration').then ->
                     findWithAssert('form')
                     findWithAssert('#name')
                     findWithAssert('#color')
-                    findWithAssert("button:submit")
+                    findWithAssert("button.submit-button")
+                    findWithAssert("button.cancel-button")
+
+#        it 'should be possible to cancel the update', ->
+#            visit("/administrations")
+#            andThen ->
+#                click('a.add-administration')
+#                .then ->
+#                   click('button.cancel-button')
+#                   .then ->
+#                      expect(currentURL()).to.equal('/administrations')
 
         it 'should create a new administrations entry when submit gets clicked', ->
+            visit("/administrations")
             andThen ->
                 click('a.add-administration')
                 fillIn('#name', 'SSB')
                 .fillIn('#color', '#000')
-                .click('button:submit')
+                .click('button.submit-button')
                 .then ->
                     expect(currentURL()).to.equal('/administrations')
 
@@ -96,7 +105,7 @@ describe 'Administrations should', ->
             andThen ->
                 fillIn('#name', '')
                 .fillIn('#color', '')
-                .click('button:submit')
+                .click('button.submit-button')
                 .then ->
                     expect(currentURL()).to.equal('/administrations/new')
 
@@ -105,7 +114,7 @@ describe 'Administrations should', ->
             andThen ->
                 fillIn('#name', 'OPB')
                 .fillIn('#color', '#000')
-                .click('button:submit')
+                .click('button.submit-button')
                 .then ->
                     expect(find('table.table tbody tr').length).to.equal(2)
 
@@ -118,8 +127,10 @@ describe 'Administrations should', ->
     # Edit
     #
     describe 'an edit administration page that', ->
-        it 'should be accessed from the administrations page', ->
+        beforeEach ->
             visit("/administrations")
+
+        it 'should be accessed from the administrations page', ->
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -130,7 +141,6 @@ describe 'Administrations should', ->
                     findWithAssert("button.delete-button")
 
         it 'should be possible to update the record', ->
-            visit("/administrations")
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -138,13 +148,19 @@ describe 'Administrations should', ->
                     .click('button.update-button')
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
-                        # This might be a little bit thin, but at the
-                        # moment I know that I'm the only that has entered the value #123
                         findWithAssert('td.administration-color:contains("#123")')
 
 
+        it 'should be possible to cancel the update', ->
+            andThen ->
+                click('td.administration-name:contains("OPB") a')
+                .then ->
+                    click('button.cancel-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/administrations')
+
+
         it 'should be possible to delete the record', ->
-            visit('/administrations')
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -152,5 +168,3 @@ describe 'Administrations should', ->
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
                         expect(find('table.table tbody tr').length).to.equal(1)
-
-

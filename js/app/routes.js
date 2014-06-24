@@ -8,35 +8,22 @@
     this.resource("administrations.edit", {
       path: '/administrations/edit/:id'
     });
-    this.resource('about');
     this.resource('themes');
     this.resource('themes.new', {
       path: '/themes/new'
     });
-    return this.resource('focusareas');
-  });
-
-  App.AdministrationsRoute = Ember.Route.extend({
-    model: function() {
-      this.store.all('administration').forEach(function(model) {
-        if (model && model.get("isDirty")) {
-          return model.rollback();
-        }
-      });
-      return this.store.find('administration');
-    }
-  });
-
-  App.AdministrationsNewRoute = Ember.Route.extend({
-    model: function() {
-      return this.store.createRecord('administration');
-    }
-  });
-
-  App.AdministrationsEditRoute = Ember.Route.extend({
-    model: function() {
-      return this.modelFor('administration');
-    }
+    this.resource('themes.edit', {
+      path: '/themes/edit/:id'
+    });
+    this.resource('focusareas');
+    this.resource('focusareas.new', {
+      path: '/focusareas/new'
+    });
+    this.resource('focusareas.edit', {
+      path: '/focusareas/edit/:id'
+    });
+    this.resource('about');
+    return this.resource('settings');
   });
 
 }).call(this);

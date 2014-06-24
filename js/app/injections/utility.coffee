@@ -1,29 +1,31 @@
 Ember.Utility = Ember.Object.extend(
-    updateOrSave: (obj, administration) ->
+    updateOrSave: (controller, administration) ->
         shouldSave = true
 
         if Ember.isEmpty(administration.get('name'))
-            obj.notify.danger "Name cannot be empty."
+            controller.notify.danger "Name cannot be empty."
             shouldSave = false
 
         #A real crappy way of doing this
         count = 0
-        obj.store.all('administration').forEach (record) ->
+        controller.store.all('administration').forEach (record) ->
             if(record.get('name') is administration.get('name'))
                 count += 1
         if count > 1
-            obj.notify.danger administration.get('name') + " is already used."
+            controller.notify.danger administration.get('name') + " is already used."
             shouldSave = false
 
         if Ember.isEmpty(administration.get('color'))
-            obj.notify.danger "Color cannot be empty."
+            controller.notify.danger "Color cannot be empty."
             shouldSave = false
 
         if shouldSave
             administration.save()
-            obj.transitionToRoute('/administrations')
+            controller.transitionToRoute('/administrations')
         else
-            obj.transitionToRoute('/administrations/new')
+            #administration.rollback()
+            controller.transitionToRoute('/administrations/new')
+
 )
 
 Ember.Application.initializer

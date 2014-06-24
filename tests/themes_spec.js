@@ -6,30 +6,30 @@
         App.Theme.FIXTURES = [
           {
             id: 1,
-            content: "theme1",
+            definition: "theme1",
             focusareas: [1, 2]
           }, {
             id: 2,
-            content: "theme2",
+            definition: "theme2",
             focusareas: [3, 4]
           }
         ];
         return App.Focusarea.FIXTURES = [
           {
             id: 1,
-            content: "focusarea1",
+            definition: "focusarea1",
             theme: 1
           }, {
             id: 2,
-            content: "focusarea2",
+            definition: "focusarea2",
             theme: 1
           }, {
             id: 3,
-            content: "focusarea3",
+            definition: "focusarea3",
             theme: 2
           }, {
             id: 4,
-            content: "focusarea4",
+            definition: "focusarea4",
             theme: 2
           }
         ];
@@ -38,7 +38,7 @@
     describe('should have a model that', function() {
       it('should have a content property', function() {
         var contentProperty;
-        contentProperty = App.Theme.metaForProperty('content');
+        contentProperty = App.Theme.metaForProperty('definition');
         return expect(contentProperty.type).to.equal('string');
       });
       it('should have a focusareas property', function() {
@@ -55,9 +55,9 @@
             store = App.__container__.lookup("controller:themes").store;
             theme = store.createRecord("theme", {
               id: 3,
-              content: 'theme content'
+              definition: 'theme definition'
             });
-            return expect(theme.get('content')).to.equal('theme content');
+            return expect(theme.get('definition')).to.equal('theme definition');
           });
         });
       });
@@ -82,7 +82,7 @@
         });
       });
     });
-    return describe('a new theme page that', function() {
+    describe('a new theme page that', function() {
       beforeEach(function() {
         return visit("/themes");
       });
@@ -90,7 +90,7 @@
         return andThen(function() {
           return click('a.add-theme').then(function() {
             findWithAssert('form');
-            findWithAssert('#content');
+            findWithAssert('#definition');
             return findWithAssert("button:submit");
           });
         });
@@ -98,7 +98,7 @@
       it('should create a new theme entry when submit gets clicked', function() {
         return andThen(function() {
           click('a.add-theme');
-          return fillIn('#content', 'theme-content1').click('button:submit').then(function() {
+          return fillIn('#definition', 'theme-definition1').click('button:submit').then(function() {
             return expect(currentURL()).to.equal('/themes');
           });
         });
@@ -106,7 +106,7 @@
       it('should be valid', function() {
         visit("/themes/new");
         return andThen(function() {
-          return fillIn('#content', '').click('button:submit').then(function() {
+          return fillIn('#definition', '').click('button:submit').then(function() {
             return expect(currentURL()).to.equal('/themes/new');
           });
         });
@@ -114,7 +114,7 @@
       it('should transition to the the themes page', function() {
         visit("/themes/new");
         return andThen(function() {
-          return fillIn('#content', 'theme-content2').click('button:submit').then(function() {
+          return fillIn('#definition', 'theme-definition2').click('button:submit').then(function() {
             return expect(find('table.table tbody tr').length).to.equal(2);
           });
         });
@@ -122,7 +122,51 @@
       return it('should have themes that each can be clicked to be edited', function() {
         visit("/themes");
         return andThen(function() {
-          return findWithAssert('td.theme-content:contains("theme-content1") a');
+          return findWithAssert('td.theme-definition:contains("theme-definition2") a');
+        });
+      });
+    });
+    return describe('an edit theme page that', function() {
+      beforeEach(function() {
+        return visit("/themes");
+      });
+      it('should be accessed from the themes page', function() {
+        return andThen(function() {
+          return click('td.theme-definition:contains("theme-definition1") a').then(function() {
+            findWithAssert('form');
+            findWithAssert('#definition');
+            findWithAssert("button.update-button");
+            return findWithAssert("button.delete-button");
+          });
+        });
+      });
+      it('should be possible to update the record', function() {
+        return andThen(function() {
+          return click('td.theme-definition:contains("theme-definition1") a').then(function() {
+            return fillIn('#definition', 'theme-definition3').click('button.update-button').then(function() {
+              expect(currentURL()).to.equal('/themes');
+              return findWithAssert('td.theme-definition:contains("theme-definition3")');
+            });
+          });
+        });
+      });
+      it('should be possible to cancel the update', function() {
+        return andThen(function() {
+          return click('td.theme-definition:contains("theme-definition3") a').then(function() {
+            return click('button.cancel-button').then(function() {
+              return expect(currentURL()).to.equal('/themes');
+            });
+          });
+        });
+      });
+      return it('should be possible to delete the record', function() {
+        return andThen(function() {
+          return click('td.theme-definition:contains("theme-definition3") a').then(function() {
+            return click('button.delete-button').then(function() {
+              expect(currentURL()).to.equal('/themes');
+              return expect(find('table.table tbody tr').length).to.equal(1);
+            });
+          });
         });
       });
     });

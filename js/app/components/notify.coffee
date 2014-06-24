@@ -24,6 +24,14 @@ App.XNotifyMessageComponent = Ember.Component.extend(
             ), self.notify.timeout
         return
 
+    # We need to clean this up, because notify gets called
+    # again on page load, if we leave the page before
+    # the timeout has had time to timeout
+    willDestroyElement: ->
+        self = this
+        self.set "insertState", "destroyed"
+        return
+
     click: ->
         self = this
         self.set "insertState", "destroyed"

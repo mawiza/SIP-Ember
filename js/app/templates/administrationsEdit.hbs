@@ -8,11 +8,11 @@
                 <div class="panel-body">
                     {{x-notify}}
                     <div class="form-group">
-                        <label for="exampleInputEmail1">{{t administrations.edit.name}}</label>
+                        <label>{{t administrations.edit.name}}</label>
                         {{input type="text" class="form-control" value=name id="name" placeholder="Navn..."}}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">{{t administrations.edit.color}}</label>
+                        <label>{{t administrations.edit.color}}</label>
                         {{input type="text" class="color-picker form-control" value=color id="color" placeholder="Farve..."}}
                         {{view App.ColorPicker}}
                     </div>
@@ -20,6 +20,7 @@
                 <div class="panel-footer">
                     <button {{action update}} class="update-button btn btn-default">{{t administrations.edit.update}}</button>
                     <button data-toggle="modal" data-target="#delete-administration" class="btn btn-default">{{t administrations.edit.delete}}</button>
+                    <button {{action cancel}} class="cancel-button btn btn-default">{{t administrations.edit.cancel}}</button>
                 </div>
             </div>
         </form>
@@ -37,8 +38,8 @@
                 <p>{{t administrations.edit.modal.info nameBinding="name"}} </p>
             </div>
             <div class="modal-footer">
-                <button {{action "delete"}} data-dismiss="modal" class="delete-button btn btn-danger">{{t administrations.edit.delete}}</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{t administrations.edit.cancel}}</button>
+                <button {{action delete}} data-dismiss="modal" class="delete-button btn btn-danger">{{t administrations.edit.delete}}</button>
+                <button class="cancel-button btn btn-default" data-dismiss="modal">{{t administrations.edit.cancel}}</button>
             </div>
         </div>
     </div>

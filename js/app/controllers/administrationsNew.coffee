@@ -4,3 +4,6 @@ App.AdministrationsNewController = Ember.ObjectController.extend
         submit: ->
             administration = @get('model')
             @utility.updateOrSave(this, administration)
+
+        cancel: ->
+            @transitionToRoute('/administrations')

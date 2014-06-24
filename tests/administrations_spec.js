@@ -68,23 +68,23 @@
       });
     });
     describe('a new administration page that', function() {
-      beforeEach(function() {
-        return visit("/administrations");
-      });
       it('should have fields and a submit button', function() {
+        visit("/administrations");
         return andThen(function() {
           return click('a.add-administration').then(function() {
             findWithAssert('form');
             findWithAssert('#name');
             findWithAssert('#color');
-            return findWithAssert("button:submit");
+            findWithAssert("button.submit-button");
+            return findWithAssert("button.cancel-button");
           });
         });
       });
       it('should create a new administrations entry when submit gets clicked', function() {
+        visit("/administrations");
         return andThen(function() {
           click('a.add-administration');
-          return fillIn('#name', 'SSB').fillIn('#color', '#000').click('button:submit').then(function() {
+          return fillIn('#name', 'SSB').fillIn('#color', '#000').click('button.submit-button').then(function() {
             return expect(currentURL()).to.equal('/administrations');
           });
         });
@@ -92,7 +92,7 @@
       it('should be valid', function() {
         visit("/administrations/new");
         return andThen(function() {
-          return fillIn('#name', '').fillIn('#color', '').click('button:submit').then(function() {
+          return fillIn('#name', '').fillIn('#color', '').click('button.submit-button').then(function() {
             return expect(currentURL()).to.equal('/administrations/new');
           });
         });
@@ -100,7 +100,7 @@
       it('should transition to the the administrations page', function() {
         visit("/administrations/new");
         return andThen(function() {
-          return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button:submit').then(function() {
+          return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button.submit-button').then(function() {
             return expect(find('table.table tbody tr').length).to.equal(2);
           });
         });
@@ -113,8 +113,10 @@
       });
     });
     return describe('an edit administration page that', function() {
+      beforeEach(function() {
+        return visit("/administrations");
+      });
       it('should be accessed from the administrations page', function() {
-        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             findWithAssert('form');
@@ -126,7 +128,6 @@
         });
       });
       it('should be possible to update the record', function() {
-        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return fillIn('#color', '#123').click('button.update-button').then(function() {
@@ -136,8 +137,16 @@
           });
         });
       });
+      it('should be possible to cancel the update', function() {
+        return andThen(function() {
+          return click('td.administration-name:contains("OPB") a').then(function() {
+            return click('button.cancel-button').then(function() {
+              return expect(currentURL()).to.equal('/administrations');
+            });
+          });
+        });
+      });
       return it('should be possible to delete the record', function() {
-        visit('/administrations');
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return click('button.delete-button').then(function() {

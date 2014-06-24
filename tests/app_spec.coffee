@@ -11,6 +11,9 @@ describe "The home page should display", ->
             assertNavbarLink('')
 
         it 'a working administrations link', ->
+            assertNavbarLink('')
+
+        it 'a working administrations link', ->
             assertNavbarLink('administrations')
 
         it 'a working themes link', ->

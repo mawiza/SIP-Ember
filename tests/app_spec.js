@@ -13,6 +13,9 @@
         return assertNavbarLink('');
       });
       it('a working administrations link', function() {
+        return assertNavbarLink('');
+      });
+      it('a working administrations link', function() {
         return assertNavbarLink('administrations');
       });
       it('a working themes link', function() {

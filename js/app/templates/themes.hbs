@@ -9,15 +9,15 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{t themes.index.content}}</th>
+                <th>{{t themes.index.definition}}</th>
             </tr>
             </thead>
             <tbody>
-            {{#each themes in model}}
+            {{#each theme in model}}
                 <tr>
-                    <td class="administration-name">
+                    <td class="theme-definition">
                         {{#link-to 'themes.edit' theme}}
-                            {{theme.content}}
+                            {{theme.definition}}
                         {{/link-to}}
                     </td>
                 </tr>

@@ -12,6 +12,9 @@
         administration = this.get('model');
         administration.destroyRecord();
         return this.transitionToRoute('/administrations');
+      },
+      cancel: function() {
+        return this.transitionToRoute('/administrations');
       }
     }
   });
