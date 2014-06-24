@@ -81,14 +81,14 @@ describe 'Administrations should', ->
                     findWithAssert("button.submit-button")
                     findWithAssert("button.cancel-button")
 
-#        it 'should be possible to cancel the update', ->
-#            visit("/administrations")
-#            andThen ->
-#                click('a.add-administration')
-#                .then ->
-#                   click('button.cancel-button')
-#                   .then ->
-#                      expect(currentURL()).to.equal('/administrations')
+        it 'should be possible to cancel the update', ->
+            visit("/administrations")
+            andThen ->
+                click('a.add-administration')
+                .then ->
+                   click('button.cancel-button')
+                   .then ->
+                      expect(currentURL()).to.equal('/administrations')
 
         it 'should create a new administrations entry when submit gets clicked', ->
             visit("/administrations")

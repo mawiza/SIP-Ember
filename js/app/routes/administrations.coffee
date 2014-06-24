@@ -5,15 +5,15 @@ App.AdministrationsRoute = Ember.Route.extend
         # AdministrationsNew page - the unsaved entries are still served
         # when we load the index page - that could maybe work for other
         # situations, but not for the current one.
-        this.store.all('administration').forEach (model) ->
+        @store.all('administration').forEach (model) ->
             if model and model.get("isDirty")
                 model.rollback()
 
-        this.store.find('administration')
+        @store.find('administration')
 
 App.AdministrationsNewRoute = Ember.Route.extend
     model: ->
-        this.store.createRecord('administration')
+        @store.createRecord('administration')
 
 App.AdministrationsEditRoute = Ember.Route.extend
     model: ->

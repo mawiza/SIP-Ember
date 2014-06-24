@@ -66,12 +66,16 @@ var result = uglifyJS.minify([
     "js/app/routes.js",
     "js/app/routes/administrations.js",
     "js/app/routes/themes.js",
+    "js/app/routes/focusareas.js",
     "js/app/controllers/administrations.js",
     "js/app/controllers/administrationsNew.js",
     "js/app/controllers/administrationsEdit.js",
     "js/app/controllers/themes.js",
     "js/app/controllers/themesNew.js",
-    "js/app/controllers/themesEdit.js"
+    "js/app/controllers/themesEdit.js",
+    "js/app/controllers/focusareas.js",
+    "js/app/controllers/focusareasNew.js",
+    "js/app/controllers/focusareasEdit.js"
 
 ],
     {

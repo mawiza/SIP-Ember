@@ -80,6 +80,16 @@
           });
         });
       });
+      it('should be possible to cancel the update', function() {
+        visit("/administrations");
+        return andThen(function() {
+          return click('a.add-administration').then(function() {
+            return click('button.cancel-button').then(function() {
+              return expect(currentURL()).to.equal('/administrations');
+            });
+          });
+        });
+      });
       it('should create a new administrations entry when submit gets clicked', function() {
         visit("/administrations");
         return andThen(function() {

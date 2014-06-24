@@ -14,3 +14,6 @@ App.ThemesNewController = Ember.ObjectController.extend
             else
                 #theme.rollback()
                 @transitionToRoute('/themes/new')
+
+        cancel: ->
+            @transitionToRoute('/themes')

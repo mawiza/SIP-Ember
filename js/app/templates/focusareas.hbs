@@ -1,14 +1,28 @@
-<table class="table">
-    <thead>
-    <tr>
-        <th>Focus areas</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>data</td>
-        <td>data</td>
-    </tr>
-    </tbody>
-</table>
+<div>
+    {{#link-to 'focusareas.new' class="add-focusarea btn btn-primary"}}
+        {{t focusareas.index.add}}
+    {{/link-to}}
+</div>
+<br/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{t focusareas.index.definition}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each focusarea in model}}
+                <tr>
+                    <td class="focusarea-definition">
+                        {{#link-to 'focusareas.edit' focusarea}}
+                            {{focusarea.definition}}
+                        {{/link-to}}
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

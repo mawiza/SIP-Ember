@@ -1,4 +1,4 @@
-describe 'Themes should', ->
+describe 'Focusareas should', ->
     before ->
         Ember.run ->
             App.Theme.FIXTURES = [
@@ -39,39 +39,55 @@ describe 'Themes should', ->
 
     describe 'should have a model that', ->
         it 'should have a content property', ->
-            contentProperty = App.Theme.metaForProperty('definition')
+            contentProperty = App.Focusarea.metaForProperty('definition')
             expect(contentProperty.type).to.equal('string')
 
         it 'should have a focusareas property', ->
-            contentProperty = App.Theme.metaForProperty('focusareas')
-            expect(contentProperty.type).to.equal('focusarea')
+            contentProperty = App.Focusarea.metaForProperty('theme')
+            expect(contentProperty.type).to.equal('theme')
 
         it 'can be created', ->
-            visit("/themes")
+            visit("/focusareas")
             andThen ->
                 Ember.run ->
                     localStorage.clear()
-                    store = App.__container__.lookup("controller:themes").store
+
+                    store = App.__container__.lookup("controller:focusareas").store
+
                     theme = store.createRecord("theme",
                         id: 3
                         definition: 'theme definition'
                     )
-                    expect(theme.get('definition')).to.equal('theme definition')
+
+                    focusarea = store.createRecord("focusarea",
+                        id: 4
+                        definition: 'focusarea definition'
+                    )
+
+                    theme.get("focusareas").then (focusareas) ->
+                        focusareas.pushObject focusarea
+
+                    expect(focusarea.get('definition')).to.equal('focusarea definition')
+
+                    #theme.get('focusareas').then (focusareas)->
+                    #    expect(focusareas.toArray.length).to.equal(1)
+
+
 
     #
     # Index
     #
-    describe 'a themes page', ->
+    describe 'a focusareas page', ->
         beforeEach ->
-            visit('/themes')
+            visit('/focusareas')
 
-        it 'should have an add new theme button', ->
-            findWithAssert('a.add-theme')
+        it 'should have an add new focusarea button', ->
+            findWithAssert('a.add-focusarea')
 
         it 'should direct to the new route when clicked', ->
             andThen ->
-                click('a.add-theme')
-                expect(currentURL()).to.equal('/themes/new')
+                click('a.add-focusarea')
+                expect(currentURL()).to.equal('/focusareas/new')
 
         it 'should have table with a header and one columns', ->
             andThen ->
@@ -81,67 +97,57 @@ describe 'Themes should', ->
     #
     # NEW
     #
-    describe 'a new theme page that', ->
+    describe 'a new focusarea page that', ->
         beforeEach ->
-            visit("/themes")
+            visit("/focusareas")
 
         it 'should have a field and a submit button', ->
             andThen ->
-                click('a.add-theme').then ->
+                click('a.add-focusarea').then ->
                     findWithAssert('form')
                     findWithAssert('#definition')
                     findWithAssert("button.submit-button")
-                    findWithAssert("button.cancel-button")
 
-        it 'should be possible to cancel the update', ->
-            visit("/themes")
+        it 'should create a new focusarea entry when submit gets clicked', ->
             andThen ->
-                click('a.add-theme')
-                .then ->
-                    click('button.cancel-button')
-                    .then ->
-                        expect(currentURL()).to.equal('/themes')
-
-        it 'should create a new theme entry when submit gets clicked', ->
-            andThen ->
-                click('a.add-theme')
-                fillIn('#definition', 'theme-definition1')
+                click('a.add-focusarea')
+                fillIn('#definition', 'focusarea-definition1')
                 .click('button.submit-button')
                 .then ->
-                    expect(currentURL()).to.equal('/themes')
+                    expect(currentURL()).to.equal('/focusareas')
 
         it 'should be valid', ->
-            visit("/themes/new")
+            visit("/focusareas/new")
             andThen ->
                 fillIn('#definition', '')
                 .click('button.submit-button')
                 .then ->
-                    expect(currentURL()).to.equal('/themes/new')
+                    expect(currentURL()).to.equal('/focusareas/new')
 
-        it 'should transition to the the themes page', ->
-            visit("/themes/new")
+        it 'should transition to the the focusareas page', ->
+            visit("/focusareas/new")
             andThen ->
-                fillIn('#definition', 'theme-definition2')
+                fillIn('#definition', 'focusarea-definition2')
                 .click('button.submit-button')
                 .then ->
                     expect(find('table.table tbody tr').length).to.equal(2)
 
-        it 'should have themes that each can be clicked to be edited', ->
-            visit("/themes")
+        it 'should have focusareas that each can be clicked to be edited', ->
+            visit("/focusareas")
             andThen ->
-                findWithAssert('td.theme-definition:contains("theme-definition2") a')
+                findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a')
 
 
     #
     # Edit
     #
-    describe 'an edit theme page that', ->
+    describe 'an edit focusarea page that', ->
         beforeEach ->
-            visit("/themes")
+            visit("/focusareas")
 
-        it 'should be accessed from the themes page', ->
+        it 'should be accessed from the focusareas page', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition1") a')
+                click('td.focusarea-definition:contains("focusarea-definition1") a')
                 .then ->
                     findWithAssert('form')
                     findWithAssert('#definition')
@@ -150,29 +156,29 @@ describe 'Themes should', ->
 
         it 'should be possible to update the record', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition1") a')
+                click('td.focusarea-definition:contains("focusarea-definition1") a')
                 .then ->
-                    fillIn('#definition', 'theme-definition3')
+                    fillIn('#definition', 'focusarea-definition3')
                     .click('button.update-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
-                        findWithAssert('td.theme-definition:contains("theme-definition3")')
+                        expect(currentURL()).to.equal('/focusareas')
+                        findWithAssert('td.focusarea-definition:contains("focusarea-definition3")')
 
 
         it 'should be possible to cancel the update', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition3") a')
+                click('td.focusarea-definition:contains("focusarea-definition3") a')
                 .then ->
                     click('button.cancel-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/focusareas')
 
 
         it 'should be possible to delete the record', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition3") a')
+                click('td.focusarea-definition:contains("focusarea-definition3") a')
                 .then ->
                     click('button.delete-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/focusareas')
                         expect(find('table.table tbody tr').length).to.equal(1)

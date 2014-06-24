@@ -55,7 +55,28 @@
         create: "Opret"
       },
       edit: {
-        heading: "Redigere thema",
+        heading: "Redigere tema",
+        name: "Beskrivelse",
+        update: "Opdatere",
+        "delete": "Slet",
+        cancel: "Annullere",
+        modal: {
+          info: "Er du sikker at du vil gerne slette {{definition}}"
+        }
+      }
+    },
+    focusareas: {
+      index: {
+        add: 'Tilføj fokus område',
+        definition: 'Beskrivelse'
+      },
+      "new": {
+        heading: "Opret nye fokus område",
+        definition: "Beksrivelse",
+        create: "Opret"
+      },
+      edit: {
+        heading: "Redigere fokus område",
         name: "Beskrivelse",
         update: "Opdatere",
         "delete": "Slet",

@@ -3,18 +3,18 @@
         <form role="form-control">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    {{t themes.new.heading}}
+                    {{t focusareas.new.heading}}
                 </div>
                 <div class="panel-body">
                     {{x-notify}}
                     <div class="form-group">
-                        <label>{{t themes.new.definition}}</label>
+                        <label>{{t focusareas.new.definition}}</label>
                         {{input type="text" class="form-control" value=definition id="definition" placeholder="Inhold..."}}
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button {{action submit}} class="submit-button btn btn-default">{{t themes.new.create}}</button>
-                    <button {{action cancel}} class="cancel-button btn btn-default">{{t themes.edit.cancel}}</button>
+                    <button {{action submit}} class="submit-button btn btn-default">{{t focusareas.new.create}}</button>
+                    <button {{action cancel}} class="cancel-button btn btn-default">{{t focusareas.edit.cancel}}</button>
                 </div>
             </div>
         </form>

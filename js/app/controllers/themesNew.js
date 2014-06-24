@@ -16,6 +16,9 @@
         } else {
           return this.transitionToRoute('/themes/new');
         }
+      },
+      cancel: function() {
+        return this.transitionToRoute('/themes');
       }
     }
   });
