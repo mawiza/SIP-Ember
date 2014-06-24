@@ -12,7 +12,7 @@ before ->
 
     #Reduce the notify timeout to 0.5 seconds otherwise this takes for ever to finish
     Ember.Notify.reopen
-        timeout: 500
+        timeout: 50
 
 beforeEach ->
     Ember.run ->

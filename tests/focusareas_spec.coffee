@@ -13,12 +13,10 @@ describe 'Focusareas should', ->
             visit("/focusareas")
             andThen ->
                 Ember.run ->
-                    localStorage.clear()
-
                     store = App.__container__.lookup('store:main')
 
                     theme = store.createRecord("theme",
-                        id: 3
+                        id: 4
                         definition: 'theme definition'
                     )
 
@@ -26,9 +24,11 @@ describe 'Focusareas should', ->
                         id: 5
                         definition: 'focusarea definition'
                     )
+                    focusarea.save()
 
                     theme.get("focusareas").then (focusareas) ->
                         focusareas.pushObject focusarea
+                        theme.save()
 
                     expect(focusarea.get('definition')).to.equal('focusarea definition')
 
@@ -75,6 +75,7 @@ describe 'Focusareas should', ->
         it 'should create a new focusarea entry when submit gets clicked', ->
             andThen ->
                 click('a.add-focusarea')
+                #TODO Select the first entry in the populated select box
                 fillIn('#definition', 'focusarea-definition1')
                 .click('button.submit-button')
                 .then ->
@@ -94,7 +95,7 @@ describe 'Focusareas should', ->
                 fillIn('#definition', 'focusarea-definition2')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(6)
+                    expect(find('table.table tbody tr').length).to.equal(7)
 
         it 'should have focusareas that each can be clicked to be edited', ->
             visit("/focusareas")
@@ -145,4 +146,4 @@ describe 'Focusareas should', ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/focusareas')
-                        expect(find('table.table tbody tr').length).to.equal(5)
+                        expect(find('table.table tbody tr').length).to.equal(6)

@@ -23,6 +23,7 @@
               name: 'TOM',
               color: '#ccc'
             });
+            administration.save();
             return expect(administration.get('name')).to.equal('TOM');
           });
         });
@@ -92,7 +93,7 @@
         visit("/administrations/new");
         return andThen(function() {
           return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(4);
+            return expect(find('table.table tbody tr').length).to.equal(5);
           });
         });
       });
@@ -142,7 +143,7 @@
           return click('td.administration-name:contains("OPB") a').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/administrations');
-              return expect(find('table.table tbody tr').length).to.equal(3);
+              return expect(find('table.table tbody tr').length).to.equal(4);
             });
           });
         });

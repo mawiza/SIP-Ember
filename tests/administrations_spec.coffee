@@ -22,7 +22,7 @@ describe 'Administrations should', ->
                         name: 'TOM'
                         color: '#ccc'
                     )
-                    #administrations = store.all('administration')
+                    administration.save()
                     expect(administration.get('name')).to.equal('TOM')
 
 
@@ -96,7 +96,7 @@ describe 'Administrations should', ->
                 .fillIn('#color', '#000')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(4)
+                    expect(find('table.table tbody tr').length).to.equal(5)
 
         it 'should have administrations that each can be clicked to be edited', ->
             visit("/administrations")
@@ -147,4 +147,4 @@ describe 'Administrations should', ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
-                        expect(find('table.table tbody tr').length).to.equal(3)
+                        expect(find('table.table tbody tr').length).to.equal(4)

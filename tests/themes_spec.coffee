@@ -13,12 +13,12 @@ describe 'Themes should', ->
             visit("/themes")
             andThen ->
                 Ember.run ->
-                    localStorage.clear()
                     store = App.__container__.lookup('store:main')
                     theme = store.createRecord("theme",
                         id: 3
                         definition: 'theme definition'
                     )
+                    theme.save()
                     expect(theme.get('definition')).to.equal('theme definition')
 
     #
@@ -87,7 +87,7 @@ describe 'Themes should', ->
                 fillIn('#definition', 'theme-definition2')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(4)
+                    expect(find('table.table tbody tr').length).to.equal(6)
 
         it 'should have themes that each can be clicked to be edited', ->
             visit("/themes")
@@ -138,4 +138,4 @@ describe 'Themes should', ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/themes')
-                        expect(find('table.table tbody tr').length).to.equal(3)
+                        expect(find('table.table tbody tr').length).to.equal(5)

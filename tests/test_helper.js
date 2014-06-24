@@ -11,7 +11,7 @@
     App.setupForTesting();
     App.injectTestHelpers();
     return Ember.Notify.reopen({
-      timeout: 500
+      timeout: 50
     });
   });
 

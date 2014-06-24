@@ -17,18 +17,19 @@
         return andThen(function() {
           return Ember.run(function() {
             var focusarea, store, theme;
-            localStorage.clear();
             store = App.__container__.lookup('store:main');
             theme = store.createRecord("theme", {
-              id: 3,
+              id: 4,
               definition: 'theme definition'
             });
             focusarea = store.createRecord("focusarea", {
               id: 5,
               definition: 'focusarea definition'
             });
+            focusarea.save();
             theme.get("focusareas").then(function(focusareas) {
-              return focusareas.pushObject(focusarea);
+              focusareas.pushObject(focusarea);
+              return theme.save();
             });
             return expect(focusarea.get('definition')).to.equal('focusarea definition');
           });
@@ -89,7 +90,7 @@
         visit("/focusareas/new");
         return andThen(function() {
           return fillIn('#definition', 'focusarea-definition2').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(6);
+            return expect(find('table.table tbody tr').length).to.equal(7);
           });
         });
       });
@@ -138,7 +139,7 @@
           return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/focusareas');
-              return expect(find('table.table tbody tr').length).to.equal(5);
+              return expect(find('table.table tbody tr').length).to.equal(6);
             });
           });
         });
