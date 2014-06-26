@@ -1,3 +1,13 @@
+var compiler = require('ember-template-compiler');
+var uglifyJS = require("uglify-js");
+var fs = require('fs');
+var walk = require('walk');
+
+/**
+ * The files to be compiled, by adding them individually, I can control dependencies.
+ *
+ * @type {string[]}
+ */
 var files = [
     "js/app/injections/notify.js",
     "js/app/injections/utility.js",
@@ -24,15 +34,17 @@ var files = [
 
 ];
 
-var compiler = require('ember-template-compiler');
-var uglifyJS = require("uglify-js");
-var fs = require('fs');
-var walk = require('walk');
+/**
+ * Output files
+ */
 var templatesJS = "js/app/templates.js";
 var compiledAppJS = "js/app/app-compiled.min.js";
 var compiledAppMap = "js/app/app-compiled.min.map";
 var debugAppJS = "js/app/app-debug.js";
 
+/**
+ * The templates directory
+ */
 var walker  = walk.walk('js/app/templates', { followLinks: false });
 
 /**
@@ -53,14 +65,14 @@ var normalizeStr = function(str){
     return normalizedStr;
 };
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 /**
  * Purge the file and write the default message
  */
 fs.writeFile(templatesJS, '//NOTE: This is a generated file. Please do not edit. Your changes will be overridden!\n\n');
-
-String.prototype.endsWith = function(suffix) {
-    return this.indexOf(suffix, this.length - suffix.length) !== -1;
-};
 
 /**
  * Walk through the specified directory compiling each file and appending it to the specified template file.
@@ -69,7 +81,7 @@ walker.on('file', function(root, stat, next) {
     if(stat.name.endsWith(".hbs")){
         var template = fs.readFileSync(root + '/' + stat.name).toString();
         var input = compiler.precompile(template).toString();
-        var templateName = stat.name.replace(".hbs", "")
+        var templateName = stat.name.replace(".hbs", "");
         var output = "Ember.TEMPLATES['" + normalizeStr(templateName) + "'] = Ember.Handlebars.template(" + input + ");";
         fs.appendFile(templatesJS, output + "\n");
     }
@@ -78,15 +90,19 @@ walker.on('file', function(root, stat, next) {
 });
 
 /**
- * Compile the application javascript files into a minified version.
+ * Compile the application javascript files.
  */
 
-/*minify*/
+/**
+ * Minified
+ */
 var result = uglifyJS.minify(files,{outSourceMap: "app-compiled.min.map"});
 fs.writeFile(compiledAppJS, result.code);
 fs.writeFile(compiledAppMap, result.map);
 
-/*debugging*/
+/**
+ * Beautified - debugging
+ */
 var toplevel = null;
 files.forEach(function(file){
     var code = fs.readFileSync(file, "utf8");
