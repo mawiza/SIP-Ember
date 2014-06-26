@@ -1,3 +1,29 @@
+var files = [
+    "js/app/injections/notify.js",
+    "js/app/injections/utility.js",
+    "js/app/translations.js",
+    "js/app/app.js",
+    "js/app/components/notify.js",
+    "js/app/views/colorPicker.js",
+    "js/app/models/administration.js",
+    "js/app/models/theme.js",
+    "js/app/models/focusarea.js",
+    "js/app/routes.js",
+    "js/app/routes/administrations.js",
+    "js/app/routes/themes.js",
+    "js/app/routes/focusareas.js",
+    "js/app/controllers/administrations.js",
+    "js/app/controllers/administrationsNew.js",
+    "js/app/controllers/administrationsEdit.js",
+    "js/app/controllers/themes.js",
+    "js/app/controllers/themesNew.js",
+    "js/app/controllers/themesEdit.js",
+    "js/app/controllers/focusareas.js",
+    "js/app/controllers/focusareasNew.js",
+    "js/app/controllers/focusareasEdit.js"
+
+];
+
 var compiler = require('ember-template-compiler');
 var uglifyJS = require("uglify-js");
 var fs = require('fs');
@@ -5,6 +31,7 @@ var walk = require('walk');
 var templatesJS = "js/app/templates.js";
 var compiledAppJS = "js/app/app-compiled.min.js";
 var compiledAppMap = "js/app/app-compiled.min.map";
+var debugAppJS = "js/app/app-debug.js";
 
 var walker  = walk.walk('js/app/templates', { followLinks: false });
 
@@ -53,34 +80,22 @@ walker.on('file', function(root, stat, next) {
 /**
  * Compile the application javascript files into a minified version.
  */
-var result = uglifyJS.minify([
-    "js/app/injections/notify.js",
-    "js/app/injections/utility.js",
-    "js/app/translations.js",
-    "js/app/app.js",
-    "js/app/components/notify.js",
-    "js/app/views/colorPicker.js",
-    "js/app/models/administration.js",
-    "js/app/models/theme.js",
-    "js/app/models/focusarea.js",
-    "js/app/routes.js",
-    "js/app/routes/administrations.js",
-    "js/app/routes/themes.js",
-    "js/app/routes/focusareas.js",
-    "js/app/controllers/administrations.js",
-    "js/app/controllers/administrationsNew.js",
-    "js/app/controllers/administrationsEdit.js",
-    "js/app/controllers/themes.js",
-    "js/app/controllers/themesNew.js",
-    "js/app/controllers/themesEdit.js",
-    "js/app/controllers/focusareas.js",
-    "js/app/controllers/focusareasNew.js",
-    "js/app/controllers/focusareasEdit.js"
 
-],
-    {
-        outSourceMap: "app-compiled.min.map"
-    }
-);
+/*minify*/
+var result = uglifyJS.minify(files,{outSourceMap: "app-compiled.min.map"});
 fs.writeFile(compiledAppJS, result.code);
 fs.writeFile(compiledAppMap, result.map);
+
+/*debugging*/
+var toplevel = null;
+files.forEach(function(file){
+    var code = fs.readFileSync(file, "utf8");
+    toplevel = uglifyJS.parse(code, {
+        filename: file,
+        toplevel: toplevel
+    });
+});
+var code = toplevel.print_to_string({
+    beautify: true
+});
+fs.writeFile(debugAppJS, code);
