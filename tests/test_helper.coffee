@@ -1,3 +1,5 @@
+#console debugging: App.__container__.lookup('store:main').find('org').then(function(stuff){console.log(stuff.toArray())});
+
 before ->
     App.ApplicationAdapter = DS.FixtureAdapter
         simulateRemoteResponse: false
@@ -10,9 +12,9 @@ before ->
     App.setupForTesting()
     App.injectTestHelpers()
 
-    #Reduce the notify timeout to 0.5 seconds otherwise this takes for ever to finish
+    #Reduce the notify timeout to 1 ms otherwise this takes for ever to finish
     Ember.Notify.reopen
-        timeout: 50
+        timeout: 1
 
 beforeEach ->
     Ember.run ->

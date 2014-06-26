@@ -32,9 +32,18 @@ describe 'Focusareas should', ->
 
                     expect(focusarea.get('definition')).to.equal('focusarea definition')
 
-                    #theme.get('focusareas').then (focusareas)->
-                    #    expect(focusareas.toArray.length).to.equal(1)
+                    store.find('theme', 4).then (theme)->
+                        theme.get('focusareas').then ->
+                            #theme.get('focusareas').forEach (item) ->
+                            #    console.log(item.get('definition'))
+                            #    item.get('theme').then ->
+                            #        console.log(item.get('theme').get('definition'))
+                            expect(theme.get('focusareas').get('length')).to.equal(1)
 
+                    # Same result as above
+                    #focusareas = theme.get('focusareas')
+                    #focusareas.then ->
+                    #    console.log focusareas.get('length')
 
 
     #
@@ -75,7 +84,7 @@ describe 'Focusareas should', ->
         it 'should create a new focusarea entry when submit gets clicked', ->
             andThen ->
                 click('a.add-focusarea')
-                #TODO Select the first entry in the populated select box
+                #findWithAssert('select.focusarea-theme > option') #it is found, but does it contain anything
                 fillIn('#definition', 'focusarea-definition1')
                 .click('button.submit-button')
                 .then ->

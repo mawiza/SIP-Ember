@@ -22,7 +22,9 @@
                         {{/link-to}}
                     </td>
                     <td class="focusarea-theme">
-
+                        {{#link-to 'themes' theme}}
+                            {{theme.definition}}
+                        {{/link-to}}
                     </td>
                 </tr>
             {{/each}}

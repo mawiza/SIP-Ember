@@ -31,7 +31,12 @@
               focusareas.pushObject(focusarea);
               return theme.save();
             });
-            return expect(focusarea.get('definition')).to.equal('focusarea definition');
+            expect(focusarea.get('definition')).to.equal('focusarea definition');
+            return store.find('theme', 4).then(function(theme) {
+              return theme.get('focusareas').then(function() {
+                return expect(theme.get('focusareas').get('length')).to.equal(1);
+              });
+            });
           });
         });
       });

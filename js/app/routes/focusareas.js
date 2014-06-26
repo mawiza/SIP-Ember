@@ -14,6 +14,11 @@
   App.FocusareasNewRoute = Ember.Route.extend({
     model: function() {
       return this.store.createRecord('focusarea');
+    },
+    setupController: function(controller, model) {
+      this._super(controller, model);
+      controller.set('availableThemes', this.store.find('theme'));
+      return controller.set('selectedTheme', this.store.find('theme')[0]);
     }
   });
 

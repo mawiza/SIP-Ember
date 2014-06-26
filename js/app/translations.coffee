@@ -56,6 +56,7 @@ Ember.I18n.translations =
         index:
             add: 'Tilføj fokus område'
             definition: 'Beskrivelse'
+            theme: 'Tema'
         new:
             heading: "Opret nye fokus område"
             definition: "Beksrivelse"

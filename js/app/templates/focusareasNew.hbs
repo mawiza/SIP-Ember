@@ -12,10 +12,11 @@
                         {{textarea class="form-control" value=definition id="definition" rows="6" placeholder="Inhold..."}}
                         <br/>
                         {{view Ember.Select
-                                content=themes
-                                optionValuePath="content.id"
-                                optionLabelPath="content.definition"
-                                classNames="focusarea-theme form-control"
+                            content=availableThemes
+                            optionValuePath="content.id"
+                            optionLabelPath="content.definition"
+                            classNames="focusarea-theme form-control"
+                            valueBinding="selectedTheme"
                         }}
                     </div>
                 </div>
