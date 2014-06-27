@@ -18,6 +18,7 @@
         }
       },
       cancel: function() {
+        this.get('model').rollback();
         return this.transitionToRoute('/themes');
       }
     }
