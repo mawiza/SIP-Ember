@@ -78,7 +78,7 @@
       it('should create a new focusarea entry when submit gets clicked', function() {
         return andThen(function() {
           click('a.add-focusarea');
-          return fillIn('#definition', 'focusarea-definition1').click('button.submit-button').then(function() {
+          return fillIn('#definition', 'focusarea-definition1').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
             return expect(currentURL()).to.equal('/focusareas');
           });
         });
@@ -94,7 +94,7 @@
       it('should transition to the the focusareas page', function() {
         visit("/focusareas/new");
         return andThen(function() {
-          return fillIn('#definition', 'focusarea-definition2').click('button.submit-button').then(function() {
+          return fillIn('#definition', 'focusarea-definition2').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
             return expect(find('table.table tbody tr').length).to.equal(7);
           });
         });
@@ -123,7 +123,7 @@
       it('should be possible to update the record', function() {
         return andThen(function() {
           return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
-            return fillIn('#definition', 'focusarea-definition3').click('button.update-button').then(function() {
+            return fillIn('#definition', 'focusarea-definition3').fillIn('select.focusarea-theme', '4').click('button.update-button').then(function() {
               expect(currentURL()).to.equal('/focusareas');
               return findWithAssert('td.focusarea-definition:contains("focusarea-definition3")');
             });

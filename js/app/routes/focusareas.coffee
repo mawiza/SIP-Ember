@@ -3,7 +3,6 @@ App.FocusareasRoute = Ember.Route.extend
         @store.all('focusarea').forEach (model) ->
             if model and model.get("isDirty")
                 model.rollback()
-
         @store.find('focusarea')
 
 App.FocusareasNewRoute = Ember.Route.extend
@@ -19,8 +18,8 @@ App.FocusareasEditRoute = Ember.Route.extend
     model: ->
         @modelFor('focusarea')
 
-    #setupController: (controller, model) ->
-    #    @_super(controller, model)
-    #    controller.set('themes', @store.find('theme',
-    #        focusarea: model
-    #    ))
+    setupController: (controller, model) ->
+        @_super(controller, model)
+        controller.set('availableThemes', @store.find('theme'))
+        model.get('theme').then (theme) ->
+            controller.set('selectedTheme', theme.get('id'))

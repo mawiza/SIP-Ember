@@ -11,5 +11,5 @@ App.ThemesNewRoute = Ember.Route.extend
         @store.createRecord('theme')
 
 App.ThemesEditRoute = Ember.Route.extend
-    model: ->
-        @modelFor('theme')
+    model: (params) ->
+        @modelFor('theme', params)

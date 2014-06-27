@@ -16,7 +16,6 @@
           shouldSave = false;
         }
         if (shouldSave) {
-          console.log(themeId);
           this.store.find('theme', themeId).then(function(theme) {
             return theme.get("focusareas").then(function(focusareas) {
               focusareas.pushObject(focusarea);

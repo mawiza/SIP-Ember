@@ -5,7 +5,18 @@
       simulateRemoteResponse: false
     });
     App.ApplicationStore = DS.Store.extend({
-      adapter: DS.FixtureAdapter
+      adapter: DS.FixtureAdapter.extend({
+        queryFixtures: function(fixtures, query, type) {
+          return fixtures.filter(function(item) {
+            var prop;
+            for (prop in query) {
+              if (item[prop] !== query[prop]) {
+                return false;
+              }
+            }
+          });
+        }
+      })
     });
     Ember.Test.adapter = Ember.Test.MochaAdapter.create();
     App.setupForTesting();

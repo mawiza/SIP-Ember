@@ -84,8 +84,8 @@ describe 'Focusareas should', ->
         it 'should create a new focusarea entry when submit gets clicked', ->
             andThen ->
                 click('a.add-focusarea')
-                #findWithAssert('select.focusarea-theme > option') #it is found, but does it contain anything
                 fillIn('#definition', 'focusarea-definition1')
+                .fillIn('select.focusarea-theme', '4')
                 .click('button.submit-button')
                 .then ->
                     expect(currentURL()).to.equal('/focusareas')
@@ -102,6 +102,7 @@ describe 'Focusareas should', ->
             visit("/focusareas/new")
             andThen ->
                 fillIn('#definition', 'focusarea-definition2')
+                .fillIn('select.focusarea-theme', '4')
                 .click('button.submit-button')
                 .then ->
                     expect(find('table.table tbody tr').length).to.equal(7)
@@ -110,6 +111,7 @@ describe 'Focusareas should', ->
             visit("/focusareas")
             andThen ->
                 findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a')
+                #findWithAssert('td.theme-definition:contains("theme definition")')
 
 
     #
@@ -133,6 +135,7 @@ describe 'Focusareas should', ->
                 click('td.focusarea-definition:contains("focusarea-definition1") a')
                 .then ->
                     fillIn('#definition', 'focusarea-definition3')
+                    .fillIn('select.focusarea-theme', '4')
                     .click('button.update-button')
                     .then ->
                         expect(currentURL()).to.equal('/focusareas')

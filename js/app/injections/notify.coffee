@@ -9,21 +9,25 @@ Ember.Notify = Ember.ArrayProxy.extend(
         @_super object
         return
     danger: (message) ->
+        console.log("Notify: " + message)
         @pushObject
             type: "danger"
             message: message
         return
     warning: (message) ->
+        console.log("Notify: " + message)
         @pushObject
             type: "warning"
             message: message
         return
     info: (message) ->
+        console.log("Notify: " + message)
         @pushObject
             type: "info"
             message: message
         return
     success: (message) ->
+        console.log("Notify: " + message)
         @pushObject
             type: "success"
             message: message

@@ -92,7 +92,7 @@
         visit("/themes/new");
         return andThen(function() {
           return fillIn('#definition', 'theme-definition2').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(6);
+            return expect(find('table.table tbody tr').length).to.equal(5);
           });
         });
       });
@@ -141,7 +141,7 @@
           return click('td.theme-definition:contains("theme-definition3") a').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/themes');
-              return expect(find('table.table tbody tr').length).to.equal(5);
+              return expect(find('table.table tbody tr').length).to.equal(4);
             });
           });
         });

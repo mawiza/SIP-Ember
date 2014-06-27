@@ -18,8 +18,8 @@
   });
 
   App.ThemesEditRoute = Ember.Route.extend({
-    model: function() {
-      return this.modelFor('theme');
+    model: function(params) {
+      return this.modelFor('theme', params);
     }
   });
 

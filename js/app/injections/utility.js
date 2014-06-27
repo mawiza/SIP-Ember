@@ -23,8 +23,9 @@
         shouldSave = false;
       }
       if (shouldSave) {
-        administration.save();
-        return controller.transitionToRoute('/administrations');
+        return administration.save().then(function() {
+          return controller.transitionToRoute('/administrations');
+        });
       } else {
         return controller.transitionToRoute('/administrations/new');
       }

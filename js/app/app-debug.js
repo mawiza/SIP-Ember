@@ -7,24 +7,28 @@
             this._super(object);
         },
         danger: function(message) {
+            console.log("Notify: " + message);
             this.pushObject({
                 type: "danger",
                 message: message
             });
         },
         warning: function(message) {
+            console.log("Notify: " + message);
             this.pushObject({
                 type: "warning",
                 message: message
             });
         },
         info: function(message) {
+            console.log("Notify: " + message);
             this.pushObject({
                 type: "info",
                 message: message
             });
         },
         success: function(message) {
+            console.log("Notify: " + message);
             this.pushObject({
                 type: "success",
                 message: message
@@ -71,8 +75,9 @@
                 shouldSave = false;
             }
             if (shouldSave) {
-                administration.save();
-                return controller.transitionToRoute("/administrations");
+                return administration.save().then(function() {
+                    return controller.transitionToRoute("/administrations");
+                });
             } else {
                 return controller.transitionToRoute("/administrations/new");
             }
@@ -312,11 +317,6 @@
 (function() {
     App.AdministrationsRoute = Ember.Route.extend({
         model: function() {
-            this.store.all("administration").forEach(function(model) {
-                if (model && model.get("isDirty")) {
-                    return model.rollback();
-                }
-            });
             return this.store.find("administration");
         }
     });
@@ -349,8 +349,8 @@
         }
     });
     App.ThemesEditRoute = Ember.Route.extend({
-        model: function() {
-            return this.modelFor("theme");
+        model: function(params) {
+            return this.modelFor("theme", params);
         }
     });
 }).call(this);
@@ -379,6 +379,13 @@
     App.FocusareasEditRoute = Ember.Route.extend({
         model: function() {
             return this.modelFor("focusarea");
+        },
+        setupController: function(controller, model) {
+            this._super(controller, model);
+            controller.set("availableThemes", this.store.find("theme"));
+            return model.get("theme").then(function(theme) {
+                return controller.set("selectedTheme", theme.get("id"));
+            });
         }
     });
 }).call(this);
@@ -514,11 +521,9 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
-                    console.log(themeId);
                     this.store.find("theme", themeId).then(function(theme) {
                         return theme.get("focusareas").then(function(focusareas) {
                             focusareas.pushObject(focusarea);
-                            focusarea.set("theme", theme);
                             theme.save();
                             return focusarea.save();
                         });
@@ -539,15 +544,26 @@
     App.FocusareasEditController = Ember.ObjectController.extend({
         actions: {
             update: function() {
-                var focusarea, shouldSave;
+                var focusarea, shouldSave, themeId;
                 focusarea = this.get("model");
                 shouldSave = true;
+                themeId = this.get("selectedTheme");
                 if (Ember.isEmpty(focusarea.get("definition"))) {
                     this.notify.danger("Definition cannot be empty.");
                     shouldSave = false;
                 }
+                if (themeId == null) {
+                    this.notify.danger("You have to create themes before creating focus areas!");
+                    shouldSave = false;
+                }
                 if (shouldSave) {
-                    focusarea.save();
+                    this.store.find("theme", themeId).then(function(theme) {
+                        return theme.get("focusareas").then(function(focusareas) {
+                            focusareas.pushObject(focusarea);
+                            theme.save();
+                            return focusarea.save();
+                        });
+                    });
                     return this.transitionToRoute("/focusareas");
                 } else {
                     return this.transitionToRoute("/focusareas/edit");

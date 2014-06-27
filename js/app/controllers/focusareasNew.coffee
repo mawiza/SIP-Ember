@@ -1,3 +1,4 @@
+#TODO Clicking cancel should transition to browser.history.back
 App.FocusareasNewController = Ember.ObjectController.extend
     actions:
         submit: ->
@@ -14,7 +15,6 @@ App.FocusareasNewController = Ember.ObjectController.extend
                 shouldSave = false
 
             if shouldSave
-                console.log(themeId)
                 @store.find('theme', themeId).then (theme) ->
                     theme.get("focusareas").then (focusareas) ->
                         focusareas.pushObject focusarea

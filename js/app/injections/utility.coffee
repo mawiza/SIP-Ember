@@ -20,8 +20,8 @@ Ember.Utility = Ember.Object.extend(
             shouldSave = false
 
         if shouldSave
-            administration.save()
-            controller.transitionToRoute('/administrations')
+            administration.save().then ->
+                controller.transitionToRoute('/administrations')
         else
             #administration.rollback()
             controller.transitionToRoute('/administrations/new')

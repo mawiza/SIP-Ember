@@ -5,7 +5,15 @@ before ->
         simulateRemoteResponse: false
 
     App.ApplicationStore = DS.Store.extend
-        adapter:DS.FixtureAdapter
+        adapter:DS.FixtureAdapter.extend
+            queryFixtures: (fixtures, query, type) ->
+                #console.log query
+                #console.log type
+                fixtures.filter (item) ->
+                    for prop of query
+                        return false  unless item[prop] is query[prop]
+
+
 
     Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 

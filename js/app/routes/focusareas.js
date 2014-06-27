@@ -25,6 +25,13 @@
   App.FocusareasEditRoute = Ember.Route.extend({
     model: function() {
       return this.modelFor('focusarea');
+    },
+    setupController: function(controller, model) {
+      this._super(controller, model);
+      controller.set('availableThemes', this.store.find('theme'));
+      return model.get('theme').then(function(theme) {
+        return controller.set('selectedTheme', theme.get('id'));
+      });
     }
   });
 
