@@ -35,16 +35,10 @@
       it('should have an add new theme button', function() {
         return findWithAssert('a.add-theme');
       });
-      it('should direct to the new route when clicked', function() {
+      return it('should direct to the new route when clicked', function() {
         return andThen(function() {
           click('a.add-theme');
           return expect(currentURL()).to.equal('/themes/new');
-        });
-      });
-      return it('should have table with a header and one column', function() {
-        return andThen(function() {
-          findWithAssert('table.table');
-          return expect(find('table.table thead tr th').length).to.equal(1);
         });
       });
     });
@@ -92,14 +86,14 @@
         visit("/themes/new");
         return andThen(function() {
           return fillIn('#definition', 'theme-definition2').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(5);
+            return expect(find('ul.theme-definitions li').length).to.equal(5);
           });
         });
       });
       return it('should have themes that each can be clicked to be edited', function() {
         visit("/themes");
         return andThen(function() {
-          return findWithAssert('td.theme-definition:contains("theme-definition2") a');
+          return findWithAssert('ul.theme-definitions li:contains("theme-definition2") a');
         });
       });
     });
@@ -109,7 +103,7 @@
       });
       it('should be accessed from the themes page', function() {
         return andThen(function() {
-          return click('td.theme-definition:contains("theme-definition1") a').then(function() {
+          return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             findWithAssert('form');
             findWithAssert('#definition');
             findWithAssert("button.update-button");
@@ -119,17 +113,17 @@
       });
       it('should be possible to update the record', function() {
         return andThen(function() {
-          return click('td.theme-definition:contains("theme-definition1") a').then(function() {
+          return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             return fillIn('#definition', 'theme-definition3').click('button.update-button').then(function() {
               expect(currentURL()).to.equal('/themes');
-              return findWithAssert('td.theme-definition:contains("theme-definition3")');
+              return findWithAssert('li:contains("theme-definition3") > a.edit-theme');
             });
           });
         });
       });
       it('should be possible to cancel the update', function() {
         return andThen(function() {
-          return click('td.theme-definition:contains("theme-definition3") a').then(function() {
+          return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.cancel-button').then(function() {
               return expect(currentURL()).to.equal('/themes');
             });
@@ -138,10 +132,10 @@
       });
       return it('should be possible to delete the record', function() {
         return andThen(function() {
-          return click('td.theme-definition:contains("theme-definition3") a').then(function() {
+          return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/themes');
-              return expect(find('table.table tbody tr').length).to.equal(4);
+              return expect(find('ul.theme-definitions li').length).to.equal(4);
             });
           });
         });

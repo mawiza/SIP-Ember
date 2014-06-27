@@ -1,28 +1,33 @@
-<div>
-    {{#link-to 'themes.new' class="add-theme btn btn-primary"}}
-        {{t themes.index.add}}
-    {{/link-to}}
-</div>
-<br/>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{{t themes.index.definition}}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#each theme in model}}
-                <tr>
-                    <td class="theme-definition">
-                        {{#link-to 'themes.edit' theme}}
-                            {{theme.definition}}
+<div class="row">
+    <div class="col-xs-6 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="border-bottom-width: 0px;">
+                <div>
+                    <h4>
+                        {{!#link-to 'themes'}}
+                            {{t themes.index.heading}}
+                        {{!/link-to}}
+                    </h4>
+                    {{#link-to 'themes.new' class="pull-right add-theme btn-sm btn-primary"}}
+                        <span class="glyphicon glyphicon-plus"></span>
+                    {{/link-to}}
+                </div>
+            </div>
+            <ul class="theme-definitions list-group">
+                {{#each theme in model}}
+                    <li class="list-group-item">
+                        {{#link-to 'focusareas' theme.focuasreas}}
+                            {{theme.definition}}<br/>
                         {{/link-to}}
-                    </td>
-                </tr>
-            {{/each}}
-            </tbody>
-        </table>
+                        {{#link-to 'themes.edit' theme class="pull-right edit-theme btn-xs btn-primary"}}
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        {{/link-to}}
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+        {{outlet}}
     </div>
 </div>

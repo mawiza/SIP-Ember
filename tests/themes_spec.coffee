@@ -36,11 +36,6 @@ describe 'Themes should', ->
                 click('a.add-theme')
                 expect(currentURL()).to.equal('/themes/new')
 
-        it 'should have table with a header and one column', ->
-            andThen ->
-                findWithAssert('table.table')
-                expect(find('table.table thead tr th').length).to.equal(1)
-
     #
     # NEW
     #
@@ -87,13 +82,12 @@ describe 'Themes should', ->
                 fillIn('#definition', 'theme-definition2')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(5)
+                    expect(find('ul.theme-definitions li').length).to.equal(5)
 
         it 'should have themes that each can be clicked to be edited', ->
             visit("/themes")
             andThen ->
-                findWithAssert('td.theme-definition:contains("theme-definition2") a')
-
+                findWithAssert('ul.theme-definitions li:contains("theme-definition2") a')
 
     #
     # Edit
@@ -104,7 +98,7 @@ describe 'Themes should', ->
 
         it 'should be accessed from the themes page', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition1") a')
+                click('li:contains("theme-definition1") > a.edit-theme')
                 .then ->
                     findWithAssert('form')
                     findWithAssert('#definition')
@@ -113,18 +107,18 @@ describe 'Themes should', ->
 
         it 'should be possible to update the record', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition1") a')
+                click('li:contains("theme-definition1") > a.edit-theme')
                 .then ->
                     fillIn('#definition', 'theme-definition3')
                     .click('button.update-button')
                     .then ->
                         expect(currentURL()).to.equal('/themes')
-                        findWithAssert('td.theme-definition:contains("theme-definition3")')
+                        findWithAssert('li:contains("theme-definition3") > a.edit-theme')
 
 
         it 'should be possible to cancel the update', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition3") a')
+                click('li:contains("theme-definition3") > a.edit-theme')
                 .then ->
                     click('button.cancel-button')
                     .then ->
@@ -133,9 +127,9 @@ describe 'Themes should', ->
 
         it 'should be possible to delete the record', ->
             andThen ->
-                click('td.theme-definition:contains("theme-definition3") a')
+                click('li:contains("theme-definition3") > a.edit-theme')
                 .then ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/themes')
-                        expect(find('table.table tbody tr').length).to.equal(4)
+                        expect(find('ul.theme-definitions li').length).to.equal(4)

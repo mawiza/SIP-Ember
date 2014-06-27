@@ -46,6 +46,7 @@
     },
     themes: {
       index: {
+        heading: "Temaer",
         add: 'Tilføj tema',
         definition: 'Beskrivelse'
       },
@@ -67,6 +68,7 @@
     },
     focusareas: {
       index: {
+        heading: "Fokus områder",
         add: 'Tilføj fokus område',
         definition: 'Beskrivelse',
         theme: 'Tema'

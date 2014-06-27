@@ -54,3 +54,11 @@ div.x-notify-message-container {
     padding-left: 15px;
     padding-top: 20px;
 }
+
+a.add-theme {
+    margin-top: -33px;
+}
+
+a.edit-theme {
+    margin-top: -22px;
+}

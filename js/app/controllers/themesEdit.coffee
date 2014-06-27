@@ -21,4 +21,5 @@ App.ThemesEditController = Ember.ObjectController.extend
             @transitionToRoute('/themes')
 
         cancel: ->
+            @get('model').rollback()
             @transitionToRoute('/themes')

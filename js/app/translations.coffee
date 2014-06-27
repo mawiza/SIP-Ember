@@ -37,6 +37,7 @@ Ember.I18n.translations =
                 info: "Er du sikker at du vil gerne slette {{name}}"
     themes:
         index:
+            heading: "Temaer"
             add: 'Tilføj tema'
             definition: 'Beskrivelse'
         new:
@@ -54,6 +55,7 @@ Ember.I18n.translations =
 
     focusareas:
         index:
+            heading: "Fokus områder"
             add: 'Tilføj fokus område'
             definition: 'Beskrivelse'
             theme: 'Tema'

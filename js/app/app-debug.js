@@ -144,6 +144,7 @@
         },
         themes: {
             index: {
+                heading: "Temaer",
                 add: "Tilføj tema",
                 definition: "Beskrivelse"
             },
@@ -165,6 +166,7 @@
         },
         focusareas: {
             index: {
+                heading: "Fokus områder",
                 add: "Tilføj fokus område",
                 definition: "Beskrivelse",
                 theme: "Tema"
@@ -295,19 +297,19 @@
         this.resource("administrations.edit", {
             path: "/administrations/edit/:id"
         });
-        this.resource("themes");
-        this.resource("themes.new", {
-            path: "/themes/new"
-        });
-        this.resource("themes.edit", {
-            path: "/themes/edit/:id"
-        });
-        this.resource("focusareas");
-        this.resource("focusareas.new", {
-            path: "/focusareas/new"
-        });
-        this.resource("focusareas.edit", {
-            path: "/focusareas/edit/:id"
+        this.resource("themes", function() {
+            this.route("new");
+            this.route("edit", {
+                path: "/edit/:id"
+            });
+            return this.resource("focusareas", {
+                path: "/:id/focusareas"
+            }, function() {
+                this.route("new");
+                return this.route("edit", {
+                    path: "/edit/:id"
+                });
+            });
         });
         this.resource("about");
         return this.resource("settings");
@@ -335,11 +337,6 @@
 (function() {
     App.ThemesRoute = Ember.Route.extend({
         model: function() {
-            this.store.all("theme").forEach(function(model) {
-                if (model && model.get("isDirty")) {
-                    return model.rollback();
-                }
-            });
             return this.store.find("theme");
         }
     });
@@ -357,13 +354,14 @@
 
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
-        model: function() {
-            this.store.all("focusarea").forEach(function(model) {
-                if (model && model.get("isDirty")) {
-                    return model.rollback();
-                }
+        model: function(params) {
+            console.log(params.id);
+            return this.store.find("theme", params.id).then(function(theme) {
+                return theme.get("focusareas").then(function(focusareas) {
+                    console.log(focusareas.get("length"));
+                    return focusareas;
+                });
             });
-            return this.store.find("focusarea");
         }
     });
     App.FocusareasNewRoute = Ember.Route.extend({
@@ -463,6 +461,7 @@
                 }
             },
             cancel: function() {
+                this.get("model").rollback();
                 return this.transitionToRoute("/themes");
             }
         }
@@ -494,6 +493,7 @@
                 return this.transitionToRoute("/themes");
             },
             cancel: function() {
+                this.get("model").rollback();
                 return this.transitionToRoute("/themes");
             }
         }

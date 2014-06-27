@@ -8,19 +8,19 @@
     this.resource("administrations.edit", {
       path: '/administrations/edit/:id'
     });
-    this.resource('themes');
-    this.resource('themes.new', {
-      path: '/themes/new'
-    });
-    this.resource('themes.edit', {
-      path: '/themes/edit/:id'
-    });
-    this.resource('focusareas');
-    this.resource('focusareas.new', {
-      path: '/focusareas/new'
-    });
-    this.resource('focusareas.edit', {
-      path: '/focusareas/edit/:id'
+    this.resource('themes', function() {
+      this.route('new');
+      this.route('edit', {
+        path: '/edit/:id'
+      });
+      return this.resource('focusareas', {
+        path: '/:id/focusareas'
+      }, function() {
+        this.route('new');
+        return this.route('edit', {
+          path: '/edit/:id'
+        });
+      });
     });
     this.resource('about');
     return this.resource('settings');

@@ -1,27 +1,22 @@
-<div class="">
-    <div class="col-md-6 col-md-offset-3">
-        <form role="form-control">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    {{t themes.edit.heading}}
-                </div>
-                <div class="panel-body">
-                    {{x-notify}}
-                    <div class="form-group">
-                        <label>{{t themes.edit.name}}</label>
-                        {{textarea class="form-control" value=definition id="definition" rows="6" placeholder="Beskrivelse..."}}
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <button {{action update}} class="update-button btn btn-default">{{t themes.edit.update}}</button>
-                    <button data-toggle="modal" data-target="#delete-definition" class="btn btn-default">{{t themes.edit.delete}}</button>
-                    <button {{action cancel}} class="cancel-button btn btn-default">{{t themes.edit.cancel}}</button>
-                </div>
+<form role="form-control">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            {{t themes.edit.heading}}
+        </div>
+        <div class="panel-body">
+            {{x-notify}}
+            <div class="form-group">
+                <label>{{t themes.edit.name}}</label>
+                {{textarea class="form-control" value=definition id="definition" rows="6" placeholder="Beskrivelse..."}}
             </div>
-        </form>
+        </div>
+        <div class="panel-footer">
+            <button {{action update}} class="update-button btn btn-default">{{t themes.edit.update}}</button>
+            <button data-toggle="modal" data-target="#delete-definition" class="btn btn-default">{{t themes.edit.delete}}</button>
+            <button {{action cancel}} class="cancel-button btn btn-default">{{t themes.edit.cancel}}</button>
+        </div>
     </div>
-</div>
-
+</form>
 <div id="delete-definition" role="dialog" class="modal fade" aria-hidden="true">
     <div class="modal-dialog" style="width:400px">
         <div class="modal-content"  style="width:400px">

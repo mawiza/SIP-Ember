@@ -2,11 +2,6 @@
 (function() {
   App.ThemesRoute = Ember.Route.extend({
     model: function() {
-      this.store.all('theme').forEach(function(model) {
-        if (model && model.get("isDirty")) {
-          return model.rollback();
-        }
-      });
       return this.store.find('theme');
     }
   });
