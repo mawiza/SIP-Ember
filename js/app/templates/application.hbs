@@ -7,16 +7,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>{{#link-to 'index' class="index-link"}}{{t application.navbar.index}}{{/link-to}}</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{t application.navbar.edit}} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>{{#link-to 'administrations' class="administrations-link"}}{{t application.navbar.administrations}}{{/link-to}}</li>
-                            <li>{{#link-to 'themes' class="themes-link"}}{{t application.navbar.themes}}{{/link-to}}</li>
-                            <li>{{!#link-to 'focusareas' class="focusareas-link"}}{{!t application.navbar.focusareas}}{{!/link-to}}</li>
-                            <li class="divider"></li>
-                            <li>{{#link-to 'settings' class="settings-link"}}{{t application.navbar.settings}}{{/link-to}}</li>
-                        </ul>
-                    </li>
+                    <li>{{#link-to 'administrations' class="administrations-link"}}{{t application.navbar.administrations}}{{/link-to}}</li>
+                    <li>{{#link-to 'themes' class="themes-link"}}{{t application.navbar.themes}}{{/link-to}}</li>
                     <li>{{#link-to 'about' class="about-link"}}{{t application.navbar.about}}{{/link-to}}</li>
                 </ul>
             </div>

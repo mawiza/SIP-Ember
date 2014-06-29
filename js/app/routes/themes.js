@@ -9,6 +9,15 @@
     }
   });
 
+  App.ThemesRoute = Ember.Route.extend({
+    model: function() {
+      return this.store.find('theme');
+    },
+    afterModel: function(themes, transition) {
+      return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+    }
+  });
+
   App.ThemesNewRoute = Ember.Route.extend({
     model: function() {
       return this.store.createRecord('theme');

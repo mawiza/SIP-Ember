@@ -462,7 +462,11 @@ function program4(depth0,data) {
   },inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "focusareas.new", options) : helperMissing.call(depth0, "link-to", "focusareas.new", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n        </div>\r\n    </div>\r\n    <ul class=\"focusarea-definitions list-group\">\r\n        ");
+  data.buffer.push("\r\n        </div>\r\n    </div>\r\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n    <ul class=\"focusarea-definitions list-group\">\r\n        ");
   hashTypes = {};
   hashContexts = {};
   stack2 = helpers.each.call(depth0, "focusarea", "in", "model", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
@@ -477,21 +481,21 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, hashTypes, hashContexts, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<div class=\"\">\r\n    <div class=\"col-md-6 col-md-offset-3\">\r\n        <form role=\"form-control\">\r\n            <div class=\"panel panel-info\">\r\n                <div class=\"panel-heading\">\r\n                    ");
+  data.buffer.push("<div class=\"panel-body\" >\r\n    <form role=\"form-control\">\r\n        <div class=\"panel panel-info\">\r\n            <div class=\"panel-heading\">\r\n                ");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.heading", options) : helperMissing.call(depth0, "t", "focusareas.edit.heading", options))));
-  data.buffer.push("\r\n                </div>\r\n                <div class=\"panel-body\">\r\n                    ");
+  data.buffer.push("\r\n            </div>\r\n            <div class=\"panel-body\">\r\n                ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "x-notify", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                    <div class=\"form-group\">\r\n                        <label>");
+  data.buffer.push("\r\n                <div class=\"form-group\">\r\n                    <label>");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.name", options) : helperMissing.call(depth0, "t", "focusareas.edit.name", options))));
-  data.buffer.push("</label>\r\n                        ");
+  data.buffer.push("</label>\r\n                    ");
   hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
   hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
@@ -502,17 +506,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'placeholder': ("Beskrivelse...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\r\n                        <br/>\r\n                        ");
-  hashContexts = {'content': depth0,'optionValuePath': depth0,'optionLabelPath': depth0,'classNames': depth0,'valueBinding': depth0};
-  hashTypes = {'content': "ID",'optionValuePath': "STRING",'optionLabelPath': "STRING",'classNames': "STRING",'valueBinding': "STRING"};
-  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.Select", {hash:{
-    'content': ("availableThemes"),
-    'optionValuePath': ("content.id"),
-    'optionLabelPath': ("content.definition"),
-    'classNames': ("focusarea-theme form-control"),
-    'valueBinding': ("selectedTheme")
-  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
+  data.buffer.push("\r\n                </div>\r\n            </div>\r\n            <div class=\"panel-footer\">\r\n                <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "update", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -521,12 +515,12 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.update", options) : helperMissing.call(depth0, "t", "focusareas.edit.update", options))));
-  data.buffer.push("</button>\r\n                    <button data-toggle=\"modal\" data-target=\"#delete-definition\" class=\"btn btn-default\">");
+  data.buffer.push("</button>\r\n                <button data-toggle=\"modal\" data-target=\"#delete-definition\" class=\"btn btn-default\">");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.delete", options) : helperMissing.call(depth0, "t", "focusareas.edit.delete", options))));
-  data.buffer.push("</button>\r\n                    <button ");
+  data.buffer.push("</button>\r\n                <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "cancel", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -535,7 +529,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.cancel", options) : helperMissing.call(depth0, "t", "focusareas.edit.cancel", options))));
-  data.buffer.push("</button>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div id=\"delete-definition\" role=\"dialog\" class=\"modal fade\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog\" style=\"width:400px\">\r\n        <div class=\"modal-content\"  style=\"width:400px\">\r\n            <div class=\"modal-header modal-warning\">\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n                <h4 class=\"modal-title\">");
+  data.buffer.push("</button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n\r\n<div id=\"delete-definition\" role=\"dialog\" class=\"modal fade\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog\" style=\"width:400px\">\r\n        <div class=\"modal-content\"  style=\"width:400px\">\r\n            <div class=\"modal-header modal-warning\">\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\r\n                <h4 class=\"modal-title\">");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
@@ -571,21 +565,21 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, hashTypes, hashContexts, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<div class=\"\">\r\n    <div class=\"col-md-6 col-md-offset-3\">\r\n        <form role=\"form-control\">\r\n            <div class=\"panel panel-info\">\r\n                <div class=\"panel-heading\">\r\n                    ");
+  data.buffer.push("<div class=\"panel-body\" >\r\n    <form role=\"form-control\">\r\n        <div class=\"panel panel-info\">\r\n            <div class=\"panel-heading\">\r\n                ");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.new.heading", options) : helperMissing.call(depth0, "t", "focusareas.new.heading", options))));
-  data.buffer.push("\r\n                </div>\r\n                <div class=\"panel-body\">\r\n                    ");
+  data.buffer.push("\r\n            </div>\r\n            <div class=\"panel-body\">\r\n                ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "x-notify", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                    <div class=\"form-group\">\r\n                        <label>");
+  data.buffer.push("\r\n                <div class=\"form-group\">\r\n                    <label>");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.new.definition", options) : helperMissing.call(depth0, "t", "focusareas.new.definition", options))));
-  data.buffer.push("</label>\r\n                        ");
+  data.buffer.push("</label>\r\n                    ");
   hashContexts = {'class': depth0,'value': depth0,'id': depth0,'rows': depth0,'placeholder': depth0};
   hashTypes = {'class': "STRING",'value': "ID",'id': "STRING",'rows': "STRING",'placeholder': "STRING"};
   options = {hash:{
@@ -596,7 +590,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
     'placeholder': ("Inhold...")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\r\n                    </div>\r\n                </div>\r\n                <div class=\"panel-footer\">\r\n                    <button ");
+  data.buffer.push("\r\n                </div>\r\n            </div>\r\n            <div class=\"panel-footer\">\r\n                <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "submit", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -605,7 +599,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.new.create", options) : helperMissing.call(depth0, "t", "focusareas.new.create", options))));
-  data.buffer.push("</button>\r\n                    <button ");
+  data.buffer.push("</button>\r\n                <button ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "cancel", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -614,7 +608,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "focusareas.edit.cancel", options) : helperMissing.call(depth0, "t", "focusareas.edit.cancel", options))));
-  data.buffer.push("</button>\r\n                </div>\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("</button>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n");
   return buffer;
   
 });

@@ -12,20 +12,20 @@
         }
         if (shouldSave) {
           theme.save();
-          return this.transitionToRoute('/themes');
+          return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
         } else {
           return this.transitionToRoute('/themes/edit');
         }
       },
       "delete": function() {
-        var administration;
-        administration = this.get('model');
-        administration.destroyRecord();
+        var theme;
+        theme = this.get('model');
+        theme.destroyRecord();
         return this.transitionToRoute('/themes');
       },
       cancel: function() {
         this.get('model').rollback();
-        return this.transitionToRoute('/themes');
+        return this.transitionToRoute('/themes/' + this.get('model').get('id') + '/focusareas');
       }
     }
   });

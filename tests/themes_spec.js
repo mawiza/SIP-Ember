@@ -77,7 +77,7 @@
         return andThen(function() {
           click('a.add-theme');
           return fillIn('#definition', 'theme-definition1').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/themes/1/focusareas');
+            return expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
           });
         });
       });
@@ -122,8 +122,8 @@
         return andThen(function() {
           return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             return fillIn('#definition', 'theme-definition3').click('button.update-button').then(function() {
-              expect(currentURL()).to.equal('/themes/1/focusareas');
-              return findWithAssert('li:contains("theme-definition3") > a.edit-theme');
+              expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
+              return findWithAssert('li:contains("theme-definition3") > a.active');
             });
           });
         });
@@ -132,7 +132,7 @@
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/themes/1/focusareas');
+              return expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
             });
           });
         });

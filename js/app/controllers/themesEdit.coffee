@@ -11,15 +11,15 @@ App.ThemesEditController = Ember.ObjectController.extend
 
             if shouldSave
                 theme.save()
-                @transitionToRoute('/themes')
+                @transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
             else
                 @transitionToRoute('/themes/edit')
 
         delete: ->
-            administration = @get('model')
-            administration.destroyRecord()
+            theme = @get('model')
+            theme.destroyRecord()
             @transitionToRoute('/themes')
 
         cancel: ->
             @get('model').rollback()
-            @transitionToRoute('/themes')
+            @transitionToRoute('/themes/' + @get('model').get('id') + '/focusareas')

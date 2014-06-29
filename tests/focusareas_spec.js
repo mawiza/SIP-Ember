@@ -41,7 +41,7 @@
         });
       });
     });
-    return describe('a focusareas page', function() {
+    describe('a focusareas page', function() {
       it('should have an add new focusarea button', function() {
         visit('/themes/4/focusareas');
         return andThen(function() {
@@ -55,10 +55,99 @@
           return expect(currentURL()).to.equal('/themes/4/focusareas/new');
         });
       });
-      return it('should have table with a header and two columns', function() {
+      return it('should have focus areas that each can be clicked to be edited', function() {
         visit('/themes/4/focusareas');
         return andThen(function() {
-          return expect(find('ul.focusarea-definitions li').length).to.equal(1);
+          return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a');
+        });
+      });
+    });
+    describe('a new focusarea page that', function() {
+      beforeEach(function() {
+        return visit("/focusareas");
+      });
+      it('should have a field, a select box and a submit button', function() {
+        return andThen(function() {
+          return click('a.add-focusarea').then(function() {
+            findWithAssert('form');
+            findWithAssert('#definition');
+            findWithAssert('select.focusarea-theme');
+            return findWithAssert("button.submit-button");
+          });
+        });
+      });
+      it('should create a new focusarea entry when submit gets clicked', function() {
+        return andThen(function() {
+          click('a.add-focusarea');
+          return fillIn('#definition', 'focusarea-definition1').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
+            return expect(currentURL()).to.equal('/focusareas');
+          });
+        });
+      });
+      it('should be valid', function() {
+        visit("/focusareas/new");
+        return andThen(function() {
+          return fillIn('#definition', '').click('button.submit-button').then(function() {
+            return expect(currentURL()).to.equal('/focusareas/new');
+          });
+        });
+      });
+      it('should transition to the the focusareas page', function() {
+        visit("/focusareas/new");
+        return andThen(function() {
+          return fillIn('#definition', 'focusarea-definition2').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
+            return expect(find('table.table tbody tr').length).to.equal(7);
+          });
+        });
+      });
+      return it('should have focusareas that each can be clicked to be edited', function() {
+        visit("/focusareas");
+        return andThen(function() {
+          return findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a');
+        });
+      });
+    });
+    return describe('an edit focusarea page that', function() {
+      beforeEach(function() {
+        return visit("/focusareas");
+      });
+      it('should be accessed from the focusareas page', function() {
+        return andThen(function() {
+          return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
+            findWithAssert('form');
+            findWithAssert('#definition');
+            findWithAssert("button.update-button");
+            return findWithAssert("button.delete-button");
+          });
+        });
+      });
+      it('should be possible to update the record', function() {
+        return andThen(function() {
+          return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
+            return fillIn('#definition', 'focusarea-definition3').fillIn('select.focusarea-theme', '4').click('button.update-button').then(function() {
+              expect(currentURL()).to.equal('/focusareas');
+              return findWithAssert('td.focusarea-definition:contains("focusarea-definition3")');
+            });
+          });
+        });
+      });
+      it('should be possible to cancel the update', function() {
+        return andThen(function() {
+          return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
+            return click('button.cancel-button').then(function() {
+              return expect(currentURL()).to.equal('/focusareas');
+            });
+          });
+        });
+      });
+      return it('should be possible to delete the record', function() {
+        return andThen(function() {
+          return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
+            return click('button.delete-button').then(function() {
+              expect(currentURL()).to.equal('/focusareas');
+              return expect(find('table.table tbody tr').length).to.equal(6);
+            });
+          });
         });
       });
     });

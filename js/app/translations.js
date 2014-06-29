@@ -7,8 +7,7 @@
         index: "Oversigt",
         edit: "Redigere SIP",
         administrations: "Forvaltninger",
-        themes: "Temaer",
-        focusareas: "Fokus Område",
+        themes: "Indsatsplaner",
         settings: "Indstillinger",
         about: "Om"
       },

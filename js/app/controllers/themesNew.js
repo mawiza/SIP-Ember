@@ -12,7 +12,7 @@
         }
         if (shouldSave) {
           theme.save();
-          return this.transitionToRoute('/themes');
+          return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
         } else {
           return this.transitionToRoute('/themes/new');
         }

@@ -383,11 +383,11 @@
         model: function() {
             return this.store.createRecord("focusarea");
         },
-        afterModel: function(theme, transition) {
-            console.log("theme.id: " + theme.id);
-            return this.store.get("focusarea").then(function(focusarea) {
-                return focusarea.set("theme", theme.id);
-            });
+        setupController: function(controller, model) {
+            var theme_id;
+            this._super(controller, model);
+            theme_id = this.controllerFor("focusareas").get("model").get("query.theme");
+            return controller.set("theme_id", theme_id);
         }
     });
     App.FocusareasEditRoute = Ember.Route.extend({
@@ -396,9 +396,8 @@
         },
         setupController: function(controller, model) {
             this._super(controller, model);
-            controller.set("availableThemes", this.store.find("theme"));
             return model.get("theme").then(function(theme) {
-                return controller.set("selectedTheme", theme.get("id"));
+                return controller.set("theme_id", theme.get("id"));
             });
         }
     });
@@ -469,7 +468,7 @@
                 }
                 if (shouldSave) {
                     theme.save();
-                    return this.transitionToRoute("/themes");
+                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 } else {
                     return this.transitionToRoute("/themes/new");
                 }
@@ -495,20 +494,20 @@
                 }
                 if (shouldSave) {
                     theme.save();
-                    return this.transitionToRoute("/themes");
+                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 } else {
                     return this.transitionToRoute("/themes/edit");
                 }
             },
             "delete": function() {
-                var administration;
-                administration = this.get("model");
-                administration.destroyRecord();
+                var theme;
+                theme = this.get("model");
+                theme.destroyRecord();
                 return this.transitionToRoute("/themes");
             },
             cancel: function() {
                 this.get("model").rollback();
-                return this.transitionToRoute("/themes");
+                return this.transitionToRoute("/themes/" + this.get("model").get("id") + "/focusareas");
             }
         }
     });
@@ -518,6 +517,7 @@
 
 (function() {
     App.FocusareasNewController = Ember.ObjectController.extend({
+        needs: [ "focusareas" ],
         actions: {
             submit: function() {
                 var focusarea, shouldSave;
@@ -528,13 +528,20 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
-                    return this.transitionToRoute("/focusareas");
+                    this.store.find("theme", this.get("theme_id")).then(function(theme) {
+                        return theme.get("focusareas").then(function(focusareas) {
+                            focusareas.pushObject(focusarea);
+                            theme.save();
+                            return focusarea.save();
+                        });
+                    });
+                    return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas");
                 } else {
-                    return this.transitionToRoute("/focusareas/new");
+                    return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas/new");
                 }
             },
             cancel: function() {
-                return this.transitionToRoute("/focusareas");
+                return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas");
             }
         }
     });
@@ -542,41 +549,42 @@
 
 (function() {
     App.FocusareasEditController = Ember.ObjectController.extend({
+        needs: [ "focusareas" ],
         actions: {
             update: function() {
-                var focusarea, shouldSave, themeId;
+                var focusarea, shouldSave;
                 focusarea = this.get("model");
                 shouldSave = true;
-                themeId = this.get("selectedTheme");
                 if (Ember.isEmpty(focusarea.get("definition"))) {
                     this.notify.danger("Definition cannot be empty.");
                     shouldSave = false;
                 }
-                if (themeId == null) {
+                if (this.get("theme_id") == null) {
                     this.notify.danger("You have to create themes before creating focus areas!");
                     shouldSave = false;
                 }
                 if (shouldSave) {
-                    this.store.find("theme", themeId).then(function(theme) {
+                    this.store.find("theme", this.get("theme_id")).then(function(theme) {
                         return theme.get("focusareas").then(function(focusareas) {
                             focusareas.pushObject(focusarea);
                             theme.save();
                             return focusarea.save();
                         });
                     });
-                    return this.transitionToRoute("/focusareas");
+                    return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas");
                 } else {
-                    return this.transitionToRoute("/focusareas/edit");
+                    return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas/edit");
                 }
             },
             "delete": function() {
                 var administration;
                 administration = this.get("model");
                 administration.destroyRecord();
-                return this.transitionToRoute("/focusareas");
+                return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas");
             },
             cancel: function() {
-                return this.transitionToRoute("/focusareas");
+                this.get("model").rollback();
+                return this.transitionToRoute("/themes/" + this.get("theme_id") + "/focusareas");
             }
         }
     });

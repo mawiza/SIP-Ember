@@ -1,34 +1,35 @@
 #TODO add focus to the first element
 App.FocusareasEditController = Ember.ObjectController.extend
+    needs: ['focusareas']
     actions:
         update: ->
             focusarea = @get('model')
             shouldSave = true
-            themeId = @get('selectedTheme')
 
             if Ember.isEmpty(focusarea.get('definition'))
                 @notify.danger "Definition cannot be empty."
                 shouldSave = false
 
-            if not themeId?
+            if not @get('theme_id')?
                 @notify.danger "You have to create themes before creating focus areas!"
                 shouldSave = false
 
             if shouldSave
-                @store.find('theme', themeId).then (theme) ->
+                @store.find('theme', @get('theme_id')).then (theme) ->
                     theme.get("focusareas").then (focusareas) ->
                         focusareas.pushObject focusarea
                         theme.save()
                         focusarea.save()
 
-                @transitionToRoute('/focusareas')
+                @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')
             else
-                @transitionToRoute('/focusareas/edit')
+                @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas/edit')
 
         delete: ->
             administration = @get('model')
             administration.destroyRecord()
-            @transitionToRoute('/focusareas')
+            @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')
 
         cancel: ->
-            @transitionToRoute('/focusareas')
+            @get('model').rollback()
+            @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')

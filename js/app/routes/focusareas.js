@@ -12,8 +12,11 @@
     model: function() {
       return this.store.createRecord('focusarea');
     },
-    afterModel: function(theme, transition) {
-      return console.log("theme.id: " + theme.id);
+    setupController: function(controller, model) {
+      var theme_id;
+      this._super(controller, model);
+      theme_id = this.controllerFor('focusareas').get('model').get('query.theme');
+      return controller.set('theme_id', theme_id);
     }
   });
 
@@ -23,9 +26,8 @@
     },
     setupController: function(controller, model) {
       this._super(controller, model);
-      controller.set('availableThemes', this.store.find('theme'));
       return model.get('theme').then(function(theme) {
-        return controller.set('selectedTheme', theme.get('id'));
+        return controller.set('theme_id', theme.get('id'));
       });
     }
   });

@@ -51,101 +51,101 @@ describe 'Focusareas should', ->
                 click('a.add-focusarea')
                 expect(currentURL()).to.equal('/themes/4/focusareas/new')
 
-        it 'should have table with a header and two columns', ->
+        it 'should have focus areas that each can be clicked to be edited', ->
             visit('/themes/4/focusareas')
             andThen ->
-                expect(find('ul.focusarea-definitions li').length).to.equal(1)
+                findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a')
 
-#    #
-#    # NEW
-#    #
-#    describe 'a new focusarea page that', ->
-#        beforeEach ->
-#            visit("/focusareas")
-#
-#        it 'should have a field, a select box and a submit button', ->
-#            andThen ->
-#                click('a.add-focusarea').then ->
-#                    findWithAssert('form')
-#                    findWithAssert('#definition')
-#                    findWithAssert('select.focusarea-theme')
-#                    findWithAssert("button.submit-button")
-#
-#        it 'should create a new focusarea entry when submit gets clicked', ->
-#            andThen ->
-#                click('a.add-focusarea')
-#                fillIn('#definition', 'focusarea-definition1')
-#                .fillIn('select.focusarea-theme', '4')
-#                .click('button.submit-button')
-#                .then ->
-#                    expect(currentURL()).to.equal('/focusareas')
-#
-#        it 'should be valid', ->
-#            visit("/focusareas/new")
-#            andThen ->
-#                fillIn('#definition', '')
-#                .click('button.submit-button')
-#                .then ->
-#                    expect(currentURL()).to.equal('/focusareas/new')
-#
-#        it 'should transition to the the focusareas page', ->
-#            visit("/focusareas/new")
-#            andThen ->
-#                fillIn('#definition', 'focusarea-definition2')
-#                .fillIn('select.focusarea-theme', '4')
-#                .click('button.submit-button')
-#                .then ->
-#                    expect(find('table.table tbody tr').length).to.equal(7)
-#
-#        it 'should have focusareas that each can be clicked to be edited', ->
-#            visit("/focusareas")
-#            andThen ->
-#                findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a')
-#                #findWithAssert('td.theme-definition:contains("theme definition")')
-#
-#
-#    #
-#    # Edit
-#    #
-#    describe 'an edit focusarea page that', ->
-#        beforeEach ->
-#            visit("/focusareas")
-#
-#        it 'should be accessed from the focusareas page', ->
-#            andThen ->
-#                click('td.focusarea-definition:contains("focusarea-definition1") a')
-#                .then ->
-#                    findWithAssert('form')
-#                    findWithAssert('#definition')
-#                    findWithAssert("button.update-button")
-#                    findWithAssert("button.delete-button")
-#
-#        it 'should be possible to update the record', ->
-#            andThen ->
-#                click('td.focusarea-definition:contains("focusarea-definition1") a')
-#                .then ->
-#                    fillIn('#definition', 'focusarea-definition3')
-#                    .fillIn('select.focusarea-theme', '4')
-#                    .click('button.update-button')
-#                    .then ->
-#                        expect(currentURL()).to.equal('/focusareas')
-#                        findWithAssert('td.focusarea-definition:contains("focusarea-definition3")')
-#
-#
-#        it 'should be possible to cancel the update', ->
-#            andThen ->
-#                click('td.focusarea-definition:contains("focusarea-definition3") a')
-#                .then ->
-#                    click('button.cancel-button')
-#                    .then ->
-#                        expect(currentURL()).to.equal('/focusareas')
-#
-#
-#        it 'should be possible to delete the record', ->
-#            andThen ->
-#                click('td.focusarea-definition:contains("focusarea-definition3") a')
-#                .then ->
-#                    click('button.delete-button')
-#                    .then ->
-#                        expect(currentURL()).to.equal('/focusareas')
-#                        expect(find('table.table tbody tr').length).to.equal(6)
+    #
+    # NEW
+    #
+    describe 'a new focusarea page that', ->
+        beforeEach ->
+            visit("/focusareas")
+
+        it 'should have a field, a select box and a submit button', ->
+            andThen ->
+                click('a.add-focusarea').then ->
+                    findWithAssert('form')
+                    findWithAssert('#definition')
+                    findWithAssert('select.focusarea-theme')
+                    findWithAssert("button.submit-button")
+
+        it 'should create a new focusarea entry when submit gets clicked', ->
+            andThen ->
+                click('a.add-focusarea')
+                fillIn('#definition', 'focusarea-definition1')
+                .fillIn('select.focusarea-theme', '4')
+                .click('button.submit-button')
+                .then ->
+                    expect(currentURL()).to.equal('/focusareas')
+
+        it 'should be valid', ->
+            visit("/focusareas/new")
+            andThen ->
+                fillIn('#definition', '')
+                .click('button.submit-button')
+                .then ->
+                    expect(currentURL()).to.equal('/focusareas/new')
+
+        it 'should transition to the the focusareas page', ->
+            visit("/focusareas/new")
+            andThen ->
+                fillIn('#definition', 'focusarea-definition2')
+                .fillIn('select.focusarea-theme', '4')
+                .click('button.submit-button')
+                .then ->
+                    expect(find('table.table tbody tr').length).to.equal(7)
+
+        it 'should have focusareas that each can be clicked to be edited', ->
+            visit("/focusareas")
+            andThen ->
+                findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a')
+                #findWithAssert('td.theme-definition:contains("theme definition")')
+
+
+    #
+    # Edit
+    #
+    describe 'an edit focusarea page that', ->
+        beforeEach ->
+            visit("/focusareas")
+
+        it 'should be accessed from the focusareas page', ->
+            andThen ->
+                click('td.focusarea-definition:contains("focusarea-definition1") a')
+                .then ->
+                    findWithAssert('form')
+                    findWithAssert('#definition')
+                    findWithAssert("button.update-button")
+                    findWithAssert("button.delete-button")
+
+        it 'should be possible to update the record', ->
+            andThen ->
+                click('td.focusarea-definition:contains("focusarea-definition1") a')
+                .then ->
+                    fillIn('#definition', 'focusarea-definition3')
+                    .fillIn('select.focusarea-theme', '4')
+                    .click('button.update-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/focusareas')
+                        findWithAssert('td.focusarea-definition:contains("focusarea-definition3")')
+
+
+        it 'should be possible to cancel the update', ->
+            andThen ->
+                click('td.focusarea-definition:contains("focusarea-definition3") a')
+                .then ->
+                    click('button.cancel-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/focusareas')
+
+
+        it 'should be possible to delete the record', ->
+            andThen ->
+                click('td.focusarea-definition:contains("focusarea-definition3") a')
+                .then ->
+                    click('button.delete-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/focusareas')
+                        expect(find('table.table tbody tr').length).to.equal(6)

@@ -72,7 +72,7 @@ describe 'Themes should', ->
                 fillIn('#definition', 'theme-definition1')
                 .click('button.submit-button')
                 .then ->
-                    expect(currentURL()).to.equal('/themes/1/focusareas')
+                    expect(currentURL()).to.equal('/themes/fixture-9/focusareas')
 
         it 'should be valid', ->
             visit("/themes/new")
@@ -118,8 +118,8 @@ describe 'Themes should', ->
                     fillIn('#definition', 'theme-definition3')
                     .click('button.update-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes/1/focusareas')
-                        findWithAssert('li:contains("theme-definition3") > a.edit-theme')
+                        expect(currentURL()).to.equal('/themes/fixture-9/focusareas')
+                        findWithAssert('li:contains("theme-definition3") > a.active')
 
 
         it 'should be possible to cancel the update', ->
@@ -128,7 +128,7 @@ describe 'Themes should', ->
                 .then ->
                     click('button.cancel-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes/1/focusareas')
+                        expect(currentURL()).to.equal('/themes/fixture-9/focusareas')
 
 
         it 'should be possible to delete the record', ->

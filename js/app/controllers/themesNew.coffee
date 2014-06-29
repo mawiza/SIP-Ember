@@ -10,7 +10,7 @@ App.ThemesNewController = Ember.ObjectController.extend
 
             if shouldSave
                 theme.save()
-                @transitionToRoute('/themes')
+                @transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
             else
                 @transitionToRoute('/themes/new')
 
