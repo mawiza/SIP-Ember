@@ -105,8 +105,7 @@
                 index: "Oversigt",
                 edit: "Redigere SIP",
                 administrations: "Forvaltninger",
-                themes: "Temaer",
-                focusareas: "Fokus Område",
+                themes: "Indsatsplaner",
                 settings: "Indstillinger",
                 about: "Om"
             },
@@ -204,7 +203,13 @@
             return value.capitalize();
         }
     });
-    window.App = Ember.Application.create();
+    window.App = Ember.Application.create({
+        LOG_TRANSITIONS: true,
+        LOG_TRANSITIONS_INTERNAL: true,
+        LOG_VIEW_LOOKUPS: true,
+        LOG_BINDINGS: true,
+        LOG_ACTIVE_GENERATION: true
+    });
     App.ApplicationAdapter = DS.LSAdapter.extend({
         namespace: "sip"
     });
@@ -274,7 +279,8 @@
     App.Theme = DS.Model.extend({
         definition: DS.attr("string"),
         focusareas: DS.hasMany("focusarea", {
-            async: true
+            async: true,
+            inverse: "theme"
         })
     });
 }).call(this);
@@ -295,19 +301,21 @@
             path: "/administrations/new"
         });
         this.resource("administrations.edit", {
-            path: "/administrations/edit/:id"
+            path: "/administrations/edit/:administration_id"
         });
         this.resource("themes", function() {
             this.route("new");
             this.route("edit", {
-                path: "/edit/:id"
+                path: "/edit/:theme_id"
             });
             return this.resource("focusareas", {
-                path: "/:id/focusareas"
+                path: "/:theme_id/focusareas"
             }, function() {
-                this.route("new");
+                this.route("new", {
+                    path: "/new"
+                });
                 return this.route("edit", {
-                    path: "/edit/:id"
+                    path: "/edit/:focusarea_id"
                 });
             });
         });
@@ -335,9 +343,20 @@
 }).call(this);
 
 (function() {
+    App.ThemesIndexRoute = Ember.Route.extend({
+        model: function() {
+            return this.store.find("theme");
+        },
+        afterModel: function(themes, transition) {
+            return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+        }
+    });
     App.ThemesRoute = Ember.Route.extend({
         model: function() {
             return this.store.find("theme");
+        },
+        afterModel: function(themes, transition) {
+            return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
         }
     });
     App.ThemesNewRoute = Ember.Route.extend({
@@ -355,12 +374,8 @@
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
         model: function(params) {
-            console.log(params.id);
-            return this.store.find("theme", params.id).then(function(theme) {
-                return theme.get("focusareas").then(function(focusareas) {
-                    console.log(focusareas.get("length"));
-                    return focusareas;
-                });
+            return this.store.find("focusarea", {
+                theme: params.theme_id
             });
         }
     });
@@ -368,10 +383,11 @@
         model: function() {
             return this.store.createRecord("focusarea");
         },
-        setupController: function(controller, model) {
-            this._super(controller, model);
-            controller.set("availableThemes", this.store.find("theme"));
-            return controller.set("selectedTheme", this.store.find("theme")[0]);
+        afterModel: function(theme, transition) {
+            console.log("theme.id: " + theme.id);
+            return this.store.get("focusarea").then(function(focusarea) {
+                return focusarea.set("theme", theme.id);
+            });
         }
     });
     App.FocusareasEditRoute = Ember.Route.extend({
@@ -438,9 +454,7 @@
     });
 }).call(this);
 
-(function() {
-    App.ThemesController = Ember.ArrayController.extend();
-}).call(this);
+(function() {}).call(this);
 
 (function() {
     App.ThemesNewController = Ember.ObjectController.extend({
@@ -500,34 +514,20 @@
     });
 }).call(this);
 
-(function() {
-    App.FocusareasController = Ember.ArrayController.extend();
-}).call(this);
+(function() {}).call(this);
 
 (function() {
     App.FocusareasNewController = Ember.ObjectController.extend({
         actions: {
             submit: function() {
-                var focusarea, shouldSave, themeId;
+                var focusarea, shouldSave;
                 focusarea = this.get("model");
                 shouldSave = true;
-                themeId = this.get("selectedTheme");
                 if (Ember.isEmpty(focusarea.get("definition"))) {
                     this.notify.danger("Definition cannot be empty.");
                     shouldSave = false;
                 }
-                if (themeId == null) {
-                    this.notify.danger("You have to create themes before creating focus areas!");
-                    shouldSave = false;
-                }
                 if (shouldSave) {
-                    this.store.find("theme", themeId).then(function(theme) {
-                        return theme.get("focusareas").then(function(focusareas) {
-                            focusareas.pushObject(focusarea);
-                            theme.save();
-                            return focusarea.save();
-                        });
-                    });
                     return this.transitionToRoute("/focusareas");
                 } else {
                     return this.transitionToRoute("/focusareas/new");

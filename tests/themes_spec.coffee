@@ -25,16 +25,22 @@ describe 'Themes should', ->
     # Index
     #
     describe 'a themes page', ->
-        beforeEach ->
-            visit('/themes')
-
         it 'should have an add new theme button', ->
-            findWithAssert('a.add-theme')
+            visit('/themes')
+            andThen ->
+                findWithAssert('a.add-theme')
 
         it 'should direct to the new route when clicked', ->
+            visit('/themes')
             andThen ->
                 click('a.add-theme')
                 expect(currentURL()).to.equal('/themes/new')
+
+        it 'should display the first available theme\'s focusareas if any', ->
+            visit('/themes')
+            andThen ->
+                expect(currentURL()).to.equal('/themes/1/focusareas')
+
 
     #
     # NEW
@@ -58,7 +64,7 @@ describe 'Themes should', ->
                 .then ->
                     click('button.cancel-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/themes/1/focusareas')
 
         it 'should create a new theme entry when submit gets clicked', ->
             andThen ->
@@ -66,7 +72,7 @@ describe 'Themes should', ->
                 fillIn('#definition', 'theme-definition1')
                 .click('button.submit-button')
                 .then ->
-                    expect(currentURL()).to.equal('/themes')
+                    expect(currentURL()).to.equal('/themes/1/focusareas')
 
         it 'should be valid', ->
             visit("/themes/new")
@@ -112,7 +118,7 @@ describe 'Themes should', ->
                     fillIn('#definition', 'theme-definition3')
                     .click('button.update-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/themes/1/focusareas')
                         findWithAssert('li:contains("theme-definition3") > a.edit-theme')
 
 
@@ -122,7 +128,7 @@ describe 'Themes should', ->
                 .then ->
                     click('button.cancel-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/themes/1/focusareas')
 
 
         it 'should be possible to delete the record', ->
@@ -131,5 +137,5 @@ describe 'Themes should', ->
                 .then ->
                     click('button.delete-button')
                     .then ->
-                        expect(currentURL()).to.equal('/themes')
+                        expect(currentURL()).to.equal('/themes/1/focusareas')
                         expect(find('ul.theme-definitions li').length).to.equal(4)

@@ -1,1 +1,2 @@
-App.ThemesController = Ember.ArrayController.extend()
+#App.ThemesController = Ember.ArrayController.extend
+

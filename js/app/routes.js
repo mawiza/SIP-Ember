@@ -6,19 +6,21 @@
       path: '/administrations/new'
     });
     this.resource("administrations.edit", {
-      path: '/administrations/edit/:id'
+      path: '/administrations/edit/:administration_id'
     });
     this.resource('themes', function() {
       this.route('new');
       this.route('edit', {
-        path: '/edit/:id'
+        path: '/edit/:theme_id'
       });
       return this.resource('focusareas', {
-        path: '/:id/focusareas'
+        path: '/:theme_id/focusareas'
       }, function() {
-        this.route('new');
+        this.route('new', {
+          path: '/new'
+        });
         return this.route('edit', {
-          path: '/edit/:id'
+          path: '/edit/:focusarea_id'
         });
       });
     });

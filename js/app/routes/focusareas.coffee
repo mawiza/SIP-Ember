@@ -1,26 +1,17 @@
 App.FocusareasRoute = Ember.Route.extend
-    model: (params)->
-        console.log params.id
-        @store.find('theme', params.id).then (theme) ->
-            theme.get('focusareas').then (focusareas) ->
-                console.log focusareas.get('length')
-                return focusareas
-
-#    model: (params) ->
-#        console.log params.get('id')
-#        @store.find('theme', params).then (theme) ->
-#            console.log theme.get('definition')
-#            return theme.get('focusareas')
-
+    model: (params) ->
+        @store.find('focusarea', {theme: params.theme_id})
 
 App.FocusareasNewRoute = Ember.Route.extend
     model: ->
         @store.createRecord('focusarea')
 
-    setupController: (controller, model) ->
-        @_super(controller, model)
-        controller.set('availableThemes', @store.find('theme'))
-        controller.set('selectedTheme', @store.find('theme')[0])
+    afterModel: (theme, transition) ->
+        console.log "theme.id: " + theme.id
+        #@store.find('focusarea').then (focusarea)->
+        #    focusarea.set('theme', theme.id)
+
+        #model.set('theme', theme)
 
 App.FocusareasEditRoute = Ember.Route.extend
     model: ->

@@ -29,16 +29,23 @@
       });
     });
     describe('a themes page', function() {
-      beforeEach(function() {
-        return visit('/themes');
-      });
       it('should have an add new theme button', function() {
-        return findWithAssert('a.add-theme');
+        visit('/themes');
+        return andThen(function() {
+          return findWithAssert('a.add-theme');
+        });
       });
-      return it('should direct to the new route when clicked', function() {
+      it('should direct to the new route when clicked', function() {
+        visit('/themes');
         return andThen(function() {
           click('a.add-theme');
           return expect(currentURL()).to.equal('/themes/new');
+        });
+      });
+      return it('should display the first available theme\'s focusareas if any', function() {
+        visit('/themes');
+        return andThen(function() {
+          return expect(currentURL()).to.equal('/themes/1/focusareas');
         });
       });
     });
@@ -61,7 +68,7 @@
         return andThen(function() {
           return click('a.add-theme').then(function() {
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/themes');
+              return expect(currentURL()).to.equal('/themes/1/focusareas');
             });
           });
         });
@@ -70,7 +77,7 @@
         return andThen(function() {
           click('a.add-theme');
           return fillIn('#definition', 'theme-definition1').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/themes');
+            return expect(currentURL()).to.equal('/themes/1/focusareas');
           });
         });
       });
@@ -115,7 +122,7 @@
         return andThen(function() {
           return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             return fillIn('#definition', 'theme-definition3').click('button.update-button').then(function() {
-              expect(currentURL()).to.equal('/themes');
+              expect(currentURL()).to.equal('/themes/1/focusareas');
               return findWithAssert('li:contains("theme-definition3") > a.edit-theme');
             });
           });
@@ -125,7 +132,7 @@
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/themes');
+              return expect(currentURL()).to.equal('/themes/1/focusareas');
             });
           });
         });
@@ -134,7 +141,7 @@
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.delete-button').then(function() {
-              expect(currentURL()).to.equal('/themes');
+              expect(currentURL()).to.equal('/themes/1/focusareas');
               return expect(find('ul.theme-definitions li').length).to.equal(4);
             });
           });
