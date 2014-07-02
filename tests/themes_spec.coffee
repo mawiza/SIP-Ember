@@ -131,7 +131,7 @@ describe 'Themes should', ->
                         expect(currentURL()).to.equal('/themes/fixture-9/focusareas')
 
 
-        it 'should be possible to delete the record', ->
+        it 'should be possible to delete a theme without focusareas', ->
             andThen ->
                 click('li:contains("theme-definition3") > a.edit-theme')
                 .then ->
@@ -139,3 +139,14 @@ describe 'Themes should', ->
                     .then ->
                         expect(currentURL()).to.equal('/themes/1/focusareas')
                         expect(find('ul.theme-definitions li').length).to.equal(4)
+
+        #TODO - the fixtures does not get loaded properly - this works in prod, but not here
+        it 'should not be possible to delete a theme with focusareas', ->
+            andThen ->
+                click('li:contains("theme1") > a.edit-theme')
+                .then ->
+                    click('button.delete-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/themes/2/focusareas')
+                        #expect(currentURL()).to.equal('/themes/1/focusareas')
+                        #expect(find('ul.theme-definitions li').length).to.equal(4)

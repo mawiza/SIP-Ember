@@ -18,10 +18,16 @@
         }
       },
       "delete": function() {
-        var theme;
+        var notify, theme;
         theme = this.get('model');
-        theme.destroyRecord();
-        return this.transitionToRoute('/themes');
+        notify = this.notify;
+        if (this.get('focusareasLength') === 0) {
+          theme.destroyRecord();
+          return this.transitionToRoute('/themes');
+        } else {
+          notify.danger("Cannot delete " + theme.get('definition') + ". Please delete all the focus areas related to this theme first.");
+          return this.transitionToRoute('/themes/' + theme.id + '/focusareas');
+        }
       },
       cancel: function() {
         this.get('model').rollback();

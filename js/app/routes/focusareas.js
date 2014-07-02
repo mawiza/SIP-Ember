@@ -8,6 +8,14 @@
     }
   });
 
+  App.FocusareasIndexRoute = Ember.Route.extend({
+    model: function(params) {
+      return this.store.find('focusarea', {
+        theme: params.theme_id
+      });
+    }
+  });
+
   App.FocusareasNewRoute = Ember.Route.extend({
     model: function() {
       return this.store.createRecord('focusarea');
@@ -23,12 +31,6 @@
   App.FocusareasEditRoute = Ember.Route.extend({
     model: function() {
       return this.modelFor('focusarea');
-    },
-    setupController: function(controller, model) {
-      this._super(controller, model);
-      return model.get('theme').then(function(theme) {
-        return controller.set('theme_id', theme.get('id'));
-      });
     }
   });
 

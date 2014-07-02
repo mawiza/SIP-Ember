@@ -19,3 +19,9 @@ App.ThemesNewRoute = Ember.Route.extend
 App.ThemesEditRoute = Ember.Route.extend
     model: (params) ->
         @modelFor('theme', params)
+
+    setupController: (controller, model) ->
+        @_super(controller, model)
+        focusareas = @store.find('focusarea', {theme: model.id})
+        focusareas.then ->
+            controller.set('focusareasLength', focusareas.get('length'))

@@ -137,12 +137,21 @@
           });
         });
       });
-      return it('should be possible to delete the record', function() {
+      it('should be possible to delete a theme without focusareas', function() {
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/themes/1/focusareas');
               return expect(find('ul.theme-definitions li').length).to.equal(4);
+            });
+          });
+        });
+      });
+      return it('should not be possible to delete a theme with focusareas', function() {
+        return andThen(function() {
+          return click('li:contains("theme1") > a.edit-theme').then(function() {
+            return click('button.delete-button').then(function() {
+              return expect(currentURL()).to.equal('/themes/2/focusareas');
             });
           });
         });

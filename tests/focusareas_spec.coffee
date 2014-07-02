@@ -41,18 +41,19 @@ describe 'Focusareas should', ->
     #
     describe 'a focusareas page', ->
         it 'should have an add new focusarea button', ->
-            visit('/themes/4/focusareas')
+            visit('/themes/2/focusareas')
             andThen ->
+                findWithAssert('ul.theme-definitions li:contains("theme2") a.active')
                 findWithAssert('a.add-focusarea')
 
         it 'should direct to the new route when clicked', ->
-            visit('/themes/4/focusareas')
+            visit('/themes/2/focusareas')
             andThen ->
                 click('a.add-focusarea')
-                expect(currentURL()).to.equal('/themes/4/focusareas/new')
+                expect(currentURL()).to.equal('/themes/2/focusareas/new')
 
         it 'should have focus areas that each can be clicked to be edited', ->
-            visit('/themes/4/focusareas')
+            visit('/themes/2/focusareas')
             andThen ->
                 findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a')
 
@@ -101,7 +102,6 @@ describe 'Focusareas should', ->
             visit("/focusareas")
             andThen ->
                 findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a')
-                #findWithAssert('td.theme-definition:contains("theme definition")')
 
 
     #

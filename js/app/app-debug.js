@@ -203,13 +203,7 @@
             return value.capitalize();
         }
     });
-    window.App = Ember.Application.create({
-        LOG_TRANSITIONS: true,
-        LOG_TRANSITIONS_INTERNAL: true,
-        LOG_VIEW_LOOKUPS: true,
-        LOG_BINDINGS: true,
-        LOG_ACTIVE_GENERATION: true
-    });
+    window.App = Ember.Application.create();
     App.ApplicationAdapter = DS.LSAdapter.extend({
         namespace: "sip"
     });
@@ -279,8 +273,7 @@
     App.Theme = DS.Model.extend({
         definition: DS.attr("string"),
         focusareas: DS.hasMany("focusarea", {
-            async: true,
-            inverse: "theme"
+            async: true
         })
     });
 }).call(this);
@@ -367,12 +360,29 @@
     App.ThemesEditRoute = Ember.Route.extend({
         model: function(params) {
             return this.modelFor("theme", params);
+        },
+        setupController: function(controller, model) {
+            var focusareas;
+            this._super(controller, model);
+            focusareas = this.store.find("focusarea", {
+                theme: model.id
+            });
+            return focusareas.then(function() {
+                return controller.set("focusareasLength", focusareas.get("length"));
+            });
         }
     });
 }).call(this);
 
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
+        model: function(params) {
+            return this.store.find("focusarea", {
+                theme: params.theme_id
+            });
+        }
+    });
+    App.FocusareasIndexRoute = Ember.Route.extend({
         model: function(params) {
             return this.store.find("focusarea", {
                 theme: params.theme_id
@@ -393,12 +403,6 @@
     App.FocusareasEditRoute = Ember.Route.extend({
         model: function() {
             return this.modelFor("focusarea");
-        },
-        setupController: function(controller, model) {
-            this._super(controller, model);
-            return model.get("theme").then(function(theme) {
-                return controller.set("theme_id", theme.get("id"));
-            });
         }
     });
 }).call(this);
@@ -500,10 +504,16 @@
                 }
             },
             "delete": function() {
-                var theme;
+                var notify, theme;
                 theme = this.get("model");
-                theme.destroyRecord();
-                return this.transitionToRoute("/themes");
+                notify = this.notify;
+                if (this.get("focusareasLength") === 0) {
+                    theme.destroyRecord();
+                    return this.transitionToRoute("/themes");
+                } else {
+                    notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
+                    return this.transitionToRoute("/themes/" + theme.id + "/focusareas");
+                }
             },
             cancel: function() {
                 this.get("model").rollback();

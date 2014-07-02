@@ -449,7 +449,10 @@ function program4(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading\" style=\"border-bottom-width: 0px;\">\r\n        <div>\r\n            <h4>\r\n                \r\n                ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "x-notify", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading\" style=\"border-bottom-width: 0px;\">\r\n        <div>\r\n            <h4>\r\n                \r\n                ");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
@@ -467,6 +470,10 @@ function program4(depth0,data) {
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\r\n    <ul class=\"focusarea-definitions list-group\">\r\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "debugger", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n        ");
   hashTypes = {};
   hashContexts = {};
   stack2 = helpers.each.call(depth0, "focusarea", "in", "model", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});

@@ -43,20 +43,21 @@
     });
     describe('a focusareas page', function() {
       it('should have an add new focusarea button', function() {
-        visit('/themes/4/focusareas');
+        visit('/themes/2/focusareas');
         return andThen(function() {
+          findWithAssert('ul.theme-definitions li:contains("theme2") a.active');
           return findWithAssert('a.add-focusarea');
         });
       });
       it('should direct to the new route when clicked', function() {
-        visit('/themes/4/focusareas');
+        visit('/themes/2/focusareas');
         return andThen(function() {
           click('a.add-focusarea');
-          return expect(currentURL()).to.equal('/themes/4/focusareas/new');
+          return expect(currentURL()).to.equal('/themes/2/focusareas/new');
         });
       });
       return it('should have focus areas that each can be clicked to be edited', function() {
-        visit('/themes/4/focusareas');
+        visit('/themes/2/focusareas');
         return andThen(function() {
           return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a');
         });
