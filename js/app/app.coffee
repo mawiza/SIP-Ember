@@ -5,11 +5,11 @@ Ember.Handlebars.helper "capitalize", (value) ->
         value.capitalize()
 
 window.App = Ember.Application.create
-    #LOG_TRANSITIONS: true
-    #LOG_TRANSITIONS_INTERNAL: true
-    #LOG_VIEW_LOOKUPS: true
-    #LOG_BINDINGS: true
-    #LOG_ACTIVE_GENERATION: true
+    LOG_TRANSITIONS: true
+    LOG_TRANSITIONS_INTERNAL: true
+    LOG_VIEW_LOOKUPS: true
+    LOG_BINDINGS: true
+    LOG_ACTIVE_GENERATION: true
 
     LOG_DEBUG: true
 
@@ -22,8 +22,5 @@ window.App = Ember.Application.create
             else
                 console.log "DEBUG: " + @appName + " : " + location + " : " + message
 
-App.ApplicationAdapter = DS.LSAdapter.extend
-    namespace: 'sip'
-
-DS.LSAdapter.create
-    namespace: 'sip'
+App.ApplicationAdapter = DS.RESTAdapter.extend
+    host: 'http://127.0.0.1:4567/api'
