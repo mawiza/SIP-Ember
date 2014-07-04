@@ -39,7 +39,7 @@
         "delete": "Slet",
         cancel: "Annullere",
         modal: {
-          info: "Er du sikker at du vil gerne slette {{name}}"
+          info: "Er du sikker at du vil gerne slette forvaltning"
         }
       }
     },
@@ -61,7 +61,7 @@
         "delete": "Slet",
         cancel: "Annullere",
         modal: {
-          info: "Er du sikker at du vil gerne slette {{definition}}"
+          info: "Er du sikker at du vil gerne denne slette tema"
         }
       }
     },
@@ -84,7 +84,7 @@
         "delete": "Slet",
         cancel: "Annullere",
         modal: {
-          info: "Er du sikker at du vil gerne slette {{definition}}"
+          info: "Er du sikker at du vil gerne slette denne fokus område"
         }
       }
     },

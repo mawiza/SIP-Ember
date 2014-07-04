@@ -137,7 +137,7 @@
                 "delete": "Slet",
                 cancel: "Annullere",
                 modal: {
-                    info: "Er du sikker at du vil gerne slette {{name}}"
+                    info: "Er du sikker at du vil gerne slette forvaltning"
                 }
             }
         },
@@ -159,7 +159,7 @@
                 "delete": "Slet",
                 cancel: "Annullere",
                 modal: {
-                    info: "Er du sikker at du vil gerne slette {{definition}}"
+                    info: "Er du sikker at du vil gerne denne slette tema"
                 }
             }
         },
@@ -182,7 +182,7 @@
                 "delete": "Slet",
                 cancel: "Annullere",
                 modal: {
-                    info: "Er du sikker at du vil gerne slette {{definition}}"
+                    info: "Er du sikker at du vil gerne slette denne fokus område"
                 }
             }
         },
@@ -203,7 +203,22 @@
             return value.capitalize();
         }
     });
-    window.App = Ember.Application.create();
+    window.App = Ember.Application.create({
+        LOG_DEBUG: true,
+        log: function(message, location, data) {
+            if (this.LOG_DEBUG) {
+                if (data != null) {
+                    if (typeof data === "object") {
+                        data = Ember.inspect(data);
+                    }
+                    console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
+                    return console.log("DEBUG: " + this.appName + " : (continued) data: " + data);
+                } else {
+                    return console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
+                }
+            }
+        }
+    });
     App.ApplicationAdapter = DS.LSAdapter.extend({
         namespace: "sip"
     });
@@ -337,7 +352,8 @@
 
 (function() {
     App.ThemesIndexRoute = Ember.Route.extend({
-        model: function() {
+        model: function(params) {
+            App.log("Loading the model for theme", "App.ThemesIndexRoute.model", params);
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
@@ -345,7 +361,8 @@
         }
     });
     App.ThemesRoute = Ember.Route.extend({
-        model: function() {
+        model: function(params) {
+            App.log("Loading the model for theme", "App.ThemesRoute.model", params);
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
@@ -354,11 +371,13 @@
     });
     App.ThemesNewRoute = Ember.Route.extend({
         model: function() {
+            App.log("Loading the model for theme", "App.ThemesNewRoute.model");
             return this.store.createRecord("theme");
         }
     });
     App.ThemesEditRoute = Ember.Route.extend({
         model: function(params) {
+            App.log("Loading the model for theme", "App.ThemesEditRoute.model", params);
             return this.modelFor("theme", params);
         },
         setupController: function(controller, model) {
@@ -368,6 +387,7 @@
                 theme: model.id
             });
             return focusareas.then(function() {
+                App.log("Setting up the controller for edit theme", "App.ThemesEditRoute.setupController", focusareas);
                 return controller.set("focusareasLength", focusareas.get("length"));
             });
         }
@@ -377,13 +397,7 @@
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
         model: function(params) {
-            return this.store.find("focusarea", {
-                theme: params.theme_id
-            });
-        }
-    });
-    App.FocusareasIndexRoute = Ember.Route.extend({
-        model: function(params) {
+            App.log("Loading the model for focusarea", "App.FocusareasRoute.model", params);
             return this.store.find("focusarea", {
                 theme: params.theme_id
             });
@@ -392,6 +406,9 @@
     App.FocusareasNewRoute = Ember.Route.extend({
         model: function() {
             return this.store.createRecord("focusarea");
+        },
+        afterModel: function() {
+            return this.set("theme", this.modelFor("theme"));
         },
         setupController: function(controller, model) {
             var theme_id;
@@ -402,7 +419,14 @@
     });
     App.FocusareasEditRoute = Ember.Route.extend({
         model: function() {
+            App.log("Loading the model for focusarea", "App.FocusareasEditRoute.model");
             return this.modelFor("focusarea");
+        },
+        setupController: function(controller, model) {
+            var theme_id;
+            this._super(controller, model);
+            theme_id = this.controllerFor("focusareas").get("model").get("query.theme");
+            return controller.set("theme_id", theme_id);
         }
     });
 }).call(this);
@@ -527,7 +551,6 @@
 
 (function() {
     App.FocusareasNewController = Ember.ObjectController.extend({
-        needs: [ "focusareas" ],
         actions: {
             submit: function() {
                 var focusarea, shouldSave;
@@ -559,7 +582,6 @@
 
 (function() {
     App.FocusareasEditController = Ember.ObjectController.extend({
-        needs: [ "focusareas" ],
         actions: {
             update: function() {
                 var focusarea, shouldSave;

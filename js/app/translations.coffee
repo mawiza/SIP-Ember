@@ -33,7 +33,7 @@ Ember.I18n.translations =
             delete: "Slet"
             cancel: "Annullere"
             modal:
-                info: "Er du sikker at du vil gerne slette {{name}}"
+                info: "Er du sikker at du vil gerne slette forvaltning"
     themes:
         index:
             heading: "Temaer"
@@ -50,7 +50,7 @@ Ember.I18n.translations =
             delete: "Slet"
             cancel: "Annullere"
             modal:
-                info: "Er du sikker at du vil gerne slette {{definition}}"
+                info: "Er du sikker at du vil gerne denne slette tema"
 
     focusareas:
         index:
@@ -69,7 +69,7 @@ Ember.I18n.translations =
             delete: "Slet"
             cancel: "Annullere"
             modal:
-                info: "Er du sikker at du vil gerne slette {{definition}}"
+                info: "Er du sikker at du vil gerne slette denne fokus område"
 
     notify:
         danger: "Fejl"

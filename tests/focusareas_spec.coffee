@@ -1,4 +1,10 @@
 describe 'Focusareas should', ->
+    before: ->
+        Ember.run ->
+            store = App.__container__.lookup('store:main')
+            store.find('themes')
+            store.find('focusareas')
+
 
     describe 'should have a model that', ->
         it 'should have a content property', ->

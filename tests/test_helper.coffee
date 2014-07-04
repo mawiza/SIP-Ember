@@ -2,7 +2,7 @@
 
 before ->
     App.ApplicationAdapter = DS.FixtureAdapter
-        simulateRemoteResponse: false
+        simulateRemoteResponse: true
 
     App.ApplicationStore = DS.Store.extend
         adapter:DS.FixtureAdapter.extend

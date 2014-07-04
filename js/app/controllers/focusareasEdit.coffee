@@ -1,6 +1,5 @@
 #TODO add focus to the first element
 App.FocusareasEditController = Ember.ObjectController.extend
-    needs: ['focusareas']
     actions:
         update: ->
             focusarea = @get('model')

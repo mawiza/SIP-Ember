@@ -1,12 +1,14 @@
 App.ThemesIndexRoute = Ember.Route.extend
-    model: ->
+    model: (params)->
+        App.log('Loading the model for theme', 'App.ThemesIndexRoute.model', params)
         @store.find('theme')
 
     afterModel: (themes, transition) ->
         @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
 
 App.ThemesRoute = Ember.Route.extend
-    model: ->
+    model: (params)->
+        App.log('Loading the model for theme', 'App.ThemesRoute.model', params)
         @store.find('theme')
 
     afterModel: (themes, transition) ->
@@ -14,14 +16,17 @@ App.ThemesRoute = Ember.Route.extend
 
 App.ThemesNewRoute = Ember.Route.extend
     model: ->
+        App.log('Loading the model for theme', 'App.ThemesNewRoute.model');
         @store.createRecord('theme')
 
 App.ThemesEditRoute = Ember.Route.extend
     model: (params) ->
+        App.log('Loading the model for theme', 'App.ThemesEditRoute.model', params)
         @modelFor('theme', params)
 
     setupController: (controller, model) ->
         @_super(controller, model)
         focusareas = @store.find('focusarea', {theme: model.id})
         focusareas.then ->
+            App.log('Setting up the controller for edit theme', 'App.ThemesEditRoute.setupController', focusareas)
             controller.set('focusareasLength', focusareas.get('length'))

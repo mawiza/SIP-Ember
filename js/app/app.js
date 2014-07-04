@@ -8,7 +8,22 @@
     }
   });
 
-  window.App = Ember.Application.create();
+  window.App = Ember.Application.create({
+    LOG_DEBUG: true,
+    log: function(message, location, data) {
+      if (this.LOG_DEBUG) {
+        if (data != null) {
+          if (typeof data === "object") {
+            data = Ember.inspect(data);
+          }
+          console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
+          return console.log("DEBUG: " + this.appName + " : (continued) data: " + data);
+        } else {
+          return console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
+        }
+      }
+    }
+  });
 
   App.ApplicationAdapter = DS.LSAdapter.extend({
     namespace: 'sip'

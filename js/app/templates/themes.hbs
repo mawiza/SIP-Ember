@@ -14,7 +14,7 @@
                 </div>
             </div>
             <ul class="theme-definitions list-group">
-                {{#each theme in model}}
+                {{#each theme in controller}}
                     <li class="list-group-item">
                         {{#link-to 'focusareas' theme.id}}
                             {{theme.definition}}<br/>

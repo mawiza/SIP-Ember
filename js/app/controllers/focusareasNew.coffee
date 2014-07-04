@@ -1,6 +1,5 @@
 #TODO Clicking cancel should transition to browser.history.back
 App.FocusareasNewController = Ember.ObjectController.extend
-    needs: ['focusareas']
     actions:
         submit: ->
             focusarea = @get('model')
