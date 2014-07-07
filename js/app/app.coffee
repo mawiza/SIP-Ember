@@ -22,5 +22,11 @@ window.App = Ember.Application.create
             else
                 console.log "DEBUG: " + @appName + " : " + location + " : " + message
 
+#App.ApplicationSerializer = DS.RESTSerializer.extend
+#    primaryKey: "_id"
+
 App.ApplicationAdapter = DS.RESTAdapter.extend
-    host: 'http://127.0.0.1:4567/api'
+    namespace: 'api'
+    host: 'http://127.0.0.1:4567'
+    corsWithCredentials: true
+

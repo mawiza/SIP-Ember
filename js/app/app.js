@@ -31,7 +31,9 @@
   });
 
   App.ApplicationAdapter = DS.RESTAdapter.extend({
-    host: 'http://127.0.0.1:4567/api'
+    namespace: 'api',
+    host: 'http://127.0.0.1:4567',
+    corsWithCredentials: true
   });
 
 }).call(this);

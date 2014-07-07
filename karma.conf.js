@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        'js/libs/jquery-2.1.1.min.js',
+        'js/libs/jquery-2.1.1.js',
         'js/libs/handlebars-1.1.2.js',
         'js/libs/ember.js',
         'js/libs/ember-data.js',

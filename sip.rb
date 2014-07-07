@@ -11,39 +11,65 @@ configure do
   enable :cross_origin
 end
 
+before do
+  if request.request_method == 'OPTIONS'
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST, PUT, DELETE"
+    halt 200
+  end
+end
+
 get '/api/:thing' do
-  # query a collection :thing, convert the output to an array, map the id
-  # to a string representation of the object's _id and finally output to JSON
   #binding.pry
-  params[:thing] + ": " + DB.collection(params[:thing]).find.to_a.map{|t| frombsonid(t)}.to_json
+  serializeJSON(DB.collection(params[:thing]).find.to_a.map{|t| frombsonid(t, params[:thing])}.to_json, params[:thing])
 end
 
 get '/api/:thing/:id' do
-  # get the first document with the id :id in the collection :thing as a single document (rather
-  # than a Cursor, the standard output) using findone(). Our bson utilities assist with
-  # ID conversion and the final output returned is also JSON
-  params[:thing] + ": " + frombsonid(DB.collection(params[:thing]).findone(tobsonid(params[:id]))).to_json
+  find_one(params[:thing], params[:id])
 end
 
 post '/api/:thing' do
-  # parse the post body of the content being posted, convert to a string, insert into
-  # the collection #thing and return the ObjectId as a string for reference
-  oid = DB.collection(params[:thing]).insert(JSON.parse(request.body.read.to_s))
-  params[:thing] + ": " + "{\"id\": \"#{oid.to_s}\"}"
+  json = JSON.parse(request.body.read.to_s)
+  oid = DB.collection(params[:thing]).insert(json)
+  find_one(params[:thing], oid.to_s)
 end
 
 delete '/api/:thing/:id' do
-  # remove the item with id :id from the collection :thing, based on the bson
-  # representation of the object id
-  params[:thing] + ": " + DB.collection(params[:thing]).remove('id' => tobson_id(params[:id]))
+  DB.collection(params[:thing]).remove({'_id' => tobsonid(params[:id])})
+  "{}"
 end
 
 put '/api/:thing/:id' do
-  # collection.update() when used with $set (as covered earlier) allows us to set single values
-  # in this case, the put request body is converted to a string, rejecting keys with the name 'id' for security purposes
-  params[:thing] + ": " + DB.collection(params[:thing]).update({'id' => tobsonid(params[:id])}, {'$set' => JSON.parse(request.body.read.to_s).reject{|k,v| k == 'id'}})
+  modelName = params[:thing].chomp("s")
+  selector = {'_id' => tobsonid(params[:id])}
+  puts selector
+  json = JSON.parse(request.body.read).reject{|k,v| k == 'id'}
+  document = {'$set' => json}
+  puts document
+  result = DB.collection(params[:thing]).update(selector, document)
+  puts result
+  find_one(params[:thing], params[:id])
 end
 
-# utilities for generating/converting MongoDB ObjectIds
-def tobsonid(id) BSON::ObjectId.fromstring(id) end
-def frombsonid(obj) obj.merge({'_id' => obj['_id'].to_s}) end
+def tobsonid(id) 
+    BSON::ObjectId.from_string(id) 
+end
+
+def frombsonid(obj, thing)
+  id = obj['_id'].to_s
+  obj.delete("_id")
+  obj.each{|t| t[1]['id'] = id}
+end
+
+def serializeJSON(json, thing)
+  modelName = thing.chomp("s")
+  hash = JSON.parse(json)
+  jsonArray = []
+  hash.each {|h| jsonArray << h[modelName]}
+  newJson = {modelName => jsonArray}
+  newJson.to_json
+end
+
+def find_one(thing, id)
+  frombsonid(DB.collection(thing).find_one(tobsonid(id)), thing).to_json
+end
