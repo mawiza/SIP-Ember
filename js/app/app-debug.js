@@ -370,7 +370,11 @@
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
-            return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+            if (themes.get("firstObject") != null) {
+                return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+            } else {
+                return this.transitionTo("/themes/new");
+            }
         }
     });
     App.ThemesNewRoute = Ember.Route.extend({
@@ -500,6 +504,7 @@
                 }
                 if (shouldSave) {
                     theme.save();
+                    App.log("Saving the theme and transitioning to the theme's focusareas", "App.ThemesNewController.submit", theme.get("id"));
                     return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 } else {
                     return this.transitionToRoute("/themes/new");
