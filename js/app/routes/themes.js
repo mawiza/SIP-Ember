@@ -16,7 +16,11 @@
       return this.store.find('theme');
     },
     afterModel: function(themes, transition) {
-      return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+      if (themes.get("firstObject") != null) {
+        return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+      } else {
+        return this.transitionTo("/themes/new");
+      }
     }
   });
 

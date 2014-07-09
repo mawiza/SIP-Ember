@@ -1,19 +1,22 @@
 #console debugging: App.__container__.lookup('store:main').find('org').then(function(stuff){console.log(stuff.toArray())});
 
 before ->
-    App.ApplicationAdapter = DS.FixtureAdapter
-        simulateRemoteResponse: true
+    #Drop and select the test DB
+    $.ajax
+        async: false
+        url: "http://localhost:4567/reset_db/sip_ember_test_db"
+        success: (data) ->
+            console.log "LOADED THE TEST DB", data
 
-    App.ApplicationStore = DS.Store.extend
-        adapter:DS.FixtureAdapter.extend
-            queryFixtures: (fixtures, query, type) ->
-                #console.log query
-                #console.log type
-                fixtures.filter (item) ->
-                    for prop of query
-                        return false  unless item[prop] is query[prop]
+        error: (jqXHR, textStatus, errorThrown) ->
+            console.log "ERROR LOADING THE TEST DB", jqXHR, textStatus, errorThrown
+            request.abort()
 
-
+    #Use our Sinatra server
+    App.ApplicationAdapter = DS.RESTAdapter.extend
+        namespace: 'api'
+        host: 'http://127.0.0.1:4567'
+        corsWithCredentials: true
 
     Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 
@@ -34,6 +37,18 @@ beforeEach ->
 afterEach ->
     Ember.testing = false
     return
+
+after ->
+    #Reset and select the test DB
+    $.ajax
+        async: false
+        url: "http://localhost:4567/select_db/sip_ember_db"
+        success: (data) ->
+            console.log "LOADED THE PROD DB" + data
+
+        error: (jqXHR, textStatus, errorThrown) ->
+            console.log "ERROR LOADING THE PROD DB", jqXHR, textStatus, errorThrown
+            request.abort()
 
 #
 # Test to see if the navbar has the specified link and if it is functioning

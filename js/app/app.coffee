@@ -22,8 +22,6 @@ window.App = Ember.Application.create
             else
                 console.log "DEBUG: " + @appName + " : " + location + " : " + message
 
-#App.ApplicationSerializer = DS.RESTSerializer.extend
-#    primaryKey: "_id"
 
 App.ApplicationAdapter = DS.RESTAdapter.extend
     namespace: 'api'

@@ -29,11 +29,11 @@
             var store, theme;
             store = App.__container__.lookup('store:main');
             theme = store.createRecord("theme", {
-              id: 3,
-              definition: 'theme definition'
+              definition: 'theme definition created calling createRecord'
             });
-            theme.save();
-            return expect(theme.get('definition')).to.equal('theme definition');
+            return theme.save().then(function() {
+              return expect(theme.get('definition')).to.equal('theme definition created calling createRecord');
+            });
           });
         });
       });
@@ -48,22 +48,21 @@
       it('should direct to the new route when clicked', function() {
         visit('/themes');
         return andThen(function() {
-          click('a.add-theme');
-          return expect(currentURL()).to.equal('/themes/new');
+          return click('a.add-theme').then(function() {
+            return expect(currentURL()).to.equal('/themes/new');
+          });
         });
       });
       return it('should display the first available theme\'s focusareas if any', function() {
         visit('/themes');
         return andThen(function() {
-          return expect(currentURL()).to.equal('/themes/1/focusareas');
+          return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
         });
       });
     });
     describe('a new theme page that', function() {
-      beforeEach(function() {
-        return visit("/themes");
-      });
       it('should have a field and a submit button', function() {
+        visit("/themes");
         return andThen(function() {
           return click('a.add-theme').then(function() {
             findWithAssert('form');
@@ -78,32 +77,38 @@
         return andThen(function() {
           return click('a.add-theme').then(function() {
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/themes/1/focusareas');
+              return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
             });
           });
         });
       });
       it('should create a new theme entry when submit gets clicked', function() {
+        visit("/themes");
         return andThen(function() {
-          click('a.add-theme');
-          return fillIn('#definition', 'theme-definition1').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
+          return click('a.add-theme').then(function() {
+            return fillIn('#definition', 'theme-definition1').click('button.submit-button').then(function() {
+              return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+            });
           });
         });
       });
       it('should be valid', function() {
-        visit("/themes/new");
+        visit("/themes");
         return andThen(function() {
-          return fillIn('#definition', '').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/themes/new');
+          return click('a.add-theme').then(function() {
+            return fillIn('#definition', '').click('button.submit-button').then(function() {
+              return expect(currentURL()).to.equal('/themes/new');
+            });
           });
         });
       });
       it('should transition to the the themes page', function() {
-        visit("/themes/new");
+        visit("/themes");
         return andThen(function() {
-          return fillIn('#definition', 'theme-definition2').click('button.submit-button').then(function() {
-            return expect(find('ul.theme-definitions li').length).to.equal(5);
+          return click('a.add-theme').then(function() {
+            return fillIn('#definition', 'theme-definition2').click('button.submit-button').then(function() {
+              return expect(find('ul.theme-definitions li').length).to.equal(3);
+            });
           });
         });
       });
@@ -115,10 +120,8 @@
       });
     });
     return describe('an edit theme page that', function() {
-      beforeEach(function() {
-        return visit("/themes");
-      });
       it('should be accessed from the themes page', function() {
+        visit("/themes");
         return andThen(function() {
           return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             findWithAssert('form');
@@ -129,39 +132,33 @@
         });
       });
       it('should be possible to update the record', function() {
+        visit("/themes");
         return andThen(function() {
           return click('li:contains("theme-definition1") > a.edit-theme').then(function() {
             return fillIn('#definition', 'theme-definition3').click('button.update-button').then(function() {
-              expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
               return findWithAssert('li:contains("theme-definition3") > a.active');
             });
           });
         });
       });
       it('should be possible to cancel the update', function() {
+        visit("/themes");
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/themes/fixture-9/focusareas');
+              return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
             });
           });
         });
       });
-      it('should be possible to delete a theme without focusareas', function() {
+      return it('should be possible to delete a theme without focusareas', function() {
+        visit("/themes");
         return andThen(function() {
           return click('li:contains("theme-definition3") > a.edit-theme').then(function() {
             return click('button.delete-button').then(function() {
-              expect(currentURL()).to.equal('/themes/1/focusareas');
-              return expect(find('ul.theme-definitions li').length).to.equal(4);
-            });
-          });
-        });
-      });
-      return it('should not be possible to delete a theme with focusareas', function() {
-        return andThen(function() {
-          return click('li:contains("theme1") > a.edit-theme').then(function() {
-            return click('button.delete-button').then(function() {
-              return expect(currentURL()).to.equal('/themes/2/focusareas');
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+              return expect(find('ul.theme-definitions li').length).to.equal(2);
             });
           });
         });

@@ -20,57 +20,64 @@ describe 'Focusareas should', ->
             andThen ->
                 Ember.run ->
                     store = App.__container__.lookup('store:main')
-
                     theme = store.createRecord("theme",
-                        id: 4
-                        definition: 'theme definition'
+                        definition: 'theme definition created in focusareas spec'
                     )
 
-                    focusarea = store.createRecord("focusarea",
-                        id: 5
-                        definition: 'focusarea definition'
-                    )
-                    focusarea.save()
+                    theme.save().then ->
+                        focusarea = store.createRecord("focusarea",
+                            definition: 'focusarea definition created calling createRecord'
+                            theme: theme
+                        )
 
-                    theme.get("focusareas").then (focusareas) ->
-                        focusareas.pushObject focusarea
-                        theme.save()
-
-                    expect(focusarea.get('definition')).to.equal('focusarea definition')
-
-                    store.find('theme', 4).then (theme)->
-                        theme.get('focusareas').then ->
-                            expect(theme.get('focusareas').get('length')).to.equal(1)
+                        focusarea.save().then ->
+                            theme.get("focusareas").then (focusareas)->
+                                focusareas.pushObject(focusarea)
+                                expect(theme.get('focusareas').get('length')).to.equal(1)
 
     #
     # Index
     #
     describe 'a focusareas page', ->
         it 'should have an add new focusarea button', ->
-            visit('/themes/2/focusareas')
+            visit('/themes')
             andThen ->
-                findWithAssert('ul.theme-definitions li:contains("theme2") a.active')
-                findWithAssert('a.add-focusarea')
+                click('li:contains("theme definition created in focusareas spec")')
+                .then ->
+                    findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.active')
+                    findWithAssert('a.add-focusarea')
 
         it 'should direct to the new route when clicked', ->
-            visit('/themes/2/focusareas')
+            visit('/themes')
             andThen ->
-                click('a.add-focusarea')
-                expect(currentURL()).to.equal('/themes/2/focusareas/new')
+                click('li:contains("theme definition created in focusareas spec")')
+                .click('a.add-focusarea')
+                .then ->
+                    expect(currentURL()).to.match(/^\/themes\/.*\/focusareas\/new$/)
 
         it 'should have focus areas that each can be clicked to be edited', ->
-            visit('/themes/2/focusareas')
+            visit('/themes')
             andThen ->
-                findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a')
+                click('li:contains("theme definition created in focusareas spec")')
+                .then ->
+                    findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a')
+
+        it 'should not be possible to delete a theme with focusareas', ->
+            andThen ->
+                click('li:contains("focusarea definition created calling createRecord") > a.edit-theme')
+                .then ->
+                    click('button.delete-button')
+                    .then ->
+                        expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/)
+                        findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a')
+
 
     #
     # NEW
     #
     describe 'a new focusarea page that', ->
-        beforeEach ->
-            visit("/focusareas")
-
         it 'should have a field, a select box and a submit button', ->
+            visit("/themes")
             andThen ->
                 click('a.add-focusarea').then ->
                     findWithAssert('form')
@@ -79,6 +86,7 @@ describe 'Focusareas should', ->
                     findWithAssert("button.submit-button")
 
         it 'should create a new focusarea entry when submit gets clicked', ->
+            visit("/themes")
             andThen ->
                 click('a.add-focusarea')
                 fillIn('#definition', 'focusarea-definition1')
@@ -114,10 +122,8 @@ describe 'Focusareas should', ->
     # Edit
     #
     describe 'an edit focusarea page that', ->
-        beforeEach ->
-            visit("/focusareas")
-
         it 'should be accessed from the focusareas page', ->
+            visit("/themes")
             andThen ->
                 click('td.focusarea-definition:contains("focusarea-definition1") a')
                 .then ->
@@ -127,6 +133,7 @@ describe 'Focusareas should', ->
                     findWithAssert("button.delete-button")
 
         it 'should be possible to update the record', ->
+            visit("/themes")
             andThen ->
                 click('td.focusarea-definition:contains("focusarea-definition1") a')
                 .then ->
@@ -139,6 +146,7 @@ describe 'Focusareas should', ->
 
 
         it 'should be possible to cancel the update', ->
+            visit("/themes")
             andThen ->
                 click('td.focusarea-definition:contains("focusarea-definition3") a')
                 .then ->
@@ -148,6 +156,7 @@ describe 'Focusareas should', ->
 
 
         it 'should be possible to delete the record', ->
+            visit("/themes")
             andThen ->
                 click('td.focusarea-definition:contains("focusarea-definition3") a')
                 .then ->

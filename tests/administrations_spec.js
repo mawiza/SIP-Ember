@@ -19,30 +19,33 @@
             var administration, store;
             store = App.__container__.lookup('store:main');
             administration = store.createRecord("administration", {
-              id: 3,
               name: 'TOM',
               color: '#ccc'
             });
-            administration.save();
-            return expect(administration.get('name')).to.equal('TOM');
+            return administration.save().then(function() {
+              return expect(administration.get('name')).to.equal('TOM');
+            });
           });
         });
       });
     });
     describe('an administration page that', function() {
-      beforeEach(function() {
-        return visit("/administrations");
-      });
       it('should have an add new administration button', function() {
-        return findWithAssert('a.add-administration');
+        visit("/administrations");
+        return andThen(function() {
+          return findWithAssert('a.add-administration');
+        });
       });
       it('should direct to the new route when clicked', function() {
+        visit("/administrations");
         return andThen(function() {
-          click('a.add-administration');
-          return expect(currentURL()).to.equal('/administrations/new');
+          return click('a.add-administration').then(function() {
+            return expect(currentURL()).to.equal('/administrations/new');
+          });
         });
       });
       return it('should have table with a header and two columns', function() {
+        visit("/administrations");
         return andThen(function() {
           findWithAssert('table.table');
           return expect(find('table.table thead tr th').length).to.equal(2);
@@ -75,9 +78,10 @@
       it('should create a new administrations entry when submit gets clicked', function() {
         visit("/administrations");
         return andThen(function() {
-          click('a.add-administration');
-          return fillIn('#name', 'BOU').fillIn('#color', '#000').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/administrations');
+          return click('a.add-administration').then(function() {
+            return fillIn('#name', 'BOU').fillIn('#color', '#000').click('button.submit-button').then(function() {
+              return expect(currentURL()).to.equal('/administrations');
+            });
           });
         });
       });
@@ -93,7 +97,7 @@
         visit("/administrations/new");
         return andThen(function() {
           return fillIn('#name', 'OPB').fillIn('#color', '#000').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(5);
+            return expect(find('table.table tbody tr').length).to.equal(3);
           });
         });
       });
@@ -105,10 +109,8 @@
       });
     });
     return describe('an edit administration page that', function() {
-      beforeEach(function() {
-        return visit("/administrations");
-      });
       it('should be accessed from the administrations page', function() {
+        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             findWithAssert('form');
@@ -120,6 +122,7 @@
         });
       });
       it('should be possible to update the record', function() {
+        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return fillIn('#color', '#123').click('button.update-button').then(function() {
@@ -130,6 +133,7 @@
         });
       });
       it('should be possible to cancel the update', function() {
+        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return click('button.cancel-button').then(function() {
@@ -139,11 +143,12 @@
         });
       });
       return it('should be possible to delete the record', function() {
+        visit("/administrations");
         return andThen(function() {
           return click('td.administration-name:contains("OPB") a').then(function() {
             return click('button.delete-button').then(function() {
               expect(currentURL()).to.equal('/administrations');
-              return expect(find('table.table tbody tr').length).to.equal(4);
+              return expect(find('table.table tbody tr').length).to.equal(2);
             });
           });
         });

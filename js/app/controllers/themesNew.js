@@ -3,7 +3,7 @@
   App.ThemesNewController = Ember.ObjectController.extend({
     actions: {
       submit: function() {
-        var shouldSave, theme;
+        var self, shouldSave, theme;
         theme = this.get('model');
         shouldSave = true;
         if (Ember.isEmpty(theme.get('definition'))) {
@@ -11,8 +11,11 @@
           shouldSave = false;
         }
         if (shouldSave) {
-          theme.save();
-          return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+          self = this;
+          return theme.save().then(function(savedTheme) {
+            App.log('Saving the theme and transitioning to the theme\'s focusareas', 'App.ThemesNewController.submit', savedTheme.get("id"));
+            return self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+          });
         } else {
           return this.transitionToRoute('/themes/new');
         }

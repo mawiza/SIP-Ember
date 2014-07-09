@@ -26,25 +26,22 @@
         visit("/themes");
         return andThen(function() {
           return Ember.run(function() {
-            var focusarea, store, theme;
+            var store, theme;
             store = App.__container__.lookup('store:main');
             theme = store.createRecord("theme", {
-              id: 4,
-              definition: 'theme definition'
+              definition: 'theme definition created in focusareas spec'
             });
-            focusarea = store.createRecord("focusarea", {
-              id: 5,
-              definition: 'focusarea definition'
-            });
-            focusarea.save();
-            theme.get("focusareas").then(function(focusareas) {
-              focusareas.pushObject(focusarea);
-              return theme.save();
-            });
-            expect(focusarea.get('definition')).to.equal('focusarea definition');
-            return store.find('theme', 4).then(function(theme) {
-              return theme.get('focusareas').then(function() {
-                return expect(theme.get('focusareas').get('length')).to.equal(1);
+            return theme.save().then(function() {
+              var focusarea;
+              focusarea = store.createRecord("focusarea", {
+                definition: 'focusarea definition created calling createRecord',
+                theme: theme
+              });
+              return focusarea.save().then(function() {
+                return theme.get("focusareas").then(function(focusareas) {
+                  focusareas.pushObject(focusarea);
+                  return expect(theme.get('focusareas').get('length')).to.equal(1);
+                });
               });
             });
           });
@@ -53,31 +50,44 @@
     });
     describe('a focusareas page', function() {
       it('should have an add new focusarea button', function() {
-        visit('/themes/2/focusareas');
+        visit('/themes');
         return andThen(function() {
-          findWithAssert('ul.theme-definitions li:contains("theme2") a.active');
-          return findWithAssert('a.add-focusarea');
+          return click('li:contains("theme definition created in focusareas spec")').then(function() {
+            findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.active');
+            return findWithAssert('a.add-focusarea');
+          });
         });
       });
       it('should direct to the new route when clicked', function() {
-        visit('/themes/2/focusareas');
+        visit('/themes');
         return andThen(function() {
-          click('a.add-focusarea');
-          return expect(currentURL()).to.equal('/themes/2/focusareas/new');
+          return click('li:contains("theme definition created in focusareas spec")').click('a.add-focusarea').then(function() {
+            return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas\/new$/);
+          });
         });
       });
-      return it('should have focus areas that each can be clicked to be edited', function() {
-        visit('/themes/2/focusareas');
+      it('should have focus areas that each can be clicked to be edited', function() {
+        visit('/themes');
         return andThen(function() {
-          return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition") a');
+          return click('li:contains("theme definition created in focusareas spec")').then(function() {
+            return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a');
+          });
+        });
+      });
+      return it('should not be possible to delete a theme with focusareas', function() {
+        return andThen(function() {
+          return click('li:contains("focusarea definition created calling createRecord") > a.edit-theme').then(function() {
+            return click('button.delete-button').then(function() {
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+              return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a');
+            });
+          });
         });
       });
     });
     describe('a new focusarea page that', function() {
-      beforeEach(function() {
-        return visit("/focusareas");
-      });
       it('should have a field, a select box and a submit button', function() {
+        visit("/themes");
         return andThen(function() {
           return click('a.add-focusarea').then(function() {
             findWithAssert('form');
@@ -88,6 +98,7 @@
         });
       });
       it('should create a new focusarea entry when submit gets clicked', function() {
+        visit("/themes");
         return andThen(function() {
           click('a.add-focusarea');
           return fillIn('#definition', 'focusarea-definition1').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
@@ -119,10 +130,8 @@
       });
     });
     return describe('an edit focusarea page that', function() {
-      beforeEach(function() {
-        return visit("/focusareas");
-      });
       it('should be accessed from the focusareas page', function() {
+        visit("/themes");
         return andThen(function() {
           return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
             findWithAssert('form');
@@ -133,6 +142,7 @@
         });
       });
       it('should be possible to update the record', function() {
+        visit("/themes");
         return andThen(function() {
           return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
             return fillIn('#definition', 'focusarea-definition3').fillIn('select.focusarea-theme', '4').click('button.update-button').then(function() {
@@ -143,6 +153,7 @@
         });
       });
       it('should be possible to cancel the update', function() {
+        visit("/themes");
         return andThen(function() {
           return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
             return click('button.cancel-button').then(function() {
@@ -152,6 +163,7 @@
         });
       });
       return it('should be possible to delete the record', function() {
+        visit("/themes");
         return andThen(function() {
           return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
             return click('button.delete-button').then(function() {

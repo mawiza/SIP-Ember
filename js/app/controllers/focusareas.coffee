@@ -1,2 +1,2 @@
 #App.FocusareasController = Ember.ArrayController.extend
-    #needs: ['theme']
+#    needs: ['themes']

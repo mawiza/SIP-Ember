@@ -18,30 +18,32 @@ describe 'Administrations should', ->
                 Ember.run ->
                     store = App.__container__.lookup('store:main')
                     administration = store.createRecord("administration",
-                        id: 3
                         name: 'TOM'
                         color: '#ccc'
                     )
-                    administration.save()
-                    expect(administration.get('name')).to.equal('TOM')
+                    administration.save().then ->
+                        expect(administration.get('name')).to.equal('TOM')
 
 
     #
     # Index
     #
     describe 'an administration page that', ->
-        beforeEach ->
-            visit("/administrations")
 
         it 'should have an add new administration button', ->
-            findWithAssert('a.add-administration')
+            visit("/administrations")
+            andThen ->
+                findWithAssert('a.add-administration')
 
         it 'should direct to the new route when clicked', ->
+            visit("/administrations")
             andThen ->
                 click('a.add-administration')
-                expect(currentURL()).to.equal('/administrations/new')
+                .then ->
+                    expect(currentURL()).to.equal('/administrations/new')
 
         it 'should have table with a header and two columns', ->
+            visit("/administrations")
             andThen ->
                 findWithAssert('table.table')
                 expect(find('table.table thead tr th').length).to.equal(2)
@@ -54,7 +56,8 @@ describe 'Administrations should', ->
         it 'should have fields and a submit button', ->
             visit("/administrations")
             andThen ->
-                click('a.add-administration').then ->
+                click('a.add-administration')
+                .then ->
                     findWithAssert('form')
                     findWithAssert('#name')
                     findWithAssert('#color')
@@ -74,11 +77,12 @@ describe 'Administrations should', ->
             visit("/administrations")
             andThen ->
                 click('a.add-administration')
-                fillIn('#name', 'BOU')
-                .fillIn('#color', '#000')
-                .click('button.submit-button')
                 .then ->
-                    expect(currentURL()).to.equal('/administrations')
+                    fillIn('#name', 'BOU')
+                    .fillIn('#color', '#000')
+                    .click('button.submit-button')
+                    .then ->
+                        expect(currentURL()).to.equal('/administrations')
 
         it 'should be valid', ->
             visit("/administrations/new")
@@ -96,7 +100,7 @@ describe 'Administrations should', ->
                 .fillIn('#color', '#000')
                 .click('button.submit-button')
                 .then ->
-                    expect(find('table.table tbody tr').length).to.equal(5)
+                    expect(find('table.table tbody tr').length).to.equal(3)
 
         it 'should have administrations that each can be clicked to be edited', ->
             visit("/administrations")
@@ -107,10 +111,8 @@ describe 'Administrations should', ->
     # Edit
     #
     describe 'an edit administration page that', ->
-        beforeEach ->
-            visit("/administrations")
-
         it 'should be accessed from the administrations page', ->
+            visit("/administrations")
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -121,6 +123,7 @@ describe 'Administrations should', ->
                     findWithAssert("button.delete-button")
 
         it 'should be possible to update the record', ->
+            visit("/administrations")
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -132,6 +135,7 @@ describe 'Administrations should', ->
 
 
         it 'should be possible to cancel the update', ->
+            visit("/administrations")
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
@@ -141,10 +145,11 @@ describe 'Administrations should', ->
 
 
         it 'should be possible to delete the record', ->
+            visit("/administrations")
             andThen ->
                 click('td.administration-name:contains("OPB") a')
                 .then ->
                     click('button.delete-button')
                     .then ->
                         expect(currentURL()).to.equal('/administrations')
-                        expect(find('table.table tbody tr').length).to.equal(4)
+                        expect(find('table.table tbody tr').length).to.equal(2)

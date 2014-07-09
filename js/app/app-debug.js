@@ -495,7 +495,7 @@
     App.ThemesNewController = Ember.ObjectController.extend({
         actions: {
             submit: function() {
-                var shouldSave, theme;
+                var self, shouldSave, theme;
                 theme = this.get("model");
                 shouldSave = true;
                 if (Ember.isEmpty(theme.get("definition"))) {
@@ -503,9 +503,11 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
-                    theme.save();
-                    App.log("Saving the theme and transitioning to the theme's focusareas", "App.ThemesNewController.submit", theme.get("id"));
-                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
+                    self = this;
+                    return theme.save().then(function(savedTheme) {
+                        App.log("Saving the theme and transitioning to the theme's focusareas", "App.ThemesNewController.submit", savedTheme.get("id"));
+                        return self.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
+                    });
                 } else {
                     return this.transitionToRoute("/themes/new");
                 }
@@ -537,13 +539,17 @@
                 }
             },
             "delete": function() {
-                var notify, theme;
+                var notify, self, theme;
                 theme = this.get("model");
                 notify = this.notify;
                 if (this.get("focusareasLength") === 0) {
-                    theme.destroyRecord();
-                    return this.transitionToRoute("/themes");
+                    self = this;
+                    App.log("Deleting the theme without focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
+                    return theme.destroyRecord().then(function() {
+                        return self.transitionToRoute("/themes");
+                    });
                 } else {
+                    App.log("Not deleting the theme with focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
                     notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
                     return this.transitionToRoute("/themes/" + theme.id + "/focusareas");
                 }

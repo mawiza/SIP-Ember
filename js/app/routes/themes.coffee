@@ -12,7 +12,10 @@ App.ThemesRoute = Ember.Route.extend
         @store.find('theme')
 
     afterModel: (themes, transition) ->
-        @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
+        if themes.get("firstObject")?
+            @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
+        else
+            @transitionTo "/themes/new"
 
 App.ThemesNewRoute = Ember.Route.extend
     model: ->
