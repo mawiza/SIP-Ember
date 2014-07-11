@@ -39,11 +39,12 @@ describe 'Focusareas should', ->
     # Index
     #
     describe 'a focusareas page', ->
-        it 'should have an add new focusarea button', ->
+        it 'theme should be active and have an add new focusarea button', ->
             visit('/themes')
             andThen ->
                 click('li:contains("theme definition created in focusareas spec")')
                 .then ->
+                    findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec")')
                     findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.active')
                     findWithAssert('a.add-focusarea')
 

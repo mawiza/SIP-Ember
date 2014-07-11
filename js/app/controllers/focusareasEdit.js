@@ -3,7 +3,7 @@
   App.FocusareasEditController = Ember.ObjectController.extend({
     actions: {
       update: function() {
-        var focusarea, shouldSave;
+        var focusarea, self, shouldSave;
         focusarea = this.get('model');
         shouldSave = true;
         if (Ember.isEmpty(focusarea.get('definition'))) {
@@ -15,14 +15,13 @@
           shouldSave = false;
         }
         if (shouldSave) {
-          this.store.find('theme', this.get('theme_id')).then(function(theme) {
-            return theme.get("focusareas").then(function(focusareas) {
-              focusareas.pushObject(focusarea);
-              theme.save();
-              return focusarea.save();
+          self = this;
+          return this.store.find('theme', this.get('theme_id')).then(function(theme) {
+            focusarea.set('theme', theme);
+            return focusarea.save().then(function() {
+              return self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
             });
           });
-          return this.transitionToRoute('/themes/' + this.get('theme_id') + '/focusareas');
         } else {
           return this.transitionToRoute('/themes/' + this.get('theme_id') + '/focusareas/edit');
         }

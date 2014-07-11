@@ -49,10 +49,11 @@
       });
     });
     describe('a focusareas page', function() {
-      it('should have an add new focusarea button', function() {
+      it('theme should be active and have an add new focusarea button', function() {
         visit('/themes');
         return andThen(function() {
           return click('li:contains("theme definition created in focusareas spec")').then(function() {
+            findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec")');
             findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.active');
             return findWithAssert('a.add-focusarea');
           });

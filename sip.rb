@@ -50,6 +50,7 @@ end
 #
 #
 get '/api/:thing' do
+  content_type :json
   if request.query_string.empty?
     #binding.pry
     collection = DB.collection(params[:thing])
@@ -69,6 +70,7 @@ end
 #
 #
 get '/api/:thing/:id' do
+  content_type :json
   find_one(params[:thing], params[:id])
 end
 
@@ -76,6 +78,7 @@ end
 #
 #
 post '/api/:thing' do
+  content_type :json
   json = JSON.parse(request.body.read.to_s)
   oid = DB.collection(params[:thing]).insert(json)
   find_one(params[:thing], oid.to_s)
@@ -85,6 +88,7 @@ end
 #
 #
 delete '/api/:thing/:id' do
+  content_type :json
   DB.collection(params[:thing]).remove({'_id' => tobsonid(params[:id])})
   "{}"
 end
@@ -92,7 +96,8 @@ end
 #
 #
 #
-put '/api/:thing/:id' do  
+put '/api/:thing/:id' do
+  content_type :json
   selector = {'_id' => tobsonid(params[:id])}
   json = JSON.parse(request.body.read).reject{|k,v| k == 'id'}
   document = {'$set' => json}

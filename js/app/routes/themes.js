@@ -11,8 +11,8 @@
   });
 
   App.ThemesRoute = Ember.Route.extend({
-    model: function(params) {
-      App.log('Loading the model for theme', 'App.ThemesRoute.model', params);
+    model: function() {
+      App.log('Loading the model for theme', 'App.ThemesRoute.model');
       return this.store.find('theme');
     },
     afterModel: function(themes, transition) {

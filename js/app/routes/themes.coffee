@@ -7,8 +7,8 @@ App.ThemesIndexRoute = Ember.Route.extend
         @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
 
 App.ThemesRoute = Ember.Route.extend
-    model: (params)->
-        App.log('Loading the model for theme', 'App.ThemesRoute.model', params)
+    model: ->
+        App.log('Loading the model for theme', 'App.ThemesRoute.model')
         @store.find('theme')
 
     afterModel: (themes, transition) ->
