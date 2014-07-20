@@ -4,29 +4,30 @@ App.FocusareasEditController = Ember.ObjectController.extend
         update: ->
             focusarea = @get('model')
             shouldSave = true
+            theme_id = @utility.themeId(window.location.href)
 
             if Ember.isEmpty(focusarea.get('definition'))
                 @notify.danger "Definition cannot be empty."
                 shouldSave = false
 
-            if not @get('theme_id')?
+            if not theme_id?
                 @notify.danger "You have to create themes before creating focus areas!"
                 shouldSave = false
 
             if shouldSave
                 self = this
-                @store.find('theme', @get('theme_id')).then (theme) ->
+                @store.find('theme', theme_id).then (theme) ->
                     focusarea.set('theme', theme)
                     focusarea.save().then ->
-                        self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
+                        self.transitionToRoute('/themes/' + theme_id + '/focusareas')
             else
-                @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas/edit')
+                @transitionToRoute('/themes/' + theme_id + '/focusareas/edit')
 
         delete: ->
             administration = @get('model')
             administration.destroyRecord()
-            @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')
+            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')
 
         cancel: ->
             @get('model').rollback()
-            @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')
+            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')

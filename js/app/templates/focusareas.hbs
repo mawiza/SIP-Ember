@@ -12,7 +12,7 @@
     </div>
     {{outlet}}
     <ul class="focusarea-definitions list-group">
-        {{#each focusarea in controller}}
+        {{#each focusarea in model}}
             <li class="list-group-item">
                 {{#link-to 'focusareas.edit' focusarea}}
                     {{focusarea.definition}}

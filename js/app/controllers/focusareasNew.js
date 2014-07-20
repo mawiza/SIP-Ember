@@ -3,27 +3,31 @@
   App.FocusareasNewController = Ember.ObjectController.extend({
     actions: {
       submit: function() {
-        var focusarea, self, shouldSave;
+        var focusarea, self, shouldSave, theme_id;
         focusarea = this.get('model');
         shouldSave = true;
+        theme_id = this.utility.themeId(window.location.href);
         if (Ember.isEmpty(focusarea.get('definition'))) {
           this.notify.danger("Definition cannot be empty.");
           shouldSave = false;
         }
         if (shouldSave) {
           self = this;
-          return this.store.find('theme', this.get('theme_id')).then(function(theme) {
+          console.log("saving");
+          return this.store.find('theme', theme_id).then(function(theme) {
             focusarea.set('theme', theme);
+            console.log("setting the theme");
             return focusarea.save().then(function() {
-              return self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+              console.log("transitioning to: ", theme_id);
+              return self.transitionToRoute('/themes/' + theme_id + '/focusareas');
             });
           });
         } else {
-          return this.transitionToRoute('/themes/' + this.get('theme_id') + '/focusareas/new');
+          return this.transitionToRoute('/themes/' + theme_id + '/focusareas/new');
         }
       },
       cancel: function() {
-        return this.transitionToRoute('/themes/' + this.get('theme_id') + '/focusareas');
+        return this.transitionToRoute('/themes/' + this.utility.themeId(window.location.href) + '/focusareas');
       }
     }
   });

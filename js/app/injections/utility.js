@@ -29,6 +29,13 @@
       } else {
         return controller.transitionToRoute('/administrations/new');
       }
+    },
+    themeId: function(currentUrl) {
+      var regex, result;
+      regex = /\/themes\/(.*)\/focusareas/;
+      result = regex.exec(currentUrl) || ["", ""];
+      console.log("THEME_ID ->", result[1]);
+      return result[1];
     }
   });
 
@@ -43,6 +50,7 @@
     name: "injectUtilities",
     initialize: function(container, application) {
       application.inject("controller", "utility", "utility:main");
+      application.inject("route", "utility", "utility:main");
     }
   });
 

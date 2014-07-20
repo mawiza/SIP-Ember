@@ -1,9 +1,9 @@
-#TODO Clicking cancel should transition to browser.history.back
 App.FocusareasNewController = Ember.ObjectController.extend
     actions:
         submit: ->
             focusarea = @get('model')
             shouldSave = true
+            theme_id = @utility.themeId(window.location.href)
 
             if Ember.isEmpty(focusarea.get('definition'))
                 @notify.danger "Definition cannot be empty."
@@ -11,14 +11,16 @@ App.FocusareasNewController = Ember.ObjectController.extend
 
             if shouldSave
                 self = this
-                @store.find('theme', @get('theme_id')).then (theme) ->
+                console.log "saving"
+                @store.find('theme', theme_id).then (theme) ->
                     focusarea.set('theme', theme)
+                    console.log "setting the theme"
                     focusarea.save().then ->
-                        self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
-
+                        console.log "transitioning to: ", theme_id
+                        self.transitionToRoute('/themes/' + theme_id + '/focusareas')
 
             else
-                @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas/new')
+                @transitionToRoute('/themes/' + theme_id + '/focusareas/new')
 
         cancel: ->
-            @transitionToRoute('/themes/' + @get('theme_id') + '/focusareas')
+            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')

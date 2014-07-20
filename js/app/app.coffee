@@ -18,7 +18,7 @@ window.App = Ember.Application.create
             if data?
                 data = Ember.inspect(data)  if typeof data is "object"
                 console.log "DEBUG: " + @appName + " : " + location + " : " + message
-                console.log "DEBUG: " + @appName + " : (continued) data: " + data
+                console.log "DEBUG: (continued) data: " + data
             else
                 console.log "DEBUG: " + @appName + " : " + location + " : " + message
 

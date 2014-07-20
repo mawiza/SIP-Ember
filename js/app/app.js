@@ -22,7 +22,7 @@
             data = Ember.inspect(data);
           }
           console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
-          return console.log("DEBUG: " + this.appName + " : (continued) data: " + data);
+          return console.log("DEBUG: (continued) data: " + data);
         } else {
           return console.log("DEBUG: " + this.appName + " : " + location + " : " + message);
         }

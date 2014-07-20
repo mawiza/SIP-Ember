@@ -26,6 +26,11 @@ Ember.Utility = Ember.Object.extend(
             #administration.rollback()
             controller.transitionToRoute('/administrations/new')
 
+    themeId: (currentUrl)->
+        regex = /\/themes\/(.*)\/focusareas/
+        result = regex.exec(currentUrl) || ["", ""]
+        console.log "THEME_ID ->", result[1]
+        return result[1]
 )
 
 Ember.Application.initializer
@@ -38,4 +43,5 @@ Ember.Application.initializer
     name: "injectUtilities"
     initialize: (container, application) ->
         application.inject "controller", "utility", "utility:main"
+        application.inject "route", "utility", "utility:main"
         return
