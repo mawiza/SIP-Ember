@@ -1,3 +1,9 @@
+/**
+ * Compiling al the handlebars templates into a single template.js, then minifying all the js files into a single js file
+ * Not using grunt - think it is overkill for this small project.
+ * @type {compiler|exports}
+ */
+
 var compiler = require('ember-template-compiler');
 var uglifyJS = require("uglify-js");
 var fs = require('fs');
@@ -49,6 +55,7 @@ var walker  = walk.walk('js/app/templates', { followLinks: false });
 
 /**
  * Normalize the string by replacing the uppercase letter with the equivalent lowercase letter prefixed with '/'.
+ * for example focusareasEdit -> focusareas/edit
  * @param str
  * @returns the normalized string
  */
@@ -90,7 +97,7 @@ walker.on('file', function(root, stat, next) {
 });
 
 /**
- * Compile the application javascript files.
+ * Create a single javascript file.
  */
 
 /**

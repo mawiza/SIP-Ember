@@ -1,3 +1,7 @@
+#
+# A small generic sinatra/mongoDB CRUD api server.
+#
+
 require 'rubygems'
 require 'sinatra'
 require 'mongo'
@@ -17,7 +21,7 @@ configure do
 end
 
 #
-#
+# Taking care of Access-Control-Allow
 #
 before do
   if request.request_method == 'OPTIONS'
@@ -28,27 +32,29 @@ before do
 end
 
 #
-#
+# Select the DB - for example sip_ember_db for development and sip_ember_test_db when
+# running tests.
 #
 get '/select_db/:db' do
-  #"sip_ember_db"
-  #"sip_ember_test_db"
   DB = mongoDB.db(params[:db], :pool_size => 5, :timeout => 5)
   "DB #{params[:db]} selected"
 end
 
 #
-#
+# This will drop the DB and reload it - useful for cleaning up when running tests
 #
 get '/reset_db/:db' do  
   mongoDB.drop_database(params[:db])
   DB = mongoDB.db(params[:db], :pool_size => 5, :timeout => 5)
-  "DB #{params[:db]} dropped and reselected"
+  "DB #{params[:db]} dropped and reloaded"
 end
 
 #
-#
-#
+# Returns a list of things or a list of things that matches a specific query
+# http://localhost:4567/api/focusareas - will retrieve all the focusareas
+# http://localhost:4567/api/focusareas?theme=53bb2eba19cfd247e4000002 - will retrieve all the focusareas
+# belonging to the specified theme.
+# Works only with a single query parameter
 get '/api/:thing' do
   content_type :json
   if request.query_string.empty?
@@ -58,16 +64,16 @@ get '/api/:thing' do
     serializeJSON(result, params[:thing])
   else    
     request.query_string.class
-    parrent, id = request.query_string.split('=')    
+    key, value = request.query_string.split('=')
     collection = DB.collection(params[:thing])         
-    query = {modelName(params[:thing]) + "." + parrent => id}
+    query = {modelName(params[:thing]) + "." + key => value}
     result = collection.find(query).to_a.map{|t| frombsonid(t, params[:thing])}.to_json
     serializeJSON(result, params[:thing])
   end
 end
 
 #
-#
+# Returns a thing with a specific id
 #
 get '/api/:thing/:id' do
   content_type :json
@@ -75,7 +81,7 @@ get '/api/:thing/:id' do
 end
 
 #
-#
+# Create a new thing
 #
 post '/api/:thing' do
   content_type :json
@@ -85,7 +91,7 @@ post '/api/:thing' do
 end
 
 #
-#
+# Delete a thing with a specific id
 #
 delete '/api/:thing/:id' do
   content_type :json
@@ -94,7 +100,7 @@ delete '/api/:thing/:id' do
 end
 
 #
-#
+# Update a thing with a specific id
 #
 put '/api/:thing/:id' do
   content_type :json
@@ -106,14 +112,14 @@ put '/api/:thing/:id' do
 end
 
 #
-#
+# Convert the id to a BSON object id
 #
 def tobsonid(id) 
     BSON::ObjectId.from_string(id) 
 end
 
 #
-#
+# Extract the BSON id, then replacing the '_id' key with a 'id' key
 #
 def frombsonid(obj, thing)
   id = obj['_id'].to_s
@@ -122,7 +128,7 @@ def frombsonid(obj, thing)
 end
 
 #
-#
+# Serialize the Mongo JSON to Ember friendly JSON
 #
 def serializeJSON(json, thing)
   hash = JSON.parse(json)
@@ -133,14 +139,14 @@ def serializeJSON(json, thing)
 end
 
 #
-#
+# Utility method
 #
 def find_one(thing, id)
   frombsonid(DB.collection(thing).find_one(tobsonid(id)), thing).to_json
 end
 
 #
-#
+# Very crude method to singularize the model name.
 #
 def modelName(thing)
   thing.chomp("s")
