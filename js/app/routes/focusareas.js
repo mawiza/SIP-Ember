@@ -3,6 +3,17 @@
   App.FocusareasRoute = Ember.Route.extend({
     model: function(params) {
       return this.store.findAll('focusarea');
+    },
+    afterModel: function(model) {
+      var self, theme_id;
+      theme_id = this.utility.themeId(window.location.href);
+      self = this;
+      return Ember.RSVP.hash({
+        focusareas: this.store.findAll('focusarea')
+      }).then(function(results) {
+        console.log(results.focusareas);
+        return self.controllerFor('focusareas').set('model', results.focusareas);
+      });
     }
   });
 

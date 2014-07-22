@@ -4,7 +4,11 @@ App.ThemesIndexRoute = Ember.Route.extend
         @store.find('theme')
 
     afterModel: (themes, transition) ->
-        @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
+        theme_id = @utility.themeId(window.location.href)
+        if theme_id?
+            @transitionTo "/themes/" + theme_id + "/focusareas"
+        else
+            @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
 
 App.ThemesRoute = Ember.Route.extend
     model: ->
@@ -12,7 +16,10 @@ App.ThemesRoute = Ember.Route.extend
         @store.find('theme')
 
     afterModel: (themes, transition) ->
-        if themes.get("firstObject")?
+        theme_id = @utility.themeId(window.location.href)
+        if theme_id?
+            @transitionTo "/themes/" + theme_id + "/focusareas"
+        else if themes.get("firstObject")?
             @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"
         else
             @transitionTo "/themes/new"

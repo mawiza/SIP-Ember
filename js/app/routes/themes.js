@@ -6,7 +6,13 @@
       return this.store.find('theme');
     },
     afterModel: function(themes, transition) {
-      return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+      var theme_id;
+      theme_id = this.utility.themeId(window.location.href);
+      if (theme_id != null) {
+        return this.transitionTo("/themes/" + theme_id + "/focusareas");
+      } else {
+        return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+      }
     }
   });
 
@@ -16,7 +22,11 @@
       return this.store.find('theme');
     },
     afterModel: function(themes, transition) {
-      if (themes.get("firstObject") != null) {
+      var theme_id;
+      theme_id = this.utility.themeId(window.location.href);
+      if (theme_id != null) {
+        return this.transitionTo("/themes/" + theme_id + "/focusareas");
+      } else if (themes.get("firstObject") != null) {
         return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
       } else {
         return this.transitionTo("/themes/new");

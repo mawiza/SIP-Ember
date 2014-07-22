@@ -369,7 +369,13 @@
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
-            return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+            var theme_id;
+            theme_id = this.utility.themeId(window.location.href);
+            if (theme_id != null) {
+                return this.transitionTo("/themes/" + theme_id + "/focusareas");
+            } else {
+                return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+            }
         }
     });
     App.ThemesRoute = Ember.Route.extend({
@@ -378,7 +384,11 @@
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
-            if (themes.get("firstObject") != null) {
+            var theme_id;
+            theme_id = this.utility.themeId(window.location.href);
+            if (theme_id != null) {
+                return this.transitionTo("/themes/" + theme_id + "/focusareas");
+            } else if (themes.get("firstObject") != null) {
                 return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
             } else {
                 return this.transitionTo("/themes/new");
@@ -414,6 +424,17 @@
     App.FocusareasRoute = Ember.Route.extend({
         model: function(params) {
             return this.store.findAll("focusarea");
+        },
+        afterModel: function(model) {
+            var self, theme_id;
+            theme_id = this.utility.themeId(window.location.href);
+            self = this;
+            return Ember.RSVP.hash({
+                focusareas: this.store.findAll("focusarea")
+            }).then(function(results) {
+                console.log(results.focusareas);
+                return self.controllerFor("focusareas").set("model", results.focusareas);
+            });
         }
     });
     App.FocusareasNewRoute = Ember.Route.extend({
@@ -551,7 +572,9 @@
     });
 }).call(this);
 
-(function() {}).call(this);
+(function() {
+    App.FocusareasController = Ember.ArrayController.extend();
+}).call(this);
 
 (function() {
     App.FocusareasNewController = Ember.ObjectController.extend({
