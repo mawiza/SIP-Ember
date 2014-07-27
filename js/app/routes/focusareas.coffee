@@ -1,20 +1,21 @@
 App.FocusareasRoute = Ember.Route.extend
     model: (params) ->
-        @store.findAll('focusarea')
+        console.log "params:", params
+        @store.filter 'focusarea', {}, (focusarea)->
+            if focusarea.get('data.theme.id') is params.theme_id
+                return true
 
-    afterModel: (model) ->
-        theme_id = @utility.themeId(window.location.href)
-        self = this
-        Ember.RSVP.hash(
-            #focusareas: @store.find('focusarea', {theme: theme_id})
-            focusareas: @store.findAll('focusarea')
-        ).then (results) ->
-            console.log results.focusareas
-            self.controllerFor('focusareas').set('model', results.focusareas)
+#        @store.findAll('focusarea').then (allFocusareas) ->
+#            allFocusareas.filter (focusarea)->
+#            #allFocusareas.filter 'focusarea', {}, (focusarea)->
+#                console.log "FOCUSAREA", focusarea
+#                #console.log "THEME_ID", focusarea.get('data.theme.id')
+#                if focusarea.get('data.theme.id') is params.theme_id
+#                    return true
 
 App.FocusareasNewRoute = Ember.Route.extend
     model:  ->
-        @store.createRecord('focusarea')
+        focusarea = @store.createRecord('focusarea')
 
 App.FocusareasEditRoute = Ember.Route.extend
     model: ->

@@ -6,6 +6,7 @@ App.ThemesIndexRoute = Ember.Route.extend
     afterModel: (themes, transition) ->
         theme_id = @utility.themeId(window.location.href)
         if theme_id?
+            console.log "THEME-ID->", theme_id
             @transitionTo "/themes/" + theme_id + "/focusareas"
         else
             @transitionTo "/themes/" + themes.get("firstObject").get('id') + "/focusareas"

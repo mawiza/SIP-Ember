@@ -28,7 +28,7 @@ Ember.Utility = Ember.Object.extend(
 
     themeId: (currentUrl)->
         regex = /\/themes\/(.*)\/focusareas/
-        result = regex.exec(currentUrl) || ["", ""]
+        result = regex.exec(currentUrl) || ["", null]
         console.log "THEME_ID ->", result[1]
         return result[1]
 )

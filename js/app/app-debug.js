@@ -85,7 +85,7 @@
         themeId: function(currentUrl) {
             var regex, result;
             regex = /\/themes\/(.*)\/focusareas/;
-            result = regex.exec(currentUrl) || [ "", "" ];
+            result = regex.exec(currentUrl) || [ "", null ];
             console.log("THEME_ID ->", result[1]);
             return result[1];
         }
@@ -372,6 +372,7 @@
             var theme_id;
             theme_id = this.utility.themeId(window.location.href);
             if (theme_id != null) {
+                console.log("THEME-ID->", theme_id);
                 return this.transitionTo("/themes/" + theme_id + "/focusareas");
             } else {
                 return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
@@ -423,23 +424,18 @@
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
         model: function(params) {
-            return this.store.findAll("focusarea");
-        },
-        afterModel: function(model) {
-            var self, theme_id;
-            theme_id = this.utility.themeId(window.location.href);
-            self = this;
-            return Ember.RSVP.hash({
-                focusareas: this.store.findAll("focusarea")
-            }).then(function(results) {
-                console.log(results.focusareas);
-                return self.controllerFor("focusareas").set("model", results.focusareas);
+            console.log("params:", params);
+            return this.store.filter("focusarea", {}, function(focusarea) {
+                if (focusarea.get("data.theme.id") === params.theme_id) {
+                    return true;
+                }
             });
         }
     });
     App.FocusareasNewRoute = Ember.Route.extend({
         model: function() {
-            return this.store.createRecord("focusarea");
+            var focusarea;
+            return focusarea = this.store.createRecord("focusarea");
         }
     });
     App.FocusareasEditRoute = Ember.Route.extend({
@@ -593,7 +589,6 @@
                     console.log("saving");
                     return this.store.find("theme", theme_id).then(function(theme) {
                         focusarea.set("theme", theme);
-                        console.log("setting the theme");
                         return focusarea.save().then(function() {
                             console.log("transitioning to: ", theme_id);
                             return self.transitionToRoute("/themes/" + theme_id + "/focusareas");

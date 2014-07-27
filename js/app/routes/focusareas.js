@@ -2,24 +2,19 @@
 (function() {
   App.FocusareasRoute = Ember.Route.extend({
     model: function(params) {
-      return this.store.findAll('focusarea');
-    },
-    afterModel: function(model) {
-      var self, theme_id;
-      theme_id = this.utility.themeId(window.location.href);
-      self = this;
-      return Ember.RSVP.hash({
-        focusareas: this.store.findAll('focusarea')
-      }).then(function(results) {
-        console.log(results.focusareas);
-        return self.controllerFor('focusareas').set('model', results.focusareas);
+      console.log("params:", params);
+      return this.store.filter('focusarea', {}, function(focusarea) {
+        if (focusarea.get('data.theme.id') === params.theme_id) {
+          return true;
+        }
       });
     }
   });
 
   App.FocusareasNewRoute = Ember.Route.extend({
     model: function() {
-      return this.store.createRecord('focusarea');
+      var focusarea;
+      return focusarea = this.store.createRecord('focusarea');
     }
   });
 

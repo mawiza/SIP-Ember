@@ -9,6 +9,7 @@
       var theme_id;
       theme_id = this.utility.themeId(window.location.href);
       if (theme_id != null) {
+        console.log("THEME-ID->", theme_id);
         return this.transitionTo("/themes/" + theme_id + "/focusareas");
       } else {
         return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
