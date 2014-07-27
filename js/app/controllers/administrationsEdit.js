@@ -8,10 +8,12 @@
         return this.utility.updateOrSave(this, administration);
       },
       "delete": function() {
-        var administration;
+        var administration, self;
+        self = this;
         administration = this.get('model');
-        administration.destroyRecord();
-        return this.transitionToRoute('/administrations');
+        return administration.destroyRecord().then(function() {
+          return self.transitionToRoute('/administrations');
+        });
       },
       cancel: function() {
         return this.transitionToRoute('/administrations');

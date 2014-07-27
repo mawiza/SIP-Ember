@@ -16,7 +16,7 @@
             <ul class="theme-definitions list-group">
                 {{#each theme in controller}}
                     <li class="list-group-item">
-                        {{#link-to 'focusareas' theme.id}}
+                        {{#link-to 'focusareas' theme.id class="select-theme"}}
                             {{theme.definition}}<br/>
                         {{/link-to}}
                         {{#link-to 'themes.edit' theme class="pull-right edit-theme btn-xs btn-primary"}}

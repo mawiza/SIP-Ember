@@ -24,9 +24,10 @@ App.FocusareasEditController = Ember.ObjectController.extend
                 @transitionToRoute('/themes/' + theme_id + '/focusareas/edit')
 
         delete: ->
+            self = this
             administration = @get('model')
-            administration.destroyRecord()
-            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')
+            administration.destroyRecord().then ->
+                self.transitionToRoute('/themes/' + self.utility.themeId(window.location.href) + '/focusareas')
 
         cancel: ->
             @get('model').rollback()

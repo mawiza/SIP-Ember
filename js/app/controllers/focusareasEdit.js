@@ -28,10 +28,12 @@
         }
       },
       "delete": function() {
-        var administration;
+        var administration, self;
+        self = this;
         administration = this.get('model');
-        administration.destroyRecord();
-        return this.transitionToRoute('/themes/' + this.utility.themeId(window.location.href) + '/focusareas');
+        return administration.destroyRecord().then(function() {
+          return self.transitionToRoute('/themes/' + self.utility.themeId(window.location.href) + '/focusareas');
+        });
       },
       cancel: function() {
         this.get('model').rollback();

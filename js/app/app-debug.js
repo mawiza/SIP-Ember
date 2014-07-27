@@ -86,6 +86,9 @@
             var regex, result;
             regex = /\/themes\/(.*)\/focusareas/;
             result = regex.exec(currentUrl) || [ "", null ];
+            if (result != null) {
+                result = regex.exec(App.__container__.lookup("router:main").get("url")) || [ "", null ];
+            }
             console.log("THEME_ID ->", result[1]);
             return result[1];
         }
@@ -483,10 +486,12 @@
                 return this.utility.updateOrSave(this, administration);
             },
             "delete": function() {
-                var administration;
+                var administration, self;
+                self = this;
                 administration = this.get("model");
-                administration.destroyRecord();
-                return this.transitionToRoute("/administrations");
+                return administration.destroyRecord().then(function() {
+                    return self.transitionToRoute("/administrations");
+                });
             },
             cancel: function() {
                 return this.transitionToRoute("/administrations");
@@ -545,19 +550,19 @@
                 }
             },
             "delete": function() {
-                var notify, self, theme;
+                var self, theme;
                 theme = this.get("model");
-                notify = this.notify;
                 if (this.get("focusareasLength") === 0) {
                     self = this;
+                    console.log("theme", theme.get("id"));
                     App.log("Deleting the theme without focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
                     return theme.destroyRecord().then(function() {
                         return self.transitionToRoute("/themes");
                     });
                 } else {
                     App.log("Not deleting the theme with focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
-                    notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
-                    return this.transitionToRoute("/themes/" + theme.id + "/focusareas");
+                    this.notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
+                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 }
             },
             cancel: function() {
@@ -586,11 +591,9 @@
                 }
                 if (shouldSave) {
                     self = this;
-                    console.log("saving");
                     return this.store.find("theme", theme_id).then(function(theme) {
                         focusarea.set("theme", theme);
                         return focusarea.save().then(function() {
-                            console.log("transitioning to: ", theme_id);
                             return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
                         });
                     });
@@ -634,10 +637,12 @@
                 }
             },
             "delete": function() {
-                var administration;
+                var administration, self;
+                self = this;
                 administration = this.get("model");
-                administration.destroyRecord();
-                return this.transitionToRoute("/themes/" + this.utility.themeId(window.location.href) + "/focusareas");
+                return administration.destroyRecord().then(function() {
+                    return self.transitionToRoute("/themes/" + self.utility.themeId(window.location.href) + "/focusareas");
+                });
             },
             cancel: function() {
                 this.get("model").rollback();

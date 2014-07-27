@@ -13,11 +13,9 @@
         }
         if (shouldSave) {
           self = this;
-          console.log("saving");
           return this.store.find('theme', theme_id).then(function(theme) {
             focusarea.set('theme', theme);
             return focusarea.save().then(function() {
-              console.log("transitioning to: ", theme_id);
               return self.transitionToRoute('/themes/' + theme_id + '/focusareas');
             });
           });

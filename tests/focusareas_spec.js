@@ -49,11 +49,10 @@
       });
     });
     describe('a focusareas page', function() {
-      it('theme should be active and have an add new focusarea button', function() {
+      it('theme should have an add new focusarea button', function() {
         visit('/themes');
         return andThen(function() {
-          return click('li:contains("theme definition created in focusareas spec")').then(function() {
-            findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec")');
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').then(function() {
             findWithAssert('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.active');
             return findWithAssert('a.add-focusarea');
           });
@@ -62,38 +61,27 @@
       it('should direct to the new route when clicked', function() {
         visit('/themes');
         return andThen(function() {
-          return click('li:contains("theme definition created in focusareas spec")').click('a.add-focusarea').then(function() {
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('a.add-focusarea').then(function() {
             return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas\/new$/);
           });
         });
       });
-      it('should have focus areas that each can be clicked to be edited', function() {
+      return it('should have focus areas that each can be clicked to be edited', function() {
         visit('/themes');
         return andThen(function() {
-          return click('li:contains("theme definition created in focusareas spec")').then(function() {
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').then(function() {
             return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a');
-          });
-        });
-      });
-      return it('should not be possible to delete a theme with focusareas', function() {
-        return andThen(function() {
-          return click('li:contains("focusarea definition created calling createRecord") > a.edit-theme').then(function() {
-            return click('button.delete-button').then(function() {
-              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
-              return findWithAssert('ul.focusarea-definitions li:contains("focusarea definition created calling createRecord") a');
-            });
           });
         });
       });
     });
     describe('a new focusarea page that', function() {
-      it('should have a field, a select box and a submit button', function() {
+      it('should have a field and a submit button', function() {
         visit("/themes");
         return andThen(function() {
           return click('a.add-focusarea').then(function() {
             findWithAssert('form');
             findWithAssert('#definition');
-            findWithAssert('select.focusarea-theme');
             return findWithAssert("button.submit-button");
           });
         });
@@ -102,31 +90,33 @@
         visit("/themes");
         return andThen(function() {
           click('a.add-focusarea');
-          return fillIn('#definition', 'focusarea-definition1').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/focusareas');
+          return fillIn('#definition', 'focusarea-definition1').click('button.submit-button').then(function() {
+            return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
           });
         });
       });
       it('should be valid', function() {
-        visit("/focusareas/new");
+        visit("/themes");
         return andThen(function() {
-          return fillIn('#definition', '').click('button.submit-button').then(function() {
-            return expect(currentURL()).to.equal('/focusareas/new');
+          return click('a.add-focusarea').fillIn('#definition', '').click('button.submit-button').then(function() {
+            return expect(currentURL()).to.match(/^\/themes\/.*\/focusareas\/new$/);
           });
         });
       });
-      it('should transition to the the focusareas page', function() {
-        visit("/focusareas/new");
+      it('should transition to the the themes page of the added focusarea', function() {
+        visit('/themes');
         return andThen(function() {
-          return fillIn('#definition', 'focusarea-definition2').fillIn('select.focusarea-theme', '4').click('button.submit-button').then(function() {
-            return expect(find('table.table tbody tr').length).to.equal(7);
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('a.add-focusarea').fillIn('#definition', 'focusarea-definition2').click('button.submit-button').then(function() {
+            return expect(find('ul.focusarea-definitions li').length).to.equal(2);
           });
         });
       });
       return it('should have focusareas that each can be clicked to be edited', function() {
-        visit("/focusareas");
+        visit('/themes');
         return andThen(function() {
-          return findWithAssert('td.focusarea-definition:contains("focusarea-definition2") a');
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').then(function() {
+            return findWithAssert('ul.focusarea-definitions li:contains("focusarea-definition2") a');
+          });
         });
       });
     });
@@ -134,7 +124,7 @@
       it('should be accessed from the focusareas page', function() {
         visit("/themes");
         return andThen(function() {
-          return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('ul.focusarea-definitions li:contains("focusarea-definition2") a').then(function() {
             findWithAssert('form');
             findWithAssert('#definition');
             findWithAssert("button.update-button");
@@ -145,10 +135,10 @@
       it('should be possible to update the record', function() {
         visit("/themes");
         return andThen(function() {
-          return click('td.focusarea-definition:contains("focusarea-definition1") a').then(function() {
-            return fillIn('#definition', 'focusarea-definition3').fillIn('select.focusarea-theme', '4').click('button.update-button').then(function() {
-              expect(currentURL()).to.equal('/focusareas');
-              return findWithAssert('td.focusarea-definition:contains("focusarea-definition3")');
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('ul.focusarea-definitions li:contains("focusarea-definition2") a').then(function() {
+            return fillIn('#definition', 'focusarea-definition3').click('button.update-button').then(function() {
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+              return findWithAssert('ul.focusarea-definitions li:contains("focusarea-definition3") a');
             });
           });
         });
@@ -156,9 +146,11 @@
       it('should be possible to cancel the update', function() {
         visit("/themes");
         return andThen(function() {
-          return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('ul.focusarea-definitions li:contains("focusarea-definition3") a').then(function() {
+            fillIn('#definition', 'focusarea-definition4');
             return click('button.cancel-button').then(function() {
-              return expect(currentURL()).to.equal('/focusareas');
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+              return findWithAssert('ul.focusarea-definitions li:contains("focusarea-definition3") a');
             });
           });
         });
@@ -166,10 +158,11 @@
       return it('should be possible to delete the record', function() {
         visit("/themes");
         return andThen(function() {
-          return click('td.focusarea-definition:contains("focusarea-definition3") a').then(function() {
+          return click('ul.theme-definitions li:contains("theme definition created in focusareas spec") a.select-theme').click('ul.focusarea-definitions li:contains("focusarea-definition3") a').then(function() {
+            fillIn('#definition', 'focusarea-definition3');
             return click('button.delete-button').then(function() {
-              expect(currentURL()).to.equal('/focusareas');
-              return expect(find('table.table tbody tr').length).to.equal(6);
+              expect(currentURL()).to.match(/^\/themes\/.*\/focusareas$/);
+              return expect(find('ul.focusarea-definitions li').length).to.equal(1);
             });
           });
         });
