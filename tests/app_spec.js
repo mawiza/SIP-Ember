@@ -12,17 +12,14 @@
       it('a working title link', function() {
         return assertNavbarLink('');
       });
-      it('a working administrations link', function() {
-        return assertNavbarLink('');
+      it('a working strategies link', function() {
+        return assertNavbarLink('strategies');
       });
       it('a working administrations link', function() {
         return assertNavbarLink('administrations');
       });
       it('a working themes link', function() {
         return assertNavbarLink('themes');
-      });
-      it('a working focus areas link', function() {
-        return assertNavbarLink('focusareas');
       });
       return it('a working about link', function() {
         return assertNavbarLink('about');

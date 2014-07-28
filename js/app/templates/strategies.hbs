@@ -1,0 +1,25 @@
+{{x-notify}}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>
+            <h4>
+                {{t strategies.index.heading}}
+            </h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        <ul class="administrations-tabs nav-justified nav nav-tabs" role="tablist">
+            {{#each administration in model}}
+                {{#link-to 'strategies.administration'  administration.id tagName="li" href=false}}
+                    {{#link-to 'strategies.administration' administration.id}}
+                        {{administration.name}}
+                    {{/link-to}}
+                    <div {{bind-attr style=administration.tabStyle}}></div>
+                {{/link-to}}
+            {{/each}}
+        </ul>
+        <div class="tab-content">
+            {{outlet}}
+        </div>
+    </div>
+</div>

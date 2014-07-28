@@ -5,7 +5,7 @@
       title: "Strategiske Indsatsplan",
       navbar: {
         index: "Oversigt",
-        edit: "Redigere SIP",
+        strategies: "Planer",
         administrations: "Forvaltninger",
         themes: "Indsatsplaner",
         settings: "Indstillinger",
@@ -18,6 +18,11 @@
     index: {
       heading: "Oversigt",
       description: ""
+    },
+    strategies: {
+      index: {
+        heading: "Indsatsplaner"
+      }
     },
     administrations: {
       index: {

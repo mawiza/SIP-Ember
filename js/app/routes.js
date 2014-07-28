@@ -24,6 +24,11 @@
         });
       });
     });
+    this.resource('strategies', function() {
+      return this.resource('strategies.administration', {
+        path: '/administration/:administration_id'
+      });
+    });
     this.resource('about');
     return this.resource('settings');
   });

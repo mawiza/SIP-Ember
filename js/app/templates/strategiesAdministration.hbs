@@ -1,0 +1,16 @@
+<div class="tab-pane active" {{ bind-attr id=administration.id}}>
+    <br>
+    {{#each theme in controller}}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                {{theme.definition}}
+            </div>
+            <div class="panel-body">
+                {{#each focusarea in theme.focusareas}}
+                    {{focusarea.definition}}<br>
+                {{/each}}
+            </div>
+        </div>
+        <br>
+    {{/each}}
+</div>

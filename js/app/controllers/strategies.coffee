@@ -1,0 +1,1 @@
+App.StrategiesController = Ember.ArrayController.extend()

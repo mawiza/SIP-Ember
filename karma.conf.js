@@ -30,9 +30,11 @@ module.exports = function(config) {
         "js/app/templates.js",
         'tests/fixtures.coffee',
         'tests/test_helper.coffee',
-        'tests/administrations_spec.coffee',
+        'tests/app_spec.coffee',
+        /*'tests/administrations_spec.coffee',
         'tests/themes_spec.coffee',
-        'tests/focusareas_spec.coffee'
+        'tests/focusareas_spec.coffee',*/
+        'tests/strategies_spec.coffee'
     ],
 
 

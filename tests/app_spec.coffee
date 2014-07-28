@@ -10,17 +10,14 @@ describe "The home page should display", ->
         it 'a working title link', ->
             assertNavbarLink('')
 
-        it 'a working administrations link', ->
-            assertNavbarLink('')
+        it 'a working strategies link', ->
+            assertNavbarLink('strategies')
 
         it 'a working administrations link', ->
             assertNavbarLink('administrations')
 
         it 'a working themes link', ->
             assertNavbarLink('themes')
-
-        it 'a working focus areas link', ->
-            assertNavbarLink('focusareas')
 
         it 'a working about link', ->
             assertNavbarLink('about')

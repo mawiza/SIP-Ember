@@ -3,3 +3,6 @@ App.Focusarea = DS.Model.extend
     theme: DS.belongsTo('theme',
         async: true
     )
+    strategies: DS.hasMany('strategy',
+        async: true
+    )

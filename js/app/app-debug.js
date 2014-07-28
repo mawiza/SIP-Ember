@@ -114,7 +114,7 @@
             title: "Strategiske Indsatsplan",
             navbar: {
                 index: "Oversigt",
-                edit: "Redigere SIP",
+                strategies: "Planer",
                 administrations: "Forvaltninger",
                 themes: "Indsatsplaner",
                 settings: "Indstillinger",
@@ -127,6 +127,11 @@
         index: {
             heading: "Oversigt",
             description: ""
+        },
+        strategies: {
+            index: {
+                heading: "Indsatsplaner"
+            }
         },
         administrations: {
             index: {
@@ -282,7 +287,7 @@
 }).call(this);
 
 (function() {
-    App.ColorPicker = Em.View.extend({
+    App.ColorPicker = Ember.View.extend({
         didInsertElement: function() {
             return $("#color").colorpicker();
         }
@@ -293,8 +298,14 @@
     App.Administration = DS.Model.extend({
         name: DS.attr("string"),
         color: DS.attr("string"),
+        strategies: DS.hasMany("strategy", {
+            async: true
+        }),
         style: function() {
             return "background-color:" + this.get("color");
+        }.property("color"),
+        tabStyle: function() {
+            return "background-color:" + this.get("color") + ";width: 100%; height: 5px;margin-bottom: -5px;";
         }.property("color")
     });
 }).call(this);
@@ -312,6 +323,21 @@
     App.Focusarea = DS.Model.extend({
         definition: DS.attr("string"),
         theme: DS.belongsTo("theme", {
+            async: true
+        }),
+        strategies: DS.hasMany("strategy", {
+            async: true
+        })
+    });
+}).call(this);
+
+(function() {
+    App.Strategy = DS.Model.extend({
+        description: DS.attr("string"),
+        administration: DS.belongsTo("administration", {
+            async: true
+        }),
+        focusarea: DS.belongsTo("focusarea", {
             async: true
         })
     });
@@ -340,6 +366,11 @@
                 return this.route("edit", {
                     path: "/edit/:focusarea_id"
                 });
+            });
+        });
+        this.resource("strategies", function() {
+            return this.resource("strategies.administration", {
+                path: "/administration/:administration_id"
             });
         });
         this.resource("about");
@@ -444,6 +475,31 @@
     App.FocusareasEditRoute = Ember.Route.extend({
         model: function() {
             return this.modelFor("focusarea");
+        }
+    });
+}).call(this);
+
+(function() {
+    App.StrategiesRoute = Ember.Route.extend({
+        model: function(params) {
+            return this.store.findAll("administration");
+        },
+        afterModel: function(administrations, transition) {
+            var id;
+            if (administrations.get("firstObject") != null) {
+                id = administrations.get("firstObject").get("id");
+                console.log(id);
+                return this.transitionTo("/strategies/administration/" + id);
+            }
+        }
+    });
+}).call(this);
+
+(function() {
+    App.StrategiesAdministrationRoute = Ember.Route.extend({
+        model: function(params) {
+            console.log("StrategiesAdministrationRoute params:", params);
+            return this.store.find("theme");
         }
     });
 }).call(this);
@@ -650,4 +706,8 @@
             }
         }
     });
+}).call(this);
+
+(function() {
+    App.StrategiesController = Ember.ArrayController.extend();
 }).call(this);

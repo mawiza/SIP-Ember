@@ -13,18 +13,15 @@
         return expect(colorProperty.type).to.equal('string');
       });
       return it('can be created', function() {
-        visit("/administrations");
-        return andThen(function() {
-          return Ember.run(function() {
-            var administration, store;
-            store = App.__container__.lookup('store:main');
-            administration = store.createRecord("administration", {
-              name: 'TOM',
-              color: '#ccc'
-            });
-            return administration.save().then(function() {
-              return expect(administration.get('name')).to.equal('TOM');
-            });
+        return Ember.run(function() {
+          var administration, store;
+          store = App.__container__.lookup('store:main');
+          administration = store.createRecord("administration", {
+            name: 'TOM',
+            color: '#ccc'
+          });
+          return administration.save().then(function() {
+            return expect(administration.get('name')).to.equal('TOM');
           });
         });
       });

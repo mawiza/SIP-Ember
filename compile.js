@@ -21,13 +21,17 @@ var files = [
     "js/app/app.js",
     "js/app/components/notify.js",
     "js/app/views/colorPicker.js",
+    /*"js/app/views/strategies.js",*/
     "js/app/models/administration.js",
     "js/app/models/theme.js",
     "js/app/models/focusarea.js",
+    "js/app/models/strategy.js",
     "js/app/routes.js",
     "js/app/routes/administrations.js",
     "js/app/routes/themes.js",
     "js/app/routes/focusareas.js",
+    "js/app/routes/strategies.js",
+    "js/app/routes/strategiesAdministration.js",
     "js/app/controllers/administrations.js",
     "js/app/controllers/administrationsNew.js",
     "js/app/controllers/administrationsEdit.js",
@@ -36,8 +40,8 @@ var files = [
     "js/app/controllers/themesEdit.js",
     "js/app/controllers/focusareas.js",
     "js/app/controllers/focusareasNew.js",
-    "js/app/controllers/focusareasEdit.js"
-
+    "js/app/controllers/focusareasEdit.js",
+    "js/app/controllers/strategies.js"
 ];
 
 /**

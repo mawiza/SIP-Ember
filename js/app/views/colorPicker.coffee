@@ -1,3 +1,3 @@
-App.ColorPicker = Em.View.extend
+App.ColorPicker = Ember.View.extend
     didInsertElement: ->
         $('#color').colorpicker();

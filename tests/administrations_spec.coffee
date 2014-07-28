@@ -13,16 +13,14 @@ describe 'Administrations should', ->
             expect(colorProperty.type).to.equal('string')
 
         it 'can be created', ->
-            visit("/administrations")
-            andThen ->
-                Ember.run ->
-                    store = App.__container__.lookup('store:main')
-                    administration = store.createRecord("administration",
-                        name: 'TOM'
-                        color: '#ccc'
-                    )
-                    administration.save().then ->
-                        expect(administration.get('name')).to.equal('TOM')
+           Ember.run ->
+                store = App.__container__.lookup('store:main')
+                administration = store.createRecord("administration",
+                    name: 'TOM'
+                    color: '#ccc'
+                )
+                administration.save().then ->
+                    expect(administration.get('name')).to.equal('TOM')
 
 
     #

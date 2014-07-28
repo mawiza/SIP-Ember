@@ -23,25 +23,22 @@
         return expect(contentProperty.type).to.equal('theme');
       });
       return it('can be created', function() {
-        visit("/themes");
-        return andThen(function() {
-          return Ember.run(function() {
-            var store, theme;
-            store = App.__container__.lookup('store:main');
-            theme = store.createRecord("theme", {
-              definition: 'theme definition created in focusareas spec'
+        return Ember.run(function() {
+          var store, theme;
+          store = App.__container__.lookup('store:main');
+          theme = store.createRecord("theme", {
+            definition: 'theme definition created in focusareas spec'
+          });
+          return theme.save().then(function() {
+            var focusarea;
+            focusarea = store.createRecord("focusarea", {
+              definition: 'focusarea definition created calling createRecord',
+              theme: theme
             });
-            return theme.save().then(function() {
-              var focusarea;
-              focusarea = store.createRecord("focusarea", {
-                definition: 'focusarea definition created calling createRecord',
-                theme: theme
-              });
-              return focusarea.save().then(function() {
-                return theme.get("focusareas").then(function(focusareas) {
-                  focusareas.pushObject(focusarea);
-                  return expect(theme.get('focusareas').get('length')).to.equal(1);
-                });
+            return focusarea.save().then(function() {
+              return theme.get("focusareas").then(function(focusareas) {
+                focusareas.pushObject(focusarea);
+                return expect(theme.get('focusareas').get('length')).to.equal(1);
               });
             });
           });

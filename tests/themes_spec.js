@@ -23,17 +23,14 @@
         return expect(contentProperty.type).to.equal('focusarea');
       });
       return it('can be created', function() {
-        visit("/themes");
-        return andThen(function() {
-          return Ember.run(function() {
-            var store, theme;
-            store = App.__container__.lookup('store:main');
-            theme = store.createRecord("theme", {
-              definition: 'theme definition created calling createRecord'
-            });
-            return theme.save().then(function() {
-              return expect(theme.get('definition')).to.equal('theme definition created calling createRecord');
-            });
+        return Ember.run(function() {
+          var store, theme;
+          store = App.__container__.lookup('store:main');
+          theme = store.createRecord("theme", {
+            definition: 'theme definition created calling createRecord'
+          });
+          return theme.save().then(function() {
+            return expect(theme.get('definition')).to.equal('theme definition created calling createRecord');
           });
         });
       });

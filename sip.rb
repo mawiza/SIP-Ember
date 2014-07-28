@@ -8,6 +8,7 @@ require 'mongo'
 require 'json'
 require 'pry'
 require 'sinatra/cross_origin'
+require 'active_support/inflector'
 
 mongoDB = Mongo::Connection.new
 #DB = mongoDB.db("sip_ember_db", :pool_size => 5, :timeout => 5)
@@ -48,6 +49,19 @@ get '/reset_db/:db' do
   DB = mongoDB.db(params[:db], :pool_size => 5, :timeout => 5)
   "DB #{params[:db]} dropped and reloaded"
 end
+
+#
+# Get a list of collections for a specific DB
+#
+get '/db_collections' do
+  if DB == nil
+    "Please select a DB using /select_db/:db where :db is the name of the database"
+  else
+    collections = DB.collection_names
+    "#{collections}"
+  end  
+end
+
 
 #
 # Returns a list of things or a list of things that matches a specific query
@@ -149,5 +163,6 @@ end
 # Very crude method to singularize the model name.
 #
 def modelName(thing)
-  thing.chomp("s")
+  #thing.chomp("s")
+  thing.singularize
 end

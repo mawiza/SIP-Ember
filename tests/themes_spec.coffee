@@ -15,15 +15,13 @@ describe 'Themes should', ->
             expect(contentProperty.type).to.equal('focusarea')
 
         it 'can be created', ->
-            visit("/themes")
-            andThen ->
-                Ember.run ->
-                    store = App.__container__.lookup('store:main')
-                    theme = store.createRecord("theme",
-                        definition: 'theme definition created calling createRecord'
-                    )
-                    theme.save().then ->
-                        expect(theme.get('definition')).to.equal('theme definition created calling createRecord')
+            Ember.run ->
+                store = App.__container__.lookup('store:main')
+                theme = store.createRecord("theme",
+                    definition: 'theme definition created calling createRecord'
+                )
+                theme.save().then ->
+                    expect(theme.get('definition')).to.equal('theme definition created calling createRecord')
 
     #
     # Index

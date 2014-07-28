@@ -16,24 +16,22 @@ describe 'Focusareas should', ->
             expect(contentProperty.type).to.equal('theme')
 
         it 'can be created', ->
-            visit("/themes")
-            andThen ->
-                Ember.run ->
-                    store = App.__container__.lookup('store:main')
-                    theme = store.createRecord("theme",
-                        definition: 'theme definition created in focusareas spec'
+            Ember.run ->
+                store = App.__container__.lookup('store:main')
+                theme = store.createRecord("theme",
+                    definition: 'theme definition created in focusareas spec'
+                )
+
+                theme.save().then ->
+                    focusarea = store.createRecord("focusarea",
+                        definition: 'focusarea definition created calling createRecord'
+                        theme: theme
                     )
 
-                    theme.save().then ->
-                        focusarea = store.createRecord("focusarea",
-                            definition: 'focusarea definition created calling createRecord'
-                            theme: theme
-                        )
-
-                        focusarea.save().then ->
-                            theme.get("focusareas").then (focusareas)->
-                                focusareas.pushObject(focusarea)
-                                expect(theme.get('focusareas').get('length')).to.equal(1)
+                    focusarea.save().then ->
+                        theme.get("focusareas").then (focusareas)->
+                            focusareas.pushObject(focusarea)
+                            expect(theme.get('focusareas').get('length')).to.equal(1)
 
     #
     # Index

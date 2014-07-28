@@ -3,8 +3,14 @@
   App.Administration = DS.Model.extend({
     name: DS.attr('string'),
     color: DS.attr('string'),
+    strategies: DS.hasMany('strategy', {
+      async: true
+    }),
     style: (function() {
       return "background-color:" + this.get('color');
+    }).property("color"),
+    tabStyle: (function() {
+      return "background-color:" + this.get('color') + ";width: 100%; height: 5px;margin-bottom: -5px;";
     }).property("color")
   });
 
