@@ -16,6 +16,12 @@
           return this.store.find('theme', theme_id).then(function(theme) {
             focusarea.set('theme', theme);
             return focusarea.save().then(function() {
+              theme.get('focusareas').pushObject(focusarea);
+              theme.save().then((function(success) {
+                return console.log("SUCCESSFULL SAVE", success);
+              }), function(error) {
+                return console.log("API error occured - " + error.responseText);
+              });
               return self.transitionToRoute('/themes/' + theme_id + '/focusareas');
             });
           });

@@ -91,6 +91,25 @@
             }
             console.log("THEME_ID ->", result[1]);
             return result[1];
+        },
+        colorLuminance: function(hex, lum) {
+            var c, i, rgb;
+            hex = String(hex).replace(/[^0-9a-f]/g, "");
+            if (hex.length < 6) {
+                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+            lum = lum || 0;
+            rgb = "#";
+            c = void 0;
+            i = void 0;
+            i = 0;
+            while (i < 3) {
+                c = parseInt(hex.substr(i * 2, 2), 16);
+                c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+                rgb += ("00" + c).substr(c.length);
+                i++;
+            }
+            return rgb;
         }
     });
     Ember.Application.initializer({
@@ -104,6 +123,7 @@
         initialize: function(container, application) {
             application.inject("controller", "utility", "utility:main");
             application.inject("route", "utility", "utility:main");
+            application.inject("model", "utility", "utility:main");
         }
     });
 }).call(this);
@@ -219,6 +239,7 @@
             return value.capitalize();
         }
     });
+    Ember.MODEL_FACTORY_INJECTIONS = true;
     window.App = Ember.Application.create({
         LOG_TRANSITIONS: true,
         LOG_TRANSITIONS_INTERNAL: true,
@@ -295,6 +316,14 @@
 }).call(this);
 
 (function() {
+    App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
+        attrs: {
+            strategies: {
+                serialize: "ids",
+                deserialize: "ids"
+            }
+        }
+    });
     App.Administration = DS.Model.extend({
         name: DS.attr("string"),
         color: DS.attr("string"),
@@ -305,12 +334,23 @@
             return "background-color:" + this.get("color");
         }.property("color"),
         tabStyle: function() {
-            return "background-color:" + this.get("color") + ";width: 100%; height: 5px;margin-bottom: -5px;";
+            return "background-color:" + this.get("color") + ";width: 100%; height: 5px;";
+        }.property("color"),
+        shadedTabStyle: function() {
+            return "background-color:" + this.utility.colorLuminance(this.get("color"), .4) + ";width: 100%; height: 3px;";
         }.property("color")
     });
 }).call(this);
 
 (function() {
+    App.ThemeSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
+        attrs: {
+            focusareas: {
+                serialize: "ids",
+                deserialize: "ids"
+            }
+        }
+    });
     App.Theme = DS.Model.extend({
         definition: DS.attr("string"),
         focusareas: DS.hasMany("focusarea", {
@@ -320,10 +360,18 @@
 }).call(this);
 
 (function() {
+    App.FocusareaSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
+        attrs: {
+            strategies: {
+                serialize: "ids",
+                deserialize: "ids"
+            }
+        }
+    });
     App.Focusarea = DS.Model.extend({
         definition: DS.attr("string"),
         theme: DS.belongsTo("theme", {
-            async: true
+            embedded: true
         }),
         strategies: DS.hasMany("strategy", {
             async: true
@@ -335,10 +383,10 @@
     App.Strategy = DS.Model.extend({
         description: DS.attr("string"),
         administration: DS.belongsTo("administration", {
-            async: true
+            embedded: true
         }),
         focusarea: DS.belongsTo("focusarea", {
-            async: true
+            embedded: true
         })
     });
 }).call(this);
@@ -485,11 +533,8 @@
             return this.store.findAll("administration");
         },
         afterModel: function(administrations, transition) {
-            var id;
             if (administrations.get("firstObject") != null) {
-                id = administrations.get("firstObject").get("id");
-                console.log(id);
-                return this.transitionTo("/strategies/administration/" + id);
+                return this.transitionTo("/strategies/administration/" + administrations.get("firstObject").get("id"));
             }
         }
     });
@@ -499,7 +544,7 @@
     App.StrategiesAdministrationRoute = Ember.Route.extend({
         model: function(params) {
             console.log("StrategiesAdministrationRoute params:", params);
-            return this.store.find("theme");
+            return this.store.findAll("theme");
         }
     });
 }).call(this);
@@ -650,6 +695,12 @@
                     return this.store.find("theme", theme_id).then(function(theme) {
                         focusarea.set("theme", theme);
                         return focusarea.save().then(function() {
+                            theme.get("focusareas").pushObject(focusarea);
+                            theme.save().then(function(success) {
+                                return console.log("SUCCESSFULL SAVE", success);
+                            }, function(error) {
+                                return console.log("API error occured - " + error.responseText);
+                            });
                             return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
                         });
                     });

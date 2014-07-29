@@ -36,8 +36,8 @@ describe 'Strategies should', ->
                         )
 
                         focusarea.save().then ->
-                            theme.get("focusareas").then (focusareas)->
-                                focusareas.pushObject(focusarea)
+                            theme.get("focusareas").addObject(focusarea)
+                            theme.save()
 
                             strategy = store.createRecord('strategy'
                                 description: 'Strategy description'
@@ -46,11 +46,11 @@ describe 'Strategies should', ->
                             )
 
                             strategy.save().then ->
-                                administration.get('strategies').then (strategies) ->
-                                    strategies.pushObject(strategy)
+                                administration.get('strategies').pushObject(strategy)
+                                administration.save()
 
-                                focusarea.get('strategies').then (strategies) ->
-                                    strategies.pushObject(strategy)
+                                focusarea.get('strategies').pushObject(strategy)
+                                focusarea.save()
 
 
     #
@@ -61,27 +61,38 @@ describe 'Strategies should', ->
         it 'should have a list of administration tabs', ->
             visit("/strategies")
             andThen ->
-                expect(find('ul.administrations-tabs li').length).to.equal(1)
+                #expect(find('ul.strategies-administrations-tabs li').length).to.equal(3)
+                expect(find('ul.strategies-administrations-tabs li').length).to.equal(1)
 
         it 'should have a list of administration tabs that each can be selected', ->
             visit("/strategies")
             andThen ->
-                click('ul.administrations-tabs li a')
-                expect(find('ul.administrations-tabs li').length).to.equal(1)
+                click('ul.strategies-administrations-tabs li a')
+                .then ->
+                    #expect(find('ul.strategies-administrations-tabs li').length).to.equal(3)
+                    expect(find('ul.strategies-administrations-tabs li').length).to.equal(1)
 
 
+        it 'should direct to the new route when clicked', ->
+            visit("/strategies")
+            andThen ->
+                click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
+                .then ->
+                    expect(currentURL()).to.match(/^\/strategies\/administration\/.*$/)
 
-#        it 'should direct to the new route when clicked', ->
-#            visit("/administrations")
-#            andThen ->
-#                click('a.add-administration')
-#                .then ->
-#                    expect(currentURL()).to.equal('/administrations/new')
-#
-#        it 'should have table with a header and two columns', ->
-#            visit("/administrations")
-#            andThen ->
-#                findWithAssert('table.table')
-#                expect(find('table.table thead tr th').length).to.equal(2)
 
+        it 'should have a list of themes', ->
+            visit('/strategies')
+            andThen ->
+                click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
+                .then ->
+                    expect(find('div.strategies-theme').length).to.equal(1)
+
+
+        it 'should have a list of focusareas', ->
+            visit('/strategies')
+            andThen ->
+                click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
+                .then ->
+                    expect(find('div.strategies-focusarea').length).to.equal(1)
 

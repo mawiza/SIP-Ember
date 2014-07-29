@@ -38,21 +38,18 @@
               });
               return focusarea.save().then(function() {
                 var strategy;
-                theme.get("focusareas").then(function(focusareas) {
-                  return focusareas.pushObject(focusarea);
-                });
+                theme.get("focusareas").addObject(focusarea);
+                theme.save();
                 strategy = store.createRecord('strategy', {
                   description: 'Strategy description',
                   administration: administration,
                   focusarea: focusarea
                 });
                 return strategy.save().then(function() {
-                  administration.get('strategies').then(function(strategies) {
-                    return strategies.pushObject(strategy);
-                  });
-                  return focusarea.get('strategies').then(function(strategies) {
-                    return strategies.pushObject(strategy);
-                  });
+                  administration.get('strategies').pushObject(strategy);
+                  administration.save();
+                  focusarea.get('strategies').pushObject(strategy);
+                  return focusarea.save();
                 });
               });
             });
@@ -64,14 +61,39 @@
       it('should have a list of administration tabs', function() {
         visit("/strategies");
         return andThen(function() {
-          return expect(find('ul.administrations-tabs li').length).to.equal(1);
+          return expect(find('ul.strategies-administrations-tabs li').length).to.equal(1);
         });
       });
-      return it('should have a list of administration tabs that each can be selected', function() {
+      it('should have a list of administration tabs that each can be selected', function() {
         visit("/strategies");
         return andThen(function() {
-          click('ul.administrations-tabs li a');
-          return expect(find('ul.administrations-tabs li').length).to.equal(1);
+          return click('ul.strategies-administrations-tabs li a').then(function() {
+            return expect(find('ul.strategies-administrations-tabs li').length).to.equal(1);
+          });
+        });
+      });
+      it('should direct to the new route when clicked', function() {
+        visit("/strategies");
+        return andThen(function() {
+          return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
+            return expect(currentURL()).to.match(/^\/strategies\/administration\/.*$/);
+          });
+        });
+      });
+      it('should have a list of themes', function() {
+        visit('/strategies');
+        return andThen(function() {
+          return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
+            return expect(find('div.strategies-theme').length).to.equal(1);
+          });
+        });
+      });
+      return it('should have a list of focusareas', function() {
+        visit('/strategies');
+        return andThen(function() {
+          return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
+            return expect(find('div.strategies-focusarea').length).to.equal(1);
+          });
         });
       });
     });

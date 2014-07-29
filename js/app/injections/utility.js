@@ -37,8 +37,26 @@
       if (result != null) {
         result = regex.exec(App.__container__.lookup('router:main').get('url')) || ["", null];
       }
-      console.log("THEME_ID ->", result[1]);
       return result[1];
+    },
+    colorLuminance: function(hex, lum) {
+      var c, i, rgb;
+      hex = String(hex).replace(/[^0-9a-f]/g, "");
+      if (hex.length < 6) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+      }
+      lum = lum || 0;
+      rgb = "#";
+      c = void 0;
+      i = void 0;
+      i = 0;
+      while (i < 3) {
+        c = parseInt(hex.substr(i * 2, 2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00" + c).substr(c.length);
+        i++;
+      }
+      return rgb;
     }
   });
 
@@ -54,6 +72,7 @@
     initialize: function(container, application) {
       application.inject("controller", "utility", "utility:main");
       application.inject("route", "utility", "utility:main");
+      application.inject("model", "utility", "utility:main");
     }
   });
 

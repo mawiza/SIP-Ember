@@ -4,6 +4,8 @@ Ember.Handlebars.helper "capitalize", (value) ->
     else
         value.capitalize()
 
+Ember.MODEL_FACTORY_INJECTIONS = true
+
 window.App = Ember.Application.create
     LOG_TRANSITIONS: true
     LOG_TRANSITIONS_INTERNAL: true

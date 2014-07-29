@@ -8,13 +8,16 @@
         </div>
     </div>
     <div class="panel-body">
-        <ul class="administrations-tabs nav-justified nav nav-tabs" role="tablist">
+        <ul class="strategies-administrations-tabs nav-justified nav nav-tabs" role="tablist">
             {{#each administration in model}}
                 {{#link-to 'strategies.administration'  administration.id tagName="li" href=false}}
                     {{#link-to 'strategies.administration' administration.id}}
                         {{administration.name}}
                     {{/link-to}}
-                    <div {{bind-attr style=administration.tabStyle}}></div>
+                    <div>
+                        <div {{bind-attr style=administration.shadedTabStyle}}></div>
+                        <div {{bind-attr style=administration.tabStyle}}></div>
+                    </div>
                 {{/link-to}}
             {{/each}}
         </ul>

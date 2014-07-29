@@ -68,22 +68,36 @@ end
 # http://localhost:4567/api/focusareas - will retrieve all the focusareas
 # http://localhost:4567/api/focusareas?theme=53bb2eba19cfd247e4000002 - will retrieve all the focusareas
 # belonging to the specified theme.
-# Works only with a single query parameter
+# Works only with a single query parameter or multiple id[] parameters
 get '/api/:thing' do
   content_type :json
+  query = {}
+  result = {}
+  collection = DB.collection(params[:thing])
+
   if request.query_string.empty?
-    #binding.pry
-    collection = DB.collection(params[:thing])
     result = collection.find.to_a.map{|t| frombsonid(t, params[:thing])}.to_json
-    serializeJSON(result, params[:thing])
   else    
-    request.query_string.class
-    key, value = request.query_string.split('=')
-    collection = DB.collection(params[:thing])         
-    query = {modelName(params[:thing]) + "." + key => value}
+    if request.query_string.include? '&'
+      queries = request.query_string.split('&')
+      ids = []
+      queries.each do |q|
+        key, value = q.split('=')
+        ids << tobsonid(value)        
+      end
+      #query = "{" + modelName(params[:thing]) + "._id: { $in:['" + ids.join("','") + "]}}"
+      #query = {"_id" => { "$in" => ids }}
+      #query = {"_id" => { "$in" => ids }}
+      query = {id: ids}
+    else
+      key, value = request.query_string.split('=')
+      query = {modelName(params[:thing]) + "." + key => value}
+    end
+    puts query
     result = collection.find(query).to_a.map{|t| frombsonid(t, params[:thing])}.to_json
-    serializeJSON(result, params[:thing])
   end
+
+  serializeJSON(result, params[:thing])    
 end
 
 #
