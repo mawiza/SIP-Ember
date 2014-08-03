@@ -6,9 +6,11 @@
     },
     afterModel: function(administrations, transition) {
       var administration_id;
-      if (administrations.get("firstObject") != null) {
+      if (administrations.get('length') !== 0) {
         administration_id = administrations.get("firstObject").get('id');
         return this.transitionTo("/strategies/administration/" + administration_id);
+      } else {
+        return this.transitionTo("/administrations/new");
       }
     }
   });

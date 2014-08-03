@@ -3,7 +3,8 @@ App.StrategiesRoute = Ember.Route.extend
         @store.findAll('administration')
 
     afterModel: (administrations, transition) ->
-        if administrations.get("firstObject")?
+        if administrations.get('length') != 0
             administration_id = administrations.get("firstObject").get('id')
             @transitionTo "/strategies/administration/" + administration_id
-            #$('#' + administration_id).addClass('active') #TODO
+        else
+            @transitionTo "/administrations/new"

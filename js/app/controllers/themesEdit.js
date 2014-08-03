@@ -20,18 +20,17 @@
       "delete": function() {
         var self, theme;
         theme = this.get('model');
-        if (this.get('focusareasLength') === 0) {
-          self = this;
-          console.log("theme", theme.get("id"));
-          App.log('Deleting the theme without focusareas', 'App.ThemesEditController.delete', this.get('focusareasLength'));
-          return theme.destroyRecord().then(function() {
-            return self.transitionToRoute('/themes');
-          });
-        } else {
-          App.log('Not deleting the theme with focusareas', 'App.ThemesEditController.delete', this.get('focusareasLength'));
-          this.notify.danger("Cannot delete " + theme.get('definition') + ". Please delete all the focus areas related to this theme first.");
-          return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
-        }
+        self = this;
+        return theme.get('focusareas').then(function(focusareas) {
+          if (focusareas.get('length') === 0) {
+            return theme.destroyRecord().then(function() {
+              return self.transitionToRoute('/themes');
+            });
+          } else {
+            self.notify.danger("Cannot delete " + theme.get('definition') + ". Please delete all the focus areas related to this theme first.");
+            return self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+          }
+        });
       },
       cancel: function() {
         this.get('model').rollback();

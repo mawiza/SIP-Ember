@@ -28,11 +28,15 @@
         }
       },
       "delete": function() {
-        var administration, self;
+        var focusarea, self, theme;
         self = this;
-        administration = this.get('model');
-        return administration.destroyRecord().then(function() {
-          return self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas');
+        focusarea = this.get('model');
+        theme = focusarea.get('theme');
+        theme.get('focusareas').removeObject(focusarea);
+        return theme.save().then(function() {
+          return focusarea.destroyRecord().then(function() {
+            return self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas');
+          });
         });
       },
       cancel: function() {

@@ -66,3 +66,19 @@ a.add-focusarea {
 a.edit-theme {
     margin-top: -22px;
 }
+
+div.strategies-theme {
+    margin-bottom: 5px;
+}
+
+textarea.strategy-description {
+    margin-bottom: 20px;
+}
+
+div.strategy-administration {
+    padding-bottom: 0px;
+}
+
+label.strategy-focusarea {
+    padding-bottom: 2px;
+}

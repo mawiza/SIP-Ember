@@ -6,13 +6,21 @@
       return this.store.find('theme');
     },
     afterModel: function(themes, transition) {
-      var theme_id;
-      theme_id = this.utility.idFromURL(window.location.href);
-      if (theme_id != null) {
-        console.log("THEME-ID->", theme_id);
-        return this.transitionTo("/themes/" + theme_id + "/focusareas");
+      var error, theme_id;
+      if (themes.get('length') !== 0) {
+        theme_id = this.utility.idFromURL(window.location.href);
+        try {
+          if (theme_id != null) {
+            return this.transitionTo("/themes/" + theme_id + "/focusareas");
+          } else {
+            return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+          }
+        } catch (_error) {
+          error = _error;
+          return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+        }
       } else {
-        return this.transitionTo("/themes/" + themes.get("firstObject").get('id') + "/focusareas");
+        return this.transitionTo("/themes/new");
       }
     }
   });

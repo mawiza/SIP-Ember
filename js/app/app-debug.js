@@ -328,6 +328,8 @@
     });
 }).call(this);
 
+(function() {}).call(this);
+
 (function() {
     App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
         attrs: {
@@ -404,6 +406,7 @@
 (function() {
     App.Strategy = DS.Model.extend({
         description: DS.attr("string"),
+        selected: DS.attr("boolean"),
         administration: DS.belongsTo("administration", {
             embedded: true
         }),
@@ -473,13 +476,21 @@
             return this.store.find("theme");
         },
         afterModel: function(themes, transition) {
-            var theme_id;
-            theme_id = this.utility.idFromURL(window.location.href);
-            if (theme_id != null) {
-                console.log("THEME-ID->", theme_id);
-                return this.transitionTo("/themes/" + theme_id + "/focusareas");
+            var error, theme_id;
+            if (themes.get("length") !== 0) {
+                theme_id = this.utility.idFromURL(window.location.href);
+                try {
+                    if (theme_id != null) {
+                        return this.transitionTo("/themes/" + theme_id + "/focusareas");
+                    } else {
+                        return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+                    }
+                } catch (_error) {
+                    error = _error;
+                    return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+                }
             } else {
-                return this.transitionTo("/themes/" + themes.get("firstObject").get("id") + "/focusareas");
+                return this.transitionTo("/themes/new");
             }
         }
     });
@@ -556,9 +567,11 @@
         },
         afterModel: function(administrations, transition) {
             var administration_id;
-            if (administrations.get("firstObject") != null) {
+            if (administrations.get("length") !== 0) {
                 administration_id = administrations.get("firstObject").get("id");
                 return this.transitionTo("/strategies/administration/" + administration_id);
+            } else {
+                return this.transitionTo("/administrations/new");
             }
         }
     });
@@ -677,18 +690,17 @@
             "delete": function() {
                 var self, theme;
                 theme = this.get("model");
-                if (this.get("focusareasLength") === 0) {
-                    self = this;
-                    console.log("theme", theme.get("id"));
-                    App.log("Deleting the theme without focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
-                    return theme.destroyRecord().then(function() {
-                        return self.transitionToRoute("/themes");
-                    });
-                } else {
-                    App.log("Not deleting the theme with focusareas", "App.ThemesEditController.delete", this.get("focusareasLength"));
-                    this.notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
-                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
-                }
+                self = this;
+                return theme.get("focusareas").then(function(focusareas) {
+                    if (focusareas.get("length") === 0) {
+                        return theme.destroyRecord().then(function() {
+                            return self.transitionToRoute("/themes");
+                        });
+                    } else {
+                        self.notify.danger("Cannot delete " + theme.get("definition") + ". Please delete all the focus areas related to this theme first.");
+                        return self.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
+                    }
+                });
             },
             cancel: function() {
                 this.get("model").rollback();
@@ -768,11 +780,15 @@
                 }
             },
             "delete": function() {
-                var administration, self;
+                var focusarea, self, theme;
                 self = this;
-                administration = this.get("model");
-                return administration.destroyRecord().then(function() {
-                    return self.transitionToRoute("/themes/" + self.utility.idFromURL(window.location.href) + "/focusareas");
+                focusarea = this.get("model");
+                theme = focusarea.get("theme");
+                theme.get("focusareas").removeObject(focusarea);
+                return theme.save().then(function() {
+                    return focusarea.destroyRecord().then(function() {
+                        return self.transitionToRoute("/themes/" + self.utility.idFromURL(window.location.href) + "/focusareas");
+                    });
                 });
             },
             cancel: function() {
@@ -790,9 +806,6 @@
 (function() {
     App.StrategiesAdministrationController = Ember.ArrayController.extend({
         needs: "strategies",
-        strategies: Ember.computed.alias("controllers.strategies"),
-        administration_id: function() {
-            return this.utility.idFromURL(window.location.href);
-        }.property("route.strategies.currentPath")
+        strategies: Ember.computed.alias("controllers.strategies")
     });
 }).call(this);

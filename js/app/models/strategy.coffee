@@ -1,5 +1,6 @@
 App.Strategy = DS.Model.extend
     description: DS.attr('string')
+    selected: DS.attr('boolean')
     administration: DS.belongsTo('administration',
         embedded: true
     )

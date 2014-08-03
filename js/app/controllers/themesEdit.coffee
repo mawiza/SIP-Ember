@@ -16,17 +16,15 @@ App.ThemesEditController = Ember.ObjectController.extend
 
         delete: ->
             theme = @get('model')
-
-            if @get('focusareasLength') == 0
-                self = this
-                console.log "theme", theme.get("id")
-                App.log('Deleting the theme without focusareas', 'App.ThemesEditController.delete', @get('focusareasLength'))
-                theme.destroyRecord().then ->
-                    self.transitionToRoute('/themes')
-            else
-                App.log('Not deleting the theme with focusareas', 'App.ThemesEditController.delete', @get('focusareasLength'))
-                @notify.danger "Cannot delete " + theme.get('definition') + ". Please delete all the focus areas related to this theme first."
-                @transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
+            #console.log theme.get('focusareas'), Ember.inspect theme.get('focusareas')
+            self = this
+            theme.get('focusareas').then (focusareas) ->
+                if focusareas.get('length') == 0
+                    theme.destroyRecord().then ->
+                        self.transitionToRoute('/themes')
+                else
+                    self.notify.danger "Cannot delete " + theme.get('definition') + ". Please delete all the focus areas related to this theme first."
+                    self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
 
         cancel: ->
             @get('model').rollback()

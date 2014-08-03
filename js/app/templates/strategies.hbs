@@ -14,20 +14,11 @@
                     {{#view App.StrategyTabAnchorView administration_id=administration.id}}
                         {{administration.name}}
                     {{/view}}
-                    <div>
-                        <div {{bind-attr style=administration.shadedTabStyle}}></div>
-                        <div {{bind-attr style=administration.tabStyle}}></div>
-                    </div>
                 {{/link-to}}
             {{/each}}
         </ul>
         <div class="tab-content">
-            <br> <!-- Remove the active and toggle the tab when the tab-nav gets clicked -->
-            {{#each administration in model}}
-                <div class="strategies-administrations-tab tab-pane fade in" {{bind-attr id=administration.id}}>
-                    {{outlet}}
-                </div>
-            {{/each}}
+            {{outlet}}
         </div>
     </div>
 </div>
