@@ -21,7 +21,7 @@ var files = [
     "js/app/app.js",
     "js/app/components/notify.js",
     "js/app/views/colorPicker.js",
-    /*"js/app/views/strategies.js",*/
+    "js/app/views/strategyTabAnchorView.js",
     "js/app/models/administration.js",
     "js/app/models/theme.js",
     "js/app/models/focusarea.js",
@@ -41,7 +41,8 @@ var files = [
     "js/app/controllers/focusareas.js",
     "js/app/controllers/focusareasNew.js",
     "js/app/controllers/focusareasEdit.js",
-    "js/app/controllers/strategies.js"
+    "js/app/controllers/strategies.js",
+    "js/app/controllers/strategiesAdministration.js"
 ];
 
 /**

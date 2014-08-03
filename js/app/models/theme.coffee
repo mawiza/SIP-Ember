@@ -10,3 +10,7 @@ App.Theme = DS.Model.extend
     focusareas: DS.hasMany('focusarea',
         async: true
     )
+
+    hashedID: (->
+        "#" + @get('id')
+    ).property("id")

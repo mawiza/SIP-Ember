@@ -23,7 +23,10 @@
     }).property("color"),
     shadedTabStyle: (function() {
       return "background-color:" + this.utility.colorLuminance(this.get('color'), 0.4) + ";width: 100%; height: 3px;";
-    }).property("color")
+    }).property("color"),
+    hashedID: (function() {
+      return "#" + this.get('id');
+    }).property("id")
   });
 
 }).call(this);

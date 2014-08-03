@@ -26,12 +26,13 @@ Ember.Utility = Ember.Object.extend(
             #administration.rollback()
             controller.transitionToRoute('/administrations/new')
 
-    themeId: (currentUrl)->
-        regex = /\/themes\/(.*)\/focusareas/
+    idFromURL: (currentUrl)->
+        regex = /([a-f0-9]{24})/
         result = regex.exec(currentUrl) || ["", null]
         if result?
             result = regex.exec(App.__container__.lookup('router:main').get('url')) || ["", null]
         return result[1]
+
 
     #http://www.sitepoint.com/javascript-generate-lighter-darker-color/
     colorLuminance: (hex, lum) ->

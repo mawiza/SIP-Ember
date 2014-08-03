@@ -3,7 +3,7 @@
   App.StrategiesAdministrationRoute = Ember.Route.extend({
     model: function(params) {
       console.log("StrategiesAdministrationRoute params:", params);
-      return this.store.find('theme');
+      return this.store.findAll('theme');
     }
   });
 

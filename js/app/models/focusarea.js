@@ -16,7 +16,10 @@
     }),
     strategies: DS.hasMany('strategy', {
       async: true
-    })
+    }),
+    hashedID: (function() {
+      return "#" + this.get('id');
+    }).property("id")
   });
 
 }).call(this);

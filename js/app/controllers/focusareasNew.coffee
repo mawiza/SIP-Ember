@@ -3,7 +3,7 @@ App.FocusareasNewController = Ember.ObjectController.extend
         submit: ->
             focusarea = @get('model')
             shouldSave = true
-            theme_id = @utility.themeId(window.location.href)
+            theme_id = @utility.idFromURL(window.location.href)
 
             if Ember.isEmpty(focusarea.get('definition'))
                 @notify.danger "Definition cannot be empty."
@@ -26,4 +26,4 @@ App.FocusareasNewController = Ember.ObjectController.extend
                 @transitionToRoute('/themes/' + theme_id + '/focusareas/new')
 
         cancel: ->
-            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')
+            @transitionToRoute('/themes/' + @utility.idFromURL(window.location.href) + '/focusareas')

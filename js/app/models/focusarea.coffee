@@ -13,3 +13,6 @@ App.Focusarea = DS.Model.extend
     strategies: DS.hasMany('strategy',
         async: true
     )
+    hashedID: (->
+        "#" + @get('id')
+    ).property("id")

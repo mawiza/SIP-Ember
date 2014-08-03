@@ -82,14 +82,13 @@
                 return controller.transitionToRoute("/administrations/new");
             }
         },
-        themeId: function(currentUrl) {
+        idFromURL: function(currentUrl) {
             var regex, result;
-            regex = /\/themes\/(.*)\/focusareas/;
+            regex = /([a-f0-9]{24})/;
             result = regex.exec(currentUrl) || [ "", null ];
             if (result != null) {
                 result = regex.exec(App.__container__.lookup("router:main").get("url")) || [ "", null ];
             }
-            console.log("THEME_ID ->", result[1]);
             return result[1];
         },
         colorLuminance: function(hex, lum) {
@@ -316,6 +315,20 @@
 }).call(this);
 
 (function() {
+    App.StrategyTabAnchorView = Ember.View.extend({
+        tagName: "a",
+        didInsertElement: function() {
+            return this.$().attr("href", "#/strategies/administration/" + this.get("administration_id"));
+        },
+        click: function() {
+            console.log("clicked", this.get("administration_id"));
+            $(".strategies-administrations-tab").removeClass("active");
+            return $("#" + this.get("administration_id")).addClass("active");
+        }
+    });
+}).call(this);
+
+(function() {
     App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
         attrs: {
             strategies: {
@@ -338,7 +351,10 @@
         }.property("color"),
         shadedTabStyle: function() {
             return "background-color:" + this.utility.colorLuminance(this.get("color"), .4) + ";width: 100%; height: 3px;";
-        }.property("color")
+        }.property("color"),
+        hashedID: function() {
+            return "#" + this.get("id");
+        }.property("id")
     });
 }).call(this);
 
@@ -355,7 +371,10 @@
         definition: DS.attr("string"),
         focusareas: DS.hasMany("focusarea", {
             async: true
-        })
+        }),
+        hashedID: function() {
+            return "#" + this.get("id");
+        }.property("id")
     });
 }).call(this);
 
@@ -375,7 +394,10 @@
         }),
         strategies: DS.hasMany("strategy", {
             async: true
-        })
+        }),
+        hashedID: function() {
+            return "#" + this.get("id");
+        }.property("id")
     });
 }).call(this);
 
@@ -452,7 +474,7 @@
         },
         afterModel: function(themes, transition) {
             var theme_id;
-            theme_id = this.utility.themeId(window.location.href);
+            theme_id = this.utility.idFromURL(window.location.href);
             if (theme_id != null) {
                 console.log("THEME-ID->", theme_id);
                 return this.transitionTo("/themes/" + theme_id + "/focusareas");
@@ -468,7 +490,7 @@
         },
         afterModel: function(themes, transition) {
             var theme_id;
-            theme_id = this.utility.themeId(window.location.href);
+            theme_id = this.utility.idFromURL(window.location.href);
             if (theme_id != null) {
                 return this.transitionTo("/themes/" + theme_id + "/focusareas");
             } else if (themes.get("firstObject") != null) {
@@ -533,8 +555,10 @@
             return this.store.findAll("administration");
         },
         afterModel: function(administrations, transition) {
+            var administration_id;
             if (administrations.get("firstObject") != null) {
-                return this.transitionTo("/strategies/administration/" + administrations.get("firstObject").get("id"));
+                administration_id = administrations.get("firstObject").get("id");
+                return this.transitionTo("/strategies/administration/" + administration_id);
             }
         }
     });
@@ -685,7 +709,7 @@
                 var focusarea, self, shouldSave, theme_id;
                 focusarea = this.get("model");
                 shouldSave = true;
-                theme_id = this.utility.themeId(window.location.href);
+                theme_id = this.utility.idFromURL(window.location.href);
                 if (Ember.isEmpty(focusarea.get("definition"))) {
                     this.notify.danger("Definition cannot be empty.");
                     shouldSave = false;
@@ -709,7 +733,7 @@
                 }
             },
             cancel: function() {
-                return this.transitionToRoute("/themes/" + this.utility.themeId(window.location.href) + "/focusareas");
+                return this.transitionToRoute("/themes/" + this.utility.idFromURL(window.location.href) + "/focusareas");
             }
         }
     });
@@ -722,7 +746,7 @@
                 var focusarea, self, shouldSave, theme_id;
                 focusarea = this.get("model");
                 shouldSave = true;
-                theme_id = this.utility.themeId(window.location.href);
+                theme_id = this.utility.idFromURL(window.location.href);
                 if (Ember.isEmpty(focusarea.get("definition"))) {
                     this.notify.danger("Definition cannot be empty.");
                     shouldSave = false;
@@ -748,12 +772,12 @@
                 self = this;
                 administration = this.get("model");
                 return administration.destroyRecord().then(function() {
-                    return self.transitionToRoute("/themes/" + self.utility.themeId(window.location.href) + "/focusareas");
+                    return self.transitionToRoute("/themes/" + self.utility.idFromURL(window.location.href) + "/focusareas");
                 });
             },
             cancel: function() {
                 this.get("model").rollback();
-                return this.transitionToRoute("/themes/" + this.utility.themeId(window.location.href) + "/focusareas");
+                return this.transitionToRoute("/themes/" + this.utility.idFromURL(window.location.href) + "/focusareas");
             }
         }
     });
@@ -761,4 +785,14 @@
 
 (function() {
     App.StrategiesController = Ember.ArrayController.extend();
+}).call(this);
+
+(function() {
+    App.StrategiesAdministrationController = Ember.ArrayController.extend({
+        needs: "strategies",
+        strategies: Ember.computed.alias("controllers.strategies"),
+        administration_id: function() {
+            return this.utility.idFromURL(window.location.href);
+        }.property("route.strategies.currentPath")
+    });
 }).call(this);

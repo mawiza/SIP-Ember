@@ -6,7 +6,7 @@
         var focusarea, self, shouldSave, theme_id;
         focusarea = this.get('model');
         shouldSave = true;
-        theme_id = this.utility.themeId(window.location.href);
+        theme_id = this.utility.idFromURL(window.location.href);
         if (Ember.isEmpty(focusarea.get('definition'))) {
           this.notify.danger("Definition cannot be empty.");
           shouldSave = false;
@@ -30,7 +30,7 @@
         }
       },
       cancel: function() {
-        return this.transitionToRoute('/themes/' + this.utility.themeId(window.location.href) + '/focusareas');
+        return this.transitionToRoute('/themes/' + this.utility.idFromURL(window.location.href) + '/focusareas');
       }
     }
   });

@@ -370,12 +370,7 @@ function program11(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n</div>\r\n<div id=\"footer\">\r\n    <div class=\"container\">\r\n        <div class=\"container-fluid\">\r\n            <p class=\"text-muted\">");
-  hashTypes = {};
-  hashContexts = {};
-  options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "application.footer.organization", options) : helperMissing.call(depth0, "t", "application.footer.organization", options))));
-  data.buffer.push("</p>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("\r\n</div>");
   return buffer;
   
 });
@@ -670,13 +665,14 @@ function program1(depth0,data) {
   }
 function program2(depth0,data) {
   
-  var buffer = '', stack1, stack2, hashTypes, hashContexts, options;
+  var buffer = '', stack1, hashContexts, hashTypes;
   data.buffer.push("\r\n                    ");
-  hashTypes = {};
-  hashContexts = {};
-  options = {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "strategies.administration", "administration.id", options) : helperMissing.call(depth0, "link-to", "strategies.administration", "administration.id", options));
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  hashContexts = {'administration_id': depth0};
+  hashTypes = {'administration_id': "ID"};
+  stack1 = helpers.view.call(depth0, "App.StrategyTabAnchorView", {hash:{
+    'administration_id': ("administration.id")
+  },inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n                    <div>\r\n                        <div ");
   hashContexts = {'style': depth0};
   hashTypes = {'style': "ID"};
@@ -703,6 +699,23 @@ function program3(depth0,data) {
   return buffer;
   }
 
+function program5(depth0,data) {
+  
+  var buffer = '', hashContexts, hashTypes;
+  data.buffer.push("\r\n                <div class=\"strategies-administrations-tab tab-pane fade in\" ");
+  hashContexts = {'id': depth0};
+  hashTypes = {'id': "ID"};
+  data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
+    'id': ("administration.id")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">\r\n                    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n                </div>\r\n            ");
+  return buffer;
+  }
+
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "x-notify", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -716,10 +729,11 @@ function program3(depth0,data) {
   hashContexts = {};
   stack2 = helpers.each.call(depth0, "administration", "in", "model", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\r\n        </ul>\r\n        <div class=\"tab-content\">\r\n            ");
+  data.buffer.push("\r\n        </ul>\r\n        <div class=\"tab-content\">\r\n            <br> <!-- Remove the active and toggle the tab when the tab-nav gets clicked -->\r\n            ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  stack2 = helpers.each.call(depth0, "administration", "in", "model", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\r\n        </div>\r\n    </div>\r\n</div>\r\n");
   return buffer;
   
@@ -727,50 +741,92 @@ function program3(depth0,data) {
 Ember.TEMPLATES['strategies/administration'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashContexts, hashTypes, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
-  data.buffer.push("\r\n        <div class=\"strategies-theme panel panel-info\">\r\n            <div class=\"panel-heading\">\r\n                ");
+  data.buffer.push("\r\n    <div class=\"strategies-theme panel panel-info\">\r\n        <div class=\"panel-heading\">\r\n            <h4 class=\"panel-title\">\r\n                <a data-toggle=\"collapse\" data-parent=\"#accordion\"  href=\"#");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "theme.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "administration_id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\"> <!-- use the administration id with the theme id -->\r\n                    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "theme.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n            </div>\r\n            <div class=\"panel-body\">\r\n                Count: ");
+  data.buffer.push(":");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "theme.focusareas.length", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                ");
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "theme.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "administration_id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n                </a>\r\n            </h4>\r\n        </div>\r\n        <div id=\"");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "theme.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "administration_id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\" class=\"panel-collapse collapse out\">\r\n            <div class=\"panel-body\">\r\n                ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "focusarea", "in", "theme.focusareas", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\r\n            </div>\r\n        </div>\r\n        <br>\r\n    ");
+  data.buffer.push("\r\n            </div>\r\n        </div>\r\n    </div>\r\n");
   return buffer;
   }
 function program2(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\r\n                    <div class=\"strategies-focusarea\">\r\n                        ");
+  var buffer = '', hashContexts, hashTypes;
+  data.buffer.push("\r\n                    <div class=\"strategies-focusarea\">\r\n                        <div>\r\n                            <label class=\"checkbox-inline\">\r\n                                <input type=\"checkbox\" data-toggle=\"collapse\" ");
+  hashContexts = {'data-target': depth0};
+  hashTypes = {'data-target': "ID"};
+  data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
+    'data-target': ("focusarea.hashedID")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("> ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "focusarea.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("<br>\r\n                    </div>\r\n                ");
-  return buffer;
-  }
-
-  data.buffer.push("<div class=\"tab-pane active\" ");
+  data.buffer.push("\r\n                            </label>\r\n                            <textarea ");
   hashContexts = {'id': depth0};
   hashTypes = {'id': "ID"};
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
-    'id': ("administration.id")
+    'id': ("focusarea.id")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\r\n    <br>\r\n    ");
+  data.buffer.push(" class=\"strategy-description form-control collapse out\" rows=\"2\"></textarea>\r\n                        </div>\r\n                    </div>\r\n                ");
+  return buffer;
+  }
+
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "theme", "in", "model", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\r\n</div>\r\n");
+  data.buffer.push("\r\n");
+  return buffer;
+  
+});
+Ember.TEMPLATES['strategy-tab-anchor'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', hashContexts, hashTypes, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div class=\"strategies-administrations-tab-pane tab-pane fade in\" ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "ID"};
+  data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
+    'class': ("administration_id")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">\r\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "yield", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n</div>");
   return buffer;
   
 });

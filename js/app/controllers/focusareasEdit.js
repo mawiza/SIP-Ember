@@ -6,7 +6,7 @@
         var focusarea, self, shouldSave, theme_id;
         focusarea = this.get('model');
         shouldSave = true;
-        theme_id = this.utility.themeId(window.location.href);
+        theme_id = this.utility.idFromURL(window.location.href);
         if (Ember.isEmpty(focusarea.get('definition'))) {
           this.notify.danger("Definition cannot be empty.");
           shouldSave = false;
@@ -32,12 +32,12 @@
         self = this;
         administration = this.get('model');
         return administration.destroyRecord().then(function() {
-          return self.transitionToRoute('/themes/' + self.utility.themeId(window.location.href) + '/focusareas');
+          return self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas');
         });
       },
       cancel: function() {
         this.get('model').rollback();
-        return this.transitionToRoute('/themes/' + this.utility.themeId(window.location.href) + '/focusareas');
+        return this.transitionToRoute('/themes/' + this.utility.idFromURL(window.location.href) + '/focusareas');
       }
     }
   });

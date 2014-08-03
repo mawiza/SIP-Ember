@@ -4,4 +4,6 @@ App.StrategiesRoute = Ember.Route.extend
 
     afterModel: (administrations, transition) ->
         if administrations.get("firstObject")?
-            @transitionTo "/strategies/administration/" + administrations.get("firstObject").get('id')
+            administration_id = administrations.get("firstObject").get('id')
+            @transitionTo "/strategies/administration/" + administration_id
+            #$('#' + administration_id).addClass('active') #TODO

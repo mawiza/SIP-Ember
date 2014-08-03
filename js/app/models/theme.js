@@ -13,7 +13,10 @@
     definition: DS.attr('string'),
     focusareas: DS.hasMany('focusarea', {
       async: true
-    })
+    }),
+    hashedID: (function() {
+      return "#" + this.get('id');
+    }).property("id")
   });
 
 }).call(this);

@@ -4,7 +4,7 @@ App.FocusareasEditController = Ember.ObjectController.extend
         update: ->
             focusarea = @get('model')
             shouldSave = true
-            theme_id = @utility.themeId(window.location.href)
+            theme_id = @utility.idFromURL(window.location.href)
 
             if Ember.isEmpty(focusarea.get('definition'))
                 @notify.danger "Definition cannot be empty."
@@ -27,8 +27,8 @@ App.FocusareasEditController = Ember.ObjectController.extend
             self = this
             administration = @get('model')
             administration.destroyRecord().then ->
-                self.transitionToRoute('/themes/' + self.utility.themeId(window.location.href) + '/focusareas')
+                self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas')
 
         cancel: ->
             @get('model').rollback()
-            @transitionToRoute('/themes/' + @utility.themeId(window.location.href) + '/focusareas')
+            @transitionToRoute('/themes/' + @utility.idFromURL(window.location.href) + '/focusareas')

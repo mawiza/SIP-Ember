@@ -30,9 +30,9 @@
         return controller.transitionToRoute('/administrations/new');
       }
     },
-    themeId: function(currentUrl) {
+    idFromURL: function(currentUrl) {
       var regex, result;
-      regex = /\/themes\/(.*)\/focusareas/;
+      regex = /([a-f0-9]{24})/;
       result = regex.exec(currentUrl) || ["", null];
       if (result != null) {
         result = regex.exec(App.__container__.lookup('router:main').get('url')) || ["", null];

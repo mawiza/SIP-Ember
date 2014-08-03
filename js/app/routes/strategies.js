@@ -5,8 +5,10 @@
       return this.store.findAll('administration');
     },
     afterModel: function(administrations, transition) {
+      var administration_id;
       if (administrations.get("firstObject") != null) {
-        return this.transitionTo("/strategies/administration/" + administrations.get("firstObject").get('id'));
+        administration_id = administrations.get("firstObject").get('id');
+        return this.transitionTo("/strategies/administration/" + administration_id);
       }
     }
   });

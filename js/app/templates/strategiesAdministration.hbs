@@ -1,19 +1,25 @@
-<div class="tab-pane active" {{ bind-attr id=administration.id}}>
-    <br>
-    {{#each theme in model}}
-        <div class="strategies-theme panel panel-info">
-            <div class="panel-heading">
-                {{theme.definition}}
-            </div>
+{{#each theme in model}}
+    <div class="strategies-theme panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"  href="#{{unbound theme.id}}{{unbound administration_id}}"> <!-- use the administration id with the theme id -->
+                    {{theme.definition}}:{{unbound theme.id}}{{unbound administration_id}}
+                </a>
+            </h4>
+        </div>
+        <div id="{{unbound theme.id}}{{unbound administration_id}}" class="panel-collapse collapse out">
             <div class="panel-body">
-                Count: {{theme.focusareas.length}}
                 {{#each focusarea in theme.focusareas}}
                     <div class="strategies-focusarea">
-                        {{focusarea.definition}}<br>
+                        <div>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-toggle="collapse" {{bind-attr data-target=focusarea.hashedID}}> {{focusarea.definition}}
+                            </label>
+                            <textarea {{bind-attr id=focusarea.id}} class="strategy-description form-control collapse out" rows="2"></textarea>
+                        </div>
                     </div>
                 {{/each}}
             </div>
         </div>
-        <br>
-    {{/each}}
-</div>
+    </div>
+{{/each}}
