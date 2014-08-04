@@ -123,6 +123,7 @@
             application.inject("controller", "utility", "utility:main");
             application.inject("route", "utility", "utility:main");
             application.inject("model", "utility", "utility:main");
+            application.inject("view", "utility", "utility:main");
         }
     });
 }).call(this);
@@ -324,6 +325,24 @@
             console.log("clicked", this.get("administration_id"));
             $(".strategies-administrations-tab").removeClass("active");
             return $("#" + this.get("administration_id")).addClass("active");
+        }
+    });
+}).call(this);
+
+(function() {
+    App.StrategyTabPaneView = Ember.View.extend({
+        tagName: "div",
+        classNames: [ "strategies-administrations-tab tab-pane fade in" ],
+        classNameBindings: [ "isActive:active" ],
+        isActive: function() {
+            return this.get("firstObject").get("id") === this.get("administration_id");
+        }.property("controller.model"),
+        didInsertElement: function() {
+            console.log(this.get("firstObject").get("id") === this.get("administration_id"), this.get("administration_id"), this.get("firstObject").get("id") === this.get("administration_id"));
+            if (this.get("firstObject") === this.get("administration_id")) {
+                console.log("ACTIVE!!!", this.get("administration_id"));
+                return $("#" + this.get("administration_id")).addClass("active");
+            }
         }
     });
 }).call(this);

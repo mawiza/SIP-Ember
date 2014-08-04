@@ -716,13 +716,28 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1, hashContexts, hashTypes;
-  data.buffer.push("\r\n    <div class=\"strategies-administrations-tab tab-pane fade in\" ");
+  data.buffer.push("\r\n    <!--div class=\"strategies-administrations-tab tab-pane fade in\" ");
   hashContexts = {'id': depth0};
   hashTypes = {'id': "ID"};
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
     'id': ("administration.id")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\r\n        <div>\r\n            <div ");
+  data.buffer.push("-->\r\n    ");
+  hashContexts = {'id': depth0,'firstObject': depth0,'administration_id': depth0};
+  hashTypes = {'id': "ID",'firstObject': "ID",'administration_id': "ID"};
+  stack1 = helpers.view.call(depth0, "App.StrategyTabPaneView", {hash:{
+    'id': ("administration.id"),
+    'firstObject': ("strategies.model.firstObject"),
+    'administration_id': ("administration.id")
+  },inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\r\n    <!--/div-->\r\n");
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = '', stack1, hashContexts, hashTypes;
+  data.buffer.push("\r\n        <div>\r\n            <div ");
   hashContexts = {'style': depth0};
   hashTypes = {'style': "ID"};
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
@@ -737,12 +752,12 @@ function program1(depth0,data) {
   data.buffer.push("></div>\r\n        </div>\r\n        <br>\r\n        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "theme", "in", "model", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "theme", "in", "model", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\r\n    </div>\r\n");
+  data.buffer.push("\r\n    ");
   return buffer;
   }
-function program2(depth0,data) {
+function program3(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
   data.buffer.push("\r\n            <div class=\"strategies-theme panel panel-info\">\r\n                <div class=\"panel-heading\">\r\n                    <h4 class=\"panel-title\">\r\n                        <a data-toggle=\"collapse\" data-parent=\"#accordion\"  href=\"#");
@@ -766,12 +781,12 @@ function program2(depth0,data) {
   data.buffer.push("\" class=\"panel-collapse collapse out\">\r\n                    <div class=\"strategy-administration panel-body\">\r\n                        ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "focusarea", "in", "theme.focusareas", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "focusarea", "in", "theme.focusareas", {hash:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        ");
   return buffer;
   }
-function program3(depth0,data) {
+function program4(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
   data.buffer.push("\r\n                            <div class=\"strategies-focusarea\">\r\n                                <div>\r\n                                    <label class=\"strategy-focusarea checkbox-inline\">\r\n                                        <input type=\"checkbox\"> ");

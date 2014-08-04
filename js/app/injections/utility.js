@@ -73,6 +73,7 @@
       application.inject("controller", "utility", "utility:main");
       application.inject("route", "utility", "utility:main");
       application.inject("model", "utility", "utility:main");
+      application.inject("view", "utility", "utility:main");
     }
   });
 

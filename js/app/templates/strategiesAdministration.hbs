@@ -1,5 +1,6 @@
 {{#each administration in strategies.model}}
-    <div class="strategies-administrations-tab tab-pane fade in" {{bind-attr id=administration.id}}>
+    <!--div class="strategies-administrations-tab tab-pane fade in" {{bind-attr id=administration.id}}-->
+    {{#view App.StrategyTabPaneView id=administration.id firstObject=strategies.model.firstObject administration_id=administration.id}}
         <div>
             <div {{bind-attr style=administration.shadedTabStyle}}></div>
             <div {{bind-attr style=administration.tabStyle}}></div>
@@ -30,6 +31,7 @@
                 </div>
             </div>
         {{/each}}
-    </div>
+    {{/view}}
+    <!--/div-->
 {{/each}}
 

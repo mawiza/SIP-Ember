@@ -22,6 +22,7 @@ var files = [
     "js/app/components/notify.js",
     "js/app/views/colorPicker.js",
     "js/app/views/strategyTabAnchorView.js",
+    "js/app/views/strategyTabPaneView.js",
     "js/app/views/strategiesAdministration.js",
     "js/app/models/administration.js",
     "js/app/models/theme.js",
