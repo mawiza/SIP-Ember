@@ -19,7 +19,7 @@ module.exports = function(config) {
         'js/libs/handlebars-1.1.2.js',
         'js/libs/ember.js',
         'js/libs/ember-data.js',
-        'js/libs/localstorage_adapter.js',
+        'js/libs/vis.min.js',
         'js/libs/adapter.js',
         'js/libs/bootstrap.min.js',
         'js/libs/bootstrap-colorpicker.js',
@@ -34,7 +34,8 @@ module.exports = function(config) {
         'tests/administrations_spec.coffee',
         'tests/themes_spec.coffee',
         'tests/focusareas_spec.coffee',
-        'tests/strategies_spec.coffee'
+        'tests/strategies_spec.coffee',
+        'tests/graph_spec.coffee'
     ],
 
 

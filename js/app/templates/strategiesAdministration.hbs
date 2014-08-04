@@ -18,14 +18,7 @@
                 <div id="{{unbound administration.id}}{{unbound theme.id}}" class="panel-collapse collapse out">
                     <div class="strategy-administration panel-body">
                         {{#each focusarea in theme.focusareas}}
-                            <div class="strategies-focusarea">
-                                <div>
-                                    <label class="strategy-focusarea checkbox-inline">
-                                        <input type="checkbox"> {{focusarea.definition}}
-                                    </label>
-                                    <textarea class="strategy-description form-control" rows="2"></textarea>
-                                </div>
-                            </div>
+                            {{view App.StrategyView focusarea=focusarea administration=administration}}
                         {{/each}}
                     </div>
                 </div>

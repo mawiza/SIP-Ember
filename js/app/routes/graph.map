@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "graph.js",
+  "sourceRoot": "",
+  "sources": [
+    "graph.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,UAAJ,GAAiB,KAAK,CAAC,KAAK,CAAC,MAAZ,CACb;AAAA,IAAA,KAAA,EAAO,SAAA,GAAA;aACH,IAAC,CAAA,KAAK,CAAC,OAAP,CAAe,UAAf,EADG;IAAA,CAAP;GADa,CAAjB,CAAA;AAAA"
+}

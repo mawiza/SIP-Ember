@@ -3,7 +3,7 @@ Ember.I18n.translations =
     application:
         title: "Strategiske Indsatsplan"
         navbar:
-            index: "Oversigt"
+            graph: "Oversigt"
             strategies: "Planer"
             administrations: "Forvaltninger"
             themes: "Indsatsplaner"
@@ -12,6 +12,10 @@ Ember.I18n.translations =
         footer:
             organization: "Herning Kommune"
     index:
+        heading: "Oversigt"
+        description: ""
+
+    graph:
         heading: "Oversigt"
         description: ""
 

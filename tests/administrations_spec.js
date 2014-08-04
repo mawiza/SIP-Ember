@@ -33,19 +33,12 @@
           return findWithAssert('a.add-administration');
         });
       });
-      it('should direct to the new route when clicked', function() {
+      return it('should direct to the new route when clicked', function() {
         visit("/administrations");
         return andThen(function() {
           return click('a.add-administration').then(function() {
             return expect(currentURL()).to.equal('/administrations/new');
           });
-        });
-      });
-      return it('should have table with a header and two columns', function() {
-        visit("/administrations");
-        return andThen(function() {
-          findWithAssert('table.table');
-          return expect(find('table.table thead tr th').length).to.equal(2);
         });
       });
     });

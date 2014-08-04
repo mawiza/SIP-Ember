@@ -39,13 +39,13 @@ describe 'Strategies should', ->
                             theme.get("focusareas").addObject(focusarea)
                             theme.save()
 
-                            console.log "BEFORE"
+
                             strategy = store.createRecord('strategy'
                                 description: 'Strategy description'
                                 administration: administration
                                 focusarea: focusarea
                             )
-                            console.log "AFTER"
+
 
                             strategy.save().then ->
                                 administration.get('strategies').pushObject(strategy)
@@ -54,12 +54,13 @@ describe 'Strategies should', ->
                                 focusarea.get('strategies').pushObject(strategy)
                                 focusarea.save()
 
+                wait(500) #need to wait otherwise we get a record inFlight error
+
 
     #
     # Index
     #
     describe 'a strategy page that', ->
-
         it 'should have a list of administration tabs', ->
             visit("/strategies")
             andThen ->
@@ -101,4 +102,10 @@ describe 'Strategies should', ->
             andThen ->
                 click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
                 .then ->
-                    expect(find('div.strategies-focusarea').length).to.equal(6)
+                    click('div.strategies-administrations-tab.active label.strategy-focusarea:contains("focusarea created in strategies spec") input')
+                    .then ->
+                        visit('/strategies')
+                        .andThen ->
+                            click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
+                            .then ->
+                                expect(find('div.strategies-administrations-tab.active label.strategy-focusarea:contains("focusarea created in strategies spec") input').is(':checked')).equal(true)

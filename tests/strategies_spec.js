@@ -25,7 +25,7 @@
             name: 'administration created in strategies spec',
             color: '#000'
           });
-          return administration.save().then(function() {
+          administration.save().then(function() {
             var theme;
             theme = store.createRecord("theme", {
               definition: 'theme created in strategies spec'
@@ -40,13 +40,11 @@
                 var strategy;
                 theme.get("focusareas").addObject(focusarea);
                 theme.save();
-                console.log("BEFORE");
                 strategy = store.createRecord('strategy', {
                   description: 'Strategy description',
                   administration: administration,
                   focusarea: focusarea
                 });
-                console.log("AFTER");
                 return strategy.save().then(function() {
                   administration.get('strategies').pushObject(strategy);
                   administration.save();
@@ -56,6 +54,7 @@
               });
             });
           });
+          return wait(500);
         });
       });
     });
@@ -102,7 +101,13 @@
         visit('/strategies');
         return andThen(function() {
           return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
-            return expect(find('div.strategies-focusarea').length).to.equal(6);
+            return click('div.strategies-administrations-tab.active label.strategy-focusarea:contains("focusarea created in strategies spec") input').then(function() {
+              return visit('/strategies').andThen(function() {
+                return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
+                  return expect(find('div.strategies-administrations-tab.active label.strategy-focusarea:contains("focusarea created in strategies spec") input').is(':checked')).equal(true);
+                });
+              });
+            });
           });
         });
       });

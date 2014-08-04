@@ -4,7 +4,7 @@
     application: {
       title: "Strategiske Indsatsplan",
       navbar: {
-        index: "Oversigt",
+        graph: "Oversigt",
         strategies: "Planer",
         administrations: "Forvaltninger",
         themes: "Indsatsplaner",
@@ -16,6 +16,10 @@
       }
     },
     index: {
+      heading: "Oversigt",
+      description: ""
+    },
+    graph: {
       heading: "Oversigt",
       description: ""
     },

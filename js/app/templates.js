@@ -268,7 +268,7 @@ function program3(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "application.navbar.index", options) : helperMissing.call(depth0, "t", "application.navbar.index", options))));
+  data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "application.navbar.graph", options) : helperMissing.call(depth0, "t", "application.navbar.graph", options))));
   }
 
 function program5(depth0,data) {
@@ -319,9 +319,9 @@ function program11(depth0,data) {
   hashContexts = {'class': depth0};
   hashTypes = {'class': "STRING"};
   options = {hash:{
-    'class': ("index-link")
+    'class': ("graph-link")
   },inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "index", options) : helperMissing.call(depth0, "link-to", "index", options));
+  stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "graph", options) : helperMissing.call(depth0, "link-to", "graph", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("</li>\r\n                    <li>");
   hashContexts = {'class': depth0};
@@ -360,6 +360,15 @@ function program11(depth0,data) {
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\r\n</div>");
+  return buffer;
+  
+});
+Ember.TEMPLATES['components/x-graph'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '';
+
+
   return buffer;
   
 });
@@ -612,6 +621,20 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   return buffer;
   
 });
+Ember.TEMPLATES['graph'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div>\r\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "x-graph", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n</div>");
+  return buffer;
+  
+});
 Ember.TEMPLATES['index'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
@@ -628,7 +651,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "index.description", options) : helperMissing.call(depth0, "t", "index.description", options))));
-  data.buffer.push("</div>\r\n\r\n");
+  data.buffer.push("</div>\r\n");
   return buffer;
   
 });
@@ -777,12 +800,15 @@ function program3(depth0,data) {
   }
 function program4(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\r\n                            <div class=\"strategies-focusarea\">\r\n                                <div>\r\n                                    <label class=\"strategy-focusarea checkbox-inline\">\r\n                                        <input type=\"checkbox\"> ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "focusarea.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                                    </label>\r\n                                    <textarea class=\"strategy-description form-control\" rows=\"2\"></textarea>\r\n                                </div>\r\n                            </div>\r\n                        ");
+  var buffer = '', hashContexts, hashTypes;
+  data.buffer.push("\r\n                            ");
+  hashContexts = {'focusarea': depth0,'administration': depth0};
+  hashTypes = {'focusarea': "ID",'administration': "ID"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "App.StrategyView", {hash:{
+    'focusarea': ("focusarea"),
+    'administration': ("administration")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n                        ");
   return buffer;
   }
 
@@ -811,6 +837,27 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "yield", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\r\n</div>");
+  return buffer;
+  
+});
+Ember.TEMPLATES['strategy'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', stack1, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div class=\"strategies-focusarea\">\r\n    <div>\r\n        <label class=\"strategy-focusarea checkbox-inline\">\r\n            ");
+  hashContexts = {'type': depth0};
+  hashTypes = {'type': "STRING"};
+  options = {hash:{
+    'type': ("checkbox")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push(" ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "focusarea.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n        </label>\r\n        <textarea class=\"strategy-description form-control\" rows=\"2\"></textarea>\r\n    </div>\r\n</div>\r\n");
   return buffer;
   
 });

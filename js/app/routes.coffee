@@ -1,4 +1,5 @@
 App.Router.map ->
+    @resource "graph"
     @resource "administrations"
     @resource "administrations.new", {path:'/administrations/new'}
     @resource "administrations.edit", {path:'/administrations/edit/:administration_id'}
