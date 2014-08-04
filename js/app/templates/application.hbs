@@ -8,8 +8,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>{{#link-to 'index' class="index-link"}}{{t application.navbar.index}}{{/link-to}}</li>
                     <li>{{#link-to 'strategies' class="strategies-link"}}{{t application.navbar.strategies}}{{/link-to}}</li>
-                    <li>{{#link-to 'administrations' class="administrations-link"}}{{t application.navbar.administrations}}{{/link-to}}</li>
-                    <li>{{#link-to 'themes' class="themes-link"}}{{t application.navbar.themes}}{{/link-to}}</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opsætning <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>{{#link-to 'administrations' class="administrations-link"}}{{t application.navbar.administrations}}{{/link-to}}</li>
+                            <li>{{#link-to 'themes' class="themes-link"}}{{t application.navbar.themes}}{{/link-to}}</li>
+                        </ul>
+                    </li>
                     <li>{{#link-to 'about' class="about-link"}}{{t application.navbar.about}}{{/link-to}}</li>
                 </ul>
             </div>

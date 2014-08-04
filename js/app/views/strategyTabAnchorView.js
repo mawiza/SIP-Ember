@@ -6,7 +6,6 @@
       return this.$().attr("href", "#/strategies/administration/" + this.get('administration_id'));
     },
     click: function() {
-      console.log("clicked", this.get("administration_id"));
       $('.strategies-administrations-tab').removeClass('active');
       return $('#' + this.get("administration_id")).addClass('active');
     }

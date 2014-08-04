@@ -16,7 +16,6 @@ App.ThemesEditController = Ember.ObjectController.extend
 
         delete: ->
             theme = @get('model')
-            #console.log theme.get('focusareas'), Ember.inspect theme.get('focusareas')
             self = this
             theme.get('focusareas').then (focusareas) ->
                 if focusareas.get('length') == 0

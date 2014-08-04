@@ -8,28 +8,24 @@
       this._super(object);
     },
     danger: function(message) {
-      console.log("Notify: " + message);
       this.pushObject({
         type: "danger",
         message: message
       });
     },
     warning: function(message) {
-      console.log("Notify: " + message);
       this.pushObject({
         type: "warning",
         message: message
       });
     },
     info: function(message) {
-      console.log("Notify: " + message);
       this.pushObject({
         type: "info",
         message: message
       });
     },
     success: function(message) {
-      console.log("Notify: " + message);
       this.pushObject({
         type: "success",
         message: message

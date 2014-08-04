@@ -15,12 +15,8 @@ App.FocusareasNewController = Ember.ObjectController.extend
                     focusarea.set('theme', theme)
                     focusarea.save().then ->
                         theme.get('focusareas').pushObject(focusarea)
-                        theme.save().then ( (success) ->
-                            console.log "SUCCESSFULL SAVE", success
-                        ), (error) ->
-                            console.log "API error occured - " + error.responseText
-
-                        self.transitionToRoute('/themes/' + theme_id + '/focusareas')
+                        theme.save().then ->
+                            self.transitionToRoute('/themes/' + theme_id + '/focusareas')
 
             else
                 @transitionToRoute('/themes/' + theme_id + '/focusareas/new')

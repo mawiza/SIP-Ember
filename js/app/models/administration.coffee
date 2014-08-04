@@ -14,7 +14,7 @@ App.Administration = DS.Model.extend
 
     #this does not belong in here - it doesn't have anything to do with the model
     style: (->
-        "background-color:" + @get('color')
+        "background-color:" + @get('color') + ";width:200px;display: block; padding: 10px;margin-right: 150px;"
     ).property("color")
 
     tabStyle: (->

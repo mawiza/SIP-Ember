@@ -1,18 +1,17 @@
-<div>
-    {{#link-to 'administrations.new' class="add-administration btn btn-primary"}}
-        {{t administrations.index.add}}
-    {{/link-to}}
-</div>
-<br/>
 <div class="panel panel-default">
+    <div class="panel-heading">
+        <div>
+            <h4>
+                {{t administrations.index.heading}}
+            </h4>
+            {{#link-to 'administrations.new' class="pull-right add-administration btn-sm btn-primary"}}
+                <span class="glyphicon glyphicon-plus"></span>
+            {{/link-to}}
+        </div>
+    </div>
     <div class="panel-body">
+        <br>
         <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{{t administrations.index.name}}</th>
-                <th>{{t administrations.index.color}}</th>
-            </tr>
-            </thead>
             <tbody>
             {{#each administration in controller}}
                 <tr>
@@ -21,7 +20,9 @@
                             {{administration.name}}
                         {{/link-to}}
                     </td>
-                    <td class="administration-color"><span class="label label-default" {{bind-attr style=administration.style}}>{{administration.color}}</span></td>
+                    <td class="administration-color">
+                        <span class="pull-right label label-default" {{bind-attr style=administration.style}}>{{administration.color}}</span>
+                    </td>
                 </tr>
             {{/each}}
             </tbody>

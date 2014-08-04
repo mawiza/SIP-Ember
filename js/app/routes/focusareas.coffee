@@ -1,6 +1,5 @@
 App.FocusareasRoute = Ember.Route.extend
     model: (params) ->
-        console.log "params:", params
         @store.filter 'focusarea', {}, (focusarea)->
             if focusarea.get('data.theme.id') is params.theme_id
                 return true

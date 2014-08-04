@@ -1,4 +1,3 @@
-#TODO add focus to the first element
 App.FocusareasEditController = Ember.ObjectController.extend
     actions:
         update: ->

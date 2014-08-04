@@ -2,7 +2,6 @@
 (function() {
   App.FocusareasRoute = Ember.Route.extend({
     model: function(params) {
-      console.log("params:", params);
       return this.store.filter('focusarea', {}, function(focusarea) {
         if (focusarea.get('data.theme.id') === params.theme_id) {
           return true;

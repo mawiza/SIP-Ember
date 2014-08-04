@@ -16,7 +16,7 @@
       async: true
     }),
     style: (function() {
-      return "background-color:" + this.get('color');
+      return "background-color:" + this.get('color') + ";width:200px;display: block; padding: 10px;margin-right: 150px;";
     }).property("color"),
     tabStyle: (function() {
       return "background-color:" + this.get('color') + ";width: 100%; height: 5px;";

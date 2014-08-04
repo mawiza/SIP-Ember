@@ -7,28 +7,24 @@
             this._super(object);
         },
         danger: function(message) {
-            console.log("Notify: " + message);
             this.pushObject({
                 type: "danger",
                 message: message
             });
         },
         warning: function(message) {
-            console.log("Notify: " + message);
             this.pushObject({
                 type: "warning",
                 message: message
             });
         },
         info: function(message) {
-            console.log("Notify: " + message);
             this.pushObject({
                 type: "info",
                 message: message
             });
         },
         success: function(message) {
-            console.log("Notify: " + message);
             this.pushObject({
                 type: "success",
                 message: message
@@ -155,6 +151,7 @@
         },
         administrations: {
             index: {
+                heading: "Forvalninger",
                 add: "Tilføj forvaltning",
                 name: "Forvaltning",
                 color: "Farve"
@@ -322,7 +319,6 @@
             return this.$().attr("href", "#/strategies/administration/" + this.get("administration_id"));
         },
         click: function() {
-            console.log("clicked", this.get("administration_id"));
             $(".strategies-administrations-tab").removeClass("active");
             return $("#" + this.get("administration_id")).addClass("active");
         }
@@ -336,14 +332,7 @@
         classNameBindings: [ "isActive:active" ],
         isActive: function() {
             return this.get("firstObject").get("id") === this.get("administration_id");
-        }.property("controller.model"),
-        didInsertElement: function() {
-            console.log(this.get("firstObject").get("id") === this.get("administration_id"), this.get("administration_id"), this.get("firstObject").get("id") === this.get("administration_id"));
-            if (this.get("firstObject") === this.get("administration_id")) {
-                console.log("ACTIVE!!!", this.get("administration_id"));
-                return $("#" + this.get("administration_id")).addClass("active");
-            }
-        }
+        }.property("controller.model")
     });
 }).call(this);
 
@@ -365,7 +354,7 @@
             async: true
         }),
         style: function() {
-            return "background-color:" + this.get("color");
+            return "background-color:" + this.get("color") + ";width:200px;display: block; padding: 10px;margin-right: 150px;";
         }.property("color"),
         tabStyle: function() {
             return "background-color:" + this.get("color") + ";width: 100%; height: 5px;";
@@ -558,7 +547,6 @@
 (function() {
     App.FocusareasRoute = Ember.Route.extend({
         model: function(params) {
-            console.log("params:", params);
             return this.store.filter("focusarea", {}, function(focusarea) {
                 if (focusarea.get("data.theme.id") === params.theme_id) {
                     return true;
@@ -599,9 +587,9 @@
 (function() {
     App.StrategiesAdministrationRoute = Ember.Route.extend({
         model: function(params) {
-            console.log("StrategiesAdministrationRoute params:", params);
             return this.store.findAll("theme");
-        }
+        },
+        afterModel: function(themes, transition) {}
     });
 }).call(this);
 
@@ -751,12 +739,9 @@
                         focusarea.set("theme", theme);
                         return focusarea.save().then(function() {
                             theme.get("focusareas").pushObject(focusarea);
-                            theme.save().then(function(success) {
-                                return console.log("SUCCESSFULL SAVE", success);
-                            }, function(error) {
-                                return console.log("API error occured - " + error.responseText);
+                            return theme.save().then(function() {
+                                return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
                             });
-                            return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
                         });
                     });
                 } else {

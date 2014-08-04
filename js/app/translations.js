@@ -26,6 +26,7 @@
     },
     administrations: {
       index: {
+        heading: "Forvalninger",
         add: "Tilføj forvaltning",
         name: "Forvaltning",
         color: "Farve"

@@ -40,11 +40,6 @@ describe 'Administrations should', ->
                 .then ->
                     expect(currentURL()).to.equal('/administrations/new')
 
-        it 'should have table with a header and two columns', ->
-            visit("/administrations")
-            andThen ->
-                findWithAssert('table.table')
-                expect(find('table.table thead tr th').length).to.equal(2)
 
 
     #

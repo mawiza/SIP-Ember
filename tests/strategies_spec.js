@@ -40,11 +40,13 @@
                 var strategy;
                 theme.get("focusareas").addObject(focusarea);
                 theme.save();
+                console.log("BEFORE");
                 strategy = store.createRecord('strategy', {
                   description: 'Strategy description',
                   administration: administration,
                   focusarea: focusarea
                 });
+                console.log("AFTER");
                 return strategy.save().then(function() {
                   administration.get('strategies').pushObject(strategy);
                   administration.save();
@@ -61,14 +63,14 @@
       it('should have a list of administration tabs', function() {
         visit("/strategies");
         return andThen(function() {
-          return expect(find('ul.strategies-administrations-tabs li').length).to.equal(1);
+          return expect(find('ul.strategies-administrations-tabs li').length).to.equal(3);
         });
       });
       it('should have a list of administration tabs that each can be selected', function() {
         visit("/strategies");
         return andThen(function() {
           return click('ul.strategies-administrations-tabs li a').then(function() {
-            return expect(find('ul.strategies-administrations-tabs li').length).to.equal(1);
+            return expect(find('ul.strategies-administrations-tabs li').length).to.equal(3);
           });
         });
       });
@@ -84,15 +86,23 @@
         visit('/strategies');
         return andThen(function() {
           return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
-            return expect(find('div.strategies-theme').length).to.equal(1);
+            return expect(find('div.strategies-administrations-tab.active div.strategies-theme').length).to.equal(4);
           });
         });
       });
-      return it('should have a list of focusareas', function() {
+      it('should have a list of focusareas', function() {
         visit('/strategies');
         return andThen(function() {
           return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
-            return expect(find('div.strategies-focusarea').length).to.equal(1);
+            return expect(find('div.strategies-focusarea').length).to.equal(6);
+          });
+        });
+      });
+      return it('should have a list of focusareas that can be checked', function() {
+        visit('/strategies');
+        return andThen(function() {
+          return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
+            return expect(find('div.strategies-focusarea').length).to.equal(6);
           });
         });
       });
