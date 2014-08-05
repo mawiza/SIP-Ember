@@ -2,7 +2,7 @@
 (function() {
   App.StrategyTabPaneView = Ember.View.extend({
     tagName: "div",
-    classNames: ['strategies-administrations-tab tab-pane fade in'],
+    classNames: ['strategies-administrations-tab tab-pane'],
     classNameBindings: ['isActive:active'],
     isActive: (function() {
       return this.get('firstObject').get('id') === this.get('administration_id');

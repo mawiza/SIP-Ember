@@ -26,12 +26,8 @@
       });
     });
     this.resource('strategies', function() {
-      return this.resource('strategies.administration', {
+      return this.resource('administration', {
         path: '/administration/:administration_id'
-      }, function() {
-        return this.route('strategy', {
-          path: '/focusarea/:focusarea_id'
-        });
       });
     });
     this.resource('about');

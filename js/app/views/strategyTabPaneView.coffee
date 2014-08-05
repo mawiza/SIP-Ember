@@ -1,7 +1,7 @@
 App.StrategyTabPaneView = Ember.View.extend
     #<div class="" {{bind-attr id=administration.id}}>
     tagName: "div"
-    classNames: ['strategies-administrations-tab tab-pane fade in']
+    classNames: ['strategies-administrations-tab tab-pane']
     classNameBindings: ['isActive:active']
 
     isActive: ( ->

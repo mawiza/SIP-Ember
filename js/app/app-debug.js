@@ -413,7 +413,7 @@
 (function() {
     App.StrategyTabPaneView = Ember.View.extend({
         tagName: "div",
-        classNames: [ "strategies-administrations-tab tab-pane fade in" ],
+        classNames: [ "strategies-administrations-tab tab-pane" ],
         classNameBindings: [ "isActive:active" ],
         isActive: function() {
             return this.get("firstObject").get("id") === this.get("administration_id");
@@ -421,12 +421,8 @@
     });
 }).call(this);
 
-(function() {}).call(this);
-
 (function() {
-    App.StrategyView = Ember.View.extend({
-        templateName: "strategy",
-        controllerName: "App.StrategyController",
+    App.AdministrationStrategyView = Ember.View.extend({
         didInsertElement: function() {},
         keyPress: function() {
             return console.log("keypress");
@@ -550,12 +546,8 @@
             });
         });
         this.resource("strategies", function() {
-            return this.resource("strategies.administration", {
+            return this.resource("administration", {
                 path: "/administration/:administration_id"
-            }, function() {
-                return this.route("strategy", {
-                    path: "/focusarea/:focusarea_id"
-                });
             });
         });
         this.resource("about");
@@ -697,20 +689,9 @@
 }).call(this);
 
 (function() {
-    App.StrategiesAdministrationRoute = Ember.Route.extend({
+    App.AdministrationRoute = Ember.Route.extend({
         model: function(params) {
             return this.store.findAll("theme");
-        },
-        afterModel: function(themes, transition) {}
-    });
-}).call(this);
-
-(function() {
-    App.StrategyRoute = Ember.Route.extend({
-        model: function(params) {
-            var administration;
-            console.log("-------------->", params);
-            return administration = this.store.find("administration", params.get("administration_id"));
         }
     });
 }).call(this);
@@ -930,12 +911,14 @@
 }).call(this);
 
 (function() {
-    App.StrategiesAdministrationController = Ember.ArrayController.extend({
+    App.AdministrationController = Ember.ArrayController.extend({
         needs: "strategies",
         strategies: Ember.computed.alias("controllers.strategies")
     });
 }).call(this);
 
 (function() {
-    App.StrategyController = Ember.ObjectController.extend();
+    App.AdministrationStrategyController = Ember.ObjectController.extend({
+        init: function() {}
+    });
 }).call(this);

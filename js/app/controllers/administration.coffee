@@ -1,3 +1,3 @@
-App.StrategiesAdministrationController = Ember.ArrayController.extend
+App.AdministrationController = Ember.ArrayController.extend
     needs: "strategies"
     strategies: Ember.computed.alias("controllers.strategies")

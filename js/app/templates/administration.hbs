@@ -17,7 +17,7 @@
                 <div id="{{unbound administration.id}}{{unbound theme.id}}" class="panel-collapse collapse out">
                     <div class="strategy-administration panel-body">
                         {{#each focusarea in theme.focusareas}}
-                            {{view App.StrategyView focusarea=focusarea administration=administration}}
+                            {{render 'administration/strategy' focusarea}}
                         {{/each}}
                     </div>
                 </div>
@@ -25,4 +25,3 @@
         {{/each}}
     {{/view}}
 {{/each}}
-

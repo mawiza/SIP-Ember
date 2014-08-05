@@ -1,6 +1,4 @@
-App.StrategyView = Ember.View.extend
-    templateName: 'strategy'
-    controllerName: 'App.StrategyController'
+App.AdministrationStrategyView = Ember.View.extend
 
     didInsertElement: ->
         #@get('focusarea')
@@ -14,8 +12,3 @@ App.StrategyView = Ember.View.extend
 
     click: ->
         console.log "click"
-
-
-    #valueChanged: (->
-    #    @set 'formDirty', !Ember.empty(@value)
-    #).observes('value')

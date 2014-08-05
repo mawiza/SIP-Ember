@@ -10,7 +10,7 @@
     <div class="panel-body">
         <ul class="strategies-administrations-tabs nav-justified nav nav-tabs" role="tablist">
             {{#each administration in model}}
-                {{#link-to 'strategies.administration' administration.id tagName="li" href=false}}
+                {{#link-to 'administration' administration.id tagName="li" href=false}}
                     {{#view App.StrategyTabAnchorView administration_id=administration.id}}
                         {{administration.name}}
                     {{/view}}

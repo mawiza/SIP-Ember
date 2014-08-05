@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "administrationStrategy.js",
+  "sourceRoot": "",
+  "sources": [
+    "administrationStrategy.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,0BAAJ,GAAiC,KAAK,CAAC,IAAI,CAAC,MAAX,CAE7B;AAAA,IAAA,gBAAA,EAAkB,SAAA,GAAA,CAAlB;AAAA,IAOA,QAAA,EAAU,SAAA,GAAA;aACN,OAAO,CAAC,GAAR,CAAY,UAAZ,EADM;IAAA,CAPV;AAAA,IAUA,KAAA,EAAO,SAAA,GAAA;aACH,OAAO,CAAC,GAAR,CAAY,OAAZ,EADG;IAAA,CAVP;GAF6B,CAAjC,CAAA;AAAA"
+}
