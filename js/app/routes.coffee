@@ -10,6 +10,7 @@ App.Router.map ->
             @route 'new', {path:'/new'}
             @route 'edit', {path:'/edit/:focusarea_id'}
     @resource 'strategies', ->
-        @resource 'strategies.administration', {path:'/administration/:administration_id'}
+        @resource 'strategies.administration', {path:'/administration/:administration_id'}, ->
+            @route 'strategy', {path:'/focusarea/:focusarea_id'}
     @resource 'about'
     @resource 'settings'

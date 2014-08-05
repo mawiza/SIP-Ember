@@ -425,7 +425,15 @@
 
 (function() {
     App.StrategyView = Ember.View.extend({
-        templateName: "strategy"
+        templateName: "strategy",
+        controllerName: "App.StrategyController",
+        didInsertElement: function() {},
+        keyPress: function() {
+            return console.log("keypress");
+        },
+        click: function() {
+            return console.log("click");
+        }
     });
 }).call(this);
 
@@ -544,6 +552,10 @@
         this.resource("strategies", function() {
             return this.resource("strategies.administration", {
                 path: "/administration/:administration_id"
+            }, function() {
+                return this.route("strategy", {
+                    path: "/focusarea/:focusarea_id"
+                });
             });
         });
         this.resource("about");
@@ -690,6 +702,16 @@
             return this.store.findAll("theme");
         },
         afterModel: function(themes, transition) {}
+    });
+}).call(this);
+
+(function() {
+    App.StrategyRoute = Ember.Route.extend({
+        model: function(params) {
+            var administration;
+            console.log("-------------->", params);
+            return administration = this.store.find("administration", params.get("administration_id"));
+        }
     });
 }).call(this);
 
@@ -912,4 +934,8 @@
         needs: "strategies",
         strategies: Ember.computed.alias("controllers.strategies")
     });
+}).call(this);
+
+(function() {
+    App.StrategyController = Ember.ObjectController.extend();
 }).call(this);

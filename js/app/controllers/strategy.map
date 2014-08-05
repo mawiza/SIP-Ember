@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "strategy.js",
+  "sourceRoot": "",
+  "sources": [
+    "strategy.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,GAAG,CAAC,kBAAJ,GAAyB,KAAK,CAAC,gBAAgB,CAAC,MAAvB,CAAA,CAAzB,CAAA;AAAA"
+}

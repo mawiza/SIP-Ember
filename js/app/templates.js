@@ -728,13 +728,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1, hashContexts, hashTypes;
-  data.buffer.push("\r\n    <!--div class=\"strategies-administrations-tab tab-pane fade in\" ");
-  hashContexts = {'id': depth0};
-  hashTypes = {'id': "ID"};
-  data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
-    'id': ("administration.id")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("-->\r\n    ");
+  data.buffer.push("\r\n    ");
   hashContexts = {'id': depth0,'firstObject': depth0,'administration_id': depth0};
   hashTypes = {'id': "ID",'firstObject': "ID",'administration_id': "ID"};
   stack1 = helpers.view.call(depth0, "App.StrategyTabPaneView", {hash:{
@@ -743,7 +737,7 @@ function program1(depth0,data) {
     'administration_id': ("administration.id")
   },inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\r\n    <!--/div-->\r\n");
+  data.buffer.push("\r\n");
   return buffer;
   }
 function program2(depth0,data) {
@@ -783,7 +777,7 @@ function program3(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "theme.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n                        </a>\r\n                    </h4>\r\n                </div>\r\n                <div id=\"");
+  data.buffer.push("<span class=\"badge pull-right\">0</span>\r\n                        </a>\r\n                    </h4>\r\n                </div>\r\n                <div id=\"");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "administration.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -857,7 +851,15 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "focusarea.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n        </label>\r\n        <textarea class=\"strategy-description form-control\" rows=\"2\"></textarea>\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("\r\n        </label>\r\n        ");
+  hashContexts = {'class': depth0,'rows': depth0};
+  hashTypes = {'class': "STRING",'rows': "STRING"};
+  options = {hash:{
+    'class': ("strategy-description form-control"),
+    'rows': ("2")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
+  data.buffer.push("\r\n    </div>\r\n</div>\r\n");
   return buffer;
   
 });

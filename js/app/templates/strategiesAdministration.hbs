@@ -1,5 +1,4 @@
 {{#each administration in strategies.model}}
-    <!--div class="strategies-administrations-tab tab-pane fade in" {{bind-attr id=administration.id}}-->
     {{#view App.StrategyTabPaneView id=administration.id firstObject=strategies.model.firstObject administration_id=administration.id}}
         <div>
             <div {{bind-attr style=administration.shadedTabStyle}}></div>
@@ -11,7 +10,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion"  href="#{{unbound administration.id}}{{unbound theme.id}}"> <!-- use the administration id with the theme id -->
-                            {{theme.definition}}
+                            {{theme.definition}}<span class="badge pull-right">0</span>
                         </a>
                     </h4>
                 </div>
@@ -25,6 +24,5 @@
             </div>
         {{/each}}
     {{/view}}
-    <!--/div-->
 {{/each}}
 
