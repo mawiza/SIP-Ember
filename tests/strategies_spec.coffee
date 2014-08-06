@@ -95,7 +95,7 @@ describe 'Strategies should', ->
             andThen ->
                 click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a')
                 .then ->
-                    expect(find('div.strategies-focusarea').length).to.equal(6)
+                    expect(find('div.strategies-focusarea').length).to.equal(2)
 
         it 'should have a list of focusareas that can be checked', ->
             visit('/strategies')

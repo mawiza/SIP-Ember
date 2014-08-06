@@ -4,10 +4,6 @@
     tagName: "a",
     didInsertElement: function() {
       return this.$().attr("href", "#/strategies/administration/" + this.get('administration_id'));
-    },
-    click: function() {
-      $('.strategies-administrations-tab').removeClass('active');
-      return $('#' + this.get("administration_id")).addClass('active');
     }
   });
 

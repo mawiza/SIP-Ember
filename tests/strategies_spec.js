@@ -93,7 +93,7 @@
         visit('/strategies');
         return andThen(function() {
           return click('ul.strategies-administrations-tabs li:contains("administration created in strategies spec") a').then(function() {
-            return expect(find('div.strategies-focusarea').length).to.equal(6);
+            return expect(find('div.strategies-focusarea').length).to.equal(2);
           });
         });
       });
