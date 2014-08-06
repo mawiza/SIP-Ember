@@ -402,10 +402,6 @@
         tagName: "a",
         didInsertElement: function() {
             return this.$().attr("href", "#/strategies/administration/" + this.get("administration_id"));
-        },
-        click: function() {
-            $(".strategies-administrations-tab").removeClass("active");
-            return $("#" + this.get("administration_id")).addClass("active");
         }
     });
 }).call(this);
@@ -546,7 +542,7 @@
             });
         });
         this.resource("strategies", function() {
-            return this.resource("administration", {
+            return this.route("administration", {
                 path: "/administration/:administration_id"
             });
         });
@@ -689,9 +685,16 @@
 }).call(this);
 
 (function() {
-    App.AdministrationRoute = Ember.Route.extend({
+    App.StrategiesAdministrationRoute = Ember.Route.extend({
         model: function(params) {
-            return this.store.findAll("theme");
+            return Ember.Object.create({
+                administration: this.store.find("administration", params.administration_id),
+                themes: this.store.findAll("theme")
+            });
+        },
+        setupController: function(controller, model) {
+            controller.set("administration", model.administration);
+            return controller.set("themes", model.themes);
         }
     });
 }).call(this);
@@ -911,7 +914,7 @@
 }).call(this);
 
 (function() {
-    App.AdministrationController = Ember.ArrayController.extend({
+    App.StrategiesAdministrationController = Ember.ArrayController.extend({
         needs: "strategies",
         strategies: Ember.computed.alias("controllers.strategies")
     });

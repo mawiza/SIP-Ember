@@ -1,0 +1,26 @@
+<div {{bind-attr id=administration.id}} class="strategies-administrations-tab tab-pane active">
+    <div>
+        <div {{bind-attr style=administration.shadedTabStyle}}></div>
+        <div {{bind-attr style=administration.tabStyle}}></div>
+    </div>
+
+    <br>
+    {{#each theme in themes}}
+        <div class="strategies-theme panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"  href="#{{unbound administration.id}}{{unbound theme.id}}">
+                        {{theme.definition}}<span class="badge pull-right">0</span>
+                    </a>
+                </h4>
+            </div>
+            <div id="{{unbound administration.id}}{{unbound theme.id}}" class="panel-collapse collapse out">
+                <div class="strategy-administration panel-body">
+                    {{#each focusarea in theme.focusareas}}
+                        {{render 'administration/strategy' focusarea}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>

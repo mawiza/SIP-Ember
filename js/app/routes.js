@@ -26,7 +26,7 @@
       });
     });
     this.resource('strategies', function() {
-      return this.resource('administration', {
+      return this.route('administration', {
         path: '/administration/:administration_id'
       });
     });

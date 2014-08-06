@@ -35,7 +35,7 @@ var files = [
     "js/app/routes/themes.js",
     "js/app/routes/focusareas.js",
     "js/app/routes/strategies.js",
-    "js/app/routes/administration.js",
+    "js/app/routes/strategiesAdministration.js",
     "js/app/controllers/administrations.js",
     "js/app/controllers/administrationsNew.js",
     "js/app/controllers/administrationsEdit.js",
@@ -46,7 +46,7 @@ var files = [
     "js/app/controllers/focusareasNew.js",
     "js/app/controllers/focusareasEdit.js",
     "js/app/controllers/strategies.js",
-    "js/app/controllers/administration.js",
+    "js/app/controllers/strategiesAdministration.js",
     "js/app/controllers/administrationStrategy.js"
 ];
 
