@@ -1,8 +1,15 @@
-App.AdministrationStrategyController = Ember.ObjectController.extend
+App.AdministrationStrategyController = Ember.ObjectController.extend App.AutosavableController,
     needs: 'strategiesAdministration'
     strategiesAdministration: Ember.computed.alias("controllers.strategiesAdministration")
+    bufferedFields: ['description']
+    instaSaveFields: ['selected']
+    ready: false
 
+    #the reason the mixin doesn't detect the model is that it isn't resolved when the mixin
+    #starts with saving the data. Then we are still using the original model.
+    #make the mixin wait until the model is loaded.
     init: -> #reseting the passed in model to the found or created strategy model
+        console.log "init called"
         focusarea = @get('model')
         administration = @get('strategiesAdministration.administration')
 
@@ -30,3 +37,6 @@ App.AdministrationStrategyController = Ember.ObjectController.extend
                     self.set('model', strategy)
             else
                 self.set('model', result.get('firstObject'))
+
+            self.set('ready', true)
+            self._super()

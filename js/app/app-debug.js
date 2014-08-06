@@ -280,10 +280,12 @@
     App.AutosavableController = Ember.Mixin.create({
         bufferedFields: [],
         instaSaveFields: [],
+        ready: false,
         _allFields: function() {
             return this.get("bufferedFields").concat(this.get("instaSaveFields"));
         }.property(),
         setUnknownProperty: function(key, value) {
+            console.log("setUnknownProperty called!!");
             if (this.get("bufferedFields").contains(key)) {
                 this.get("_buffers").set(key, value);
                 return this._debouncedSave();
@@ -295,6 +297,7 @@
             }
         },
         unknownProperty: function(key) {
+            console.log("unknownProperty called!!");
             if (this.get("_allFields").contains(key) && this.get("_buffers").get(key)) {
                 return this.get("_buffers").get(key);
             } else {
@@ -303,6 +306,7 @@
         },
         _save: function() {
             var object, progressDone, _this;
+            console.log("_save called!!");
             _this = this;
             object = this.get("content");
             if (!this.get("content.isSaving")) {
@@ -566,7 +570,7 @@
 }).call(this);
 
 (function() {
-    App.Strategy = DS.Model.extend({
+    App.Strategy = DS.Model.extend(App.AutosavableModel, {
         description: DS.attr("string"),
         selected: DS.attr("boolean"),
         administration: DS.belongsTo("administration", {
@@ -984,11 +988,15 @@
 }).call(this);
 
 (function() {
-    App.AdministrationStrategyController = Ember.ObjectController.extend({
+    App.AdministrationStrategyController = Ember.ObjectController.extend(App.AutosavableController, {
         needs: "strategiesAdministration",
         strategiesAdministration: Ember.computed.alias("controllers.strategiesAdministration"),
+        bufferedFields: [ "description" ],
+        instaSaveFields: [ "selected" ],
+        ready: false,
         init: function() {
             var administration, focusarea, self;
+            console.log("init called");
             focusarea = this.get("model");
             administration = this.get("strategiesAdministration.administration");
             self = this;
@@ -1006,7 +1014,7 @@
                         focusarea: focusarea
                     });
                     console.log("SAVING...");
-                    return strategy.save().then(function() {
+                    strategy.save().then(function() {
                         console.log("SAVING AND PUSHING...");
                         administration.get("strategies").pushObject(strategy);
                         administration.save();
@@ -1016,8 +1024,10 @@
                         return self.set("model", strategy);
                     });
                 } else {
-                    return self.set("model", result.get("firstObject"));
+                    self.set("model", result.get("firstObject"));
                 }
+                self.set("ready", true);
+                return self._super();
             });
         }
     });

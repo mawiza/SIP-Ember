@@ -18,16 +18,18 @@ App.AutosavableModel = Ember.Mixin.create(_buffers: (->
 App.AutosavableController = Ember.Mixin.create(
     bufferedFields: []
     instaSaveFields: []
+    ready: false
 
-# Convenience property to access all the fields together
+    # Convenience property to access all the fields together
     _allFields: (->
         @get("bufferedFields").concat @get("instaSaveFields")
     ).property()
 
-# # If we update a field that has been specified as one of the
-# # bufferedFields or instaSaveFields write these to a buffer
-# # instead of the actual attribute and save.
+    # # If we update a field that has been specified as one of the
+    # # bufferedFields or instaSaveFields write these to a buffer
+    # # instead of the actual attribute and save.
     setUnknownProperty: (key, value) ->
+        console.log "setUnknownProperty called!!"
         if @get("bufferedFields").contains(key)
             @get("_buffers").set key, value
             @_debouncedSave()
@@ -38,15 +40,17 @@ App.AutosavableController = Ember.Mixin.create(
             @_super key, value
 
 
-# Pull properties from the buffer if they have been set there.
-# This is like the getter for our buffer or the model
+    # Pull properties from the buffer if they have been set there.
+    # This is like the getter for our buffer or the model
     unknownProperty: (key) ->
+        console.log "unknownProperty called!!"
         if @get("_allFields").contains(key) and @get("_buffers").get(key)
             @get("_buffers").get key
         else
             @_super key
 
     _save: ->
+        console.log "_save called!!"
         _this = this
         object = @get("content")
         unless @get("content.isSaving")
@@ -58,7 +62,6 @@ App.AutosavableController = Ember.Mixin.create(
             #any buffered changes we have made get rolled into this save
             @get("_buffers").forEach (key, value) ->
                 _this.get("content").set key, value
-
 
             #now clear out our buffer.
             @set "_buffers", Ember.Map.create()
@@ -80,28 +83,23 @@ App.AutosavableController = Ember.Mixin.create(
         return
 
 
-# When the model is about to change out from under the controller we must
-# immediately save any pending changes and clear out the _buffers.
+    # When the model is about to change out from under the controller we must
+    # immediately save any pending changes and clear out the _buffers.
 
-# FOR NOW, call immediate save because there is some bug in the immediate argument of Ember.run.debounce
+    # FOR NOW, call immediate save because there is some bug in the immediate argument of Ember.run.debounce
 
-# TODO, use this once it works right...
-# this._debouncedSave(true);
     _saveNowAndClear: (->
         console.log "App.AutosavableController::_saveNowAndClear: clearing..."
         return  if not @get("content") or @get("content.isDeleted")
-        @_save()
+        @_save() #@._debouncedSave(true)
         @set "_buffers", Ember.Map.create()
     ).observesBefore("content")
 
-# ACTIONS kick off decorated methods from our views
+    # ACTIONS kick off decorated methods from our views
     actions:
         save: ->
 
             # FOR NOW, call immediate save because there is some bug in the immediate argument of Ember.run.debounce
-            @_save()
+            @_save() #@._debouncedSave(true)
             return
 )
-
-# TODO, use this once it works right...
-# this._debouncedSave(true);

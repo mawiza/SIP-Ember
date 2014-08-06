@@ -13,10 +13,12 @@
   App.AutosavableController = Ember.Mixin.create({
     bufferedFields: [],
     instaSaveFields: [],
+    ready: false,
     _allFields: (function() {
       return this.get("bufferedFields").concat(this.get("instaSaveFields"));
     }).property(),
     setUnknownProperty: function(key, value) {
+      console.log("setUnknownProperty called!!");
       if (this.get("bufferedFields").contains(key)) {
         this.get("_buffers").set(key, value);
         return this._debouncedSave();
@@ -28,6 +30,7 @@
       }
     },
     unknownProperty: function(key) {
+      console.log("unknownProperty called!!");
       if (this.get("_allFields").contains(key) && this.get("_buffers").get(key)) {
         return this.get("_buffers").get(key);
       } else {
@@ -36,6 +39,7 @@
     },
     _save: function() {
       var object, progressDone, _this;
+      console.log("_save called!!");
       _this = this;
       object = this.get("content");
       if (!this.get("content.isSaving")) {

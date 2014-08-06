@@ -25,6 +25,7 @@ module.exports = function(config) {
         'js/libs/bootstrap-colorpicker.js',
         'js/libs/plurals.js',
         'js/libs/i18n.js',
+        'js/libs/nprogress.js',
         /*'js/app/app-compiled.min.js',*/
         'js/app/app-debug.js',
         "js/app/templates.js",
