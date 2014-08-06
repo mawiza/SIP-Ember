@@ -19,6 +19,7 @@ var files = [
     "js/app/injections/utility.js",
     "js/app/translations.js",
     "js/app/app.js",
+    "js/app/mixins/autoSaveMixin.js",
     "js/app/components/notify.js",
     "js/app/components/graph.js",
     "js/app/views/colorPicker.js",

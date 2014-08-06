@@ -38,7 +38,7 @@
               });
               return focusarea.save().then(function() {
                 var strategy;
-                theme.get("focusareas").addObject(focusarea);
+                theme.get("focusareas").pushObject(focusarea);
                 theme.save();
                 strategy = store.createRecord('strategy', {
                   description: 'Strategy description',

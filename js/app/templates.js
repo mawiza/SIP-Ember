@@ -255,10 +255,11 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 
 
   data.buffer.push("<div class=\"strategies-focusarea\">\r\n    <div>\r\n        <label class=\"strategy-focusarea checkbox-inline\">\r\n            ");
-  hashContexts = {'type': depth0};
-  hashTypes = {'type': "STRING"};
+  hashContexts = {'type': depth0,'checked': depth0};
+  hashTypes = {'type': "STRING",'checked': "ID"};
   options = {hash:{
-    'type': ("checkbox")
+    'type': ("checkbox"),
+    'checked': ("isSelected")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push(" ");
@@ -266,14 +267,15 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "focusarea.definition", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\r\n        </label>\r\n        ");
-  hashContexts = {'class': depth0,'rows': depth0};
-  hashTypes = {'class': "STRING",'rows': "STRING"};
+  hashContexts = {'value': depth0,'class': depth0,'rows': depth0};
+  hashTypes = {'value': "ID",'class': "STRING",'rows': "STRING"};
   options = {hash:{
+    'value': ("description"),
     'class': ("strategy-description form-control"),
     'rows': ("2")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.textarea || (depth0 && depth0.textarea)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "textarea", options))));
-  data.buffer.push("\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("\r\n    </div>\r\n</div>");
   return buffer;
   
 });

@@ -270,6 +270,79 @@
 }).call(this);
 
 (function() {
+    var AUTOSAVE_DELAY;
+    AUTOSAVE_DELAY = 1500;
+    App.AutosavableModel = Ember.Mixin.create({
+        _buffers: function() {
+            return Ember.Map.create();
+        }.property()
+    });
+    App.AutosavableController = Ember.Mixin.create({
+        bufferedFields: [],
+        instaSaveFields: [],
+        _allFields: function() {
+            return this.get("bufferedFields").concat(this.get("instaSaveFields"));
+        }.property(),
+        setUnknownProperty: function(key, value) {
+            if (this.get("bufferedFields").contains(key)) {
+                this.get("_buffers").set(key, value);
+                return this._debouncedSave();
+            } else if (this.get("instaSaveFields").contains(key)) {
+                this._super(key, value);
+                return this._save();
+            } else {
+                return this._super(key, value);
+            }
+        },
+        unknownProperty: function(key) {
+            if (this.get("_allFields").contains(key) && this.get("_buffers").get(key)) {
+                return this.get("_buffers").get(key);
+            } else {
+                return this._super(key);
+            }
+        },
+        _save: function() {
+            var object, progressDone, _this;
+            _this = this;
+            object = this.get("content");
+            if (!this.get("content.isSaving")) {
+                console.log("App.AutosavableController::_save: Saving Changes...");
+                NProgress.set(0).start();
+                this.get("_buffers").forEach(function(key, value) {
+                    return _this.get("content").set(key, value);
+                });
+                this.set("_buffers", Ember.Map.create());
+                progressDone = function(object) {
+                    NProgress.done();
+                };
+                object.on("didCreate", progressDone);
+                object.on("didUpdate", progressDone);
+                return object.save();
+            } else {
+                return this._debouncedSave();
+            }
+        },
+        _debouncedSave: function(immediate) {
+            console.log("App.AutosavableController::_debouncedSave: Save requestsed and scheduled: ", AUTOSAVE_DELAY);
+            Ember.run.debounce(this, this._save, AUTOSAVE_DELAY, immediate);
+        },
+        _saveNowAndClear: function() {
+            console.log("App.AutosavableController::_saveNowAndClear: clearing...");
+            if (!this.get("content") || this.get("content.isDeleted")) {
+                return;
+            }
+            this._save();
+            return this.set("_buffers", Ember.Map.create());
+        }.observesBefore("content"),
+        actions: {
+            save: function() {
+                this._save();
+            }
+        }
+    });
+}).call(this);
+
+(function() {
     App.XNotifyComponent = Ember.Component.extend({
         classNames: "notify-messages",
         messages: Ember.computed.alias("notify")
@@ -417,17 +490,7 @@
     });
 }).call(this);
 
-(function() {
-    App.AdministrationStrategyView = Ember.View.extend({
-        didInsertElement: function() {},
-        keyPress: function() {
-            return console.log("keypress");
-        },
-        click: function() {
-            return console.log("click");
-        }
-    });
-}).call(this);
+(function() {}).call(this);
 
 (function() {
     App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
@@ -503,14 +566,6 @@
 }).call(this);
 
 (function() {
-    App.StrategySerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
-        attrs: {
-            strategies: {
-                serialize: "ids",
-                deserialize: "ids"
-            }
-        }
-    });
     App.Strategy = DS.Model.extend({
         description: DS.attr("string"),
         selected: DS.attr("boolean"),
@@ -930,42 +985,38 @@
 
 (function() {
     App.AdministrationStrategyController = Ember.ObjectController.extend({
-        strategy: null,
+        needs: "strategiesAdministration",
+        strategiesAdministration: Ember.computed.alias("controllers.strategiesAdministration"),
         init: function() {
-            var administration_id, focusarea, self, strategy;
+            var administration, focusarea, self;
             focusarea = this.get("model");
-            administration_id = this.utility.idFromURL(window.location.href);
-            console.log("(", administration_id, ")", focusarea.get("id"));
+            administration = this.get("strategiesAdministration.administration");
             self = this;
-            return strategy = this.store.find("strategy", {
+            return this.store.find("strategy", {
                 focusarea: focusarea.get("id"),
-                administration: administration_id
-            }).then(function(value) {
-                console.log("FOUND:", value.get("length"));
-                if (value.get("length") === 0) {
-                    console.log("LOADING ADMINISTRATION...");
-                    return self.store.find("administration", administration_id).then(function(administration) {
-                        console.log("CREATING...");
-                        strategy = self.store.createRecord("strategy", {
-                            description: "TEST:" + administration_id,
-                            isSelected: true,
-                            administration: administration_id,
-                            focusarea: focusarea.get("id")
-                        });
-                        console.log("SAVING...");
-                        return strategy.save().then(function() {
-                            console.log("SAVING AND PUSHING...");
-                            administration.get("strategies").pushObject(strategy);
-                            administration.save();
-                            focusarea.get("strategies").pushObject(strategy);
-                            focusarea.save();
-                            console.log("STRATEGY:", strategy);
-                            return self.set("strategy", strategy);
-                        });
+                administration: administration.get("id")
+            }).then(function(result) {
+                var strategy;
+                console.log("FOUND:", result.get("length"));
+                if (result.get("length") === 0) {
+                    console.log("CREATING...");
+                    strategy = self.store.createRecord("strategy", {
+                        isSelected: false,
+                        administration: administration,
+                        focusarea: focusarea
+                    });
+                    console.log("SAVING...");
+                    return strategy.save().then(function() {
+                        console.log("SAVING AND PUSHING...");
+                        administration.get("strategies").pushObject(strategy);
+                        administration.save();
+                        focusarea.get("strategies").pushObject(strategy);
+                        focusarea.save();
+                        console.log("STRATEGY:", strategy);
+                        return self.set("model", strategy);
                     });
                 } else {
-                    console.log("VALUE:", value);
-                    return self.set("strategy", value);
+                    return self.set("model", result.get("firstObject"));
                 }
             });
         }

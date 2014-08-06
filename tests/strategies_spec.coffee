@@ -36,7 +36,7 @@ describe 'Strategies should', ->
                         )
 
                         focusarea.save().then ->
-                            theme.get("focusareas").addObject(focusarea)
+                            theme.get("focusareas").pushObject(focusarea)
                             theme.save()
 
 
