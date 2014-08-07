@@ -38,6 +38,7 @@
         } else {
           self.set('model', result.get('firstObject'));
         }
+        self.set("_buffers", Ember.Map.create());
         self.set('ready', true);
         return self._super();
       });

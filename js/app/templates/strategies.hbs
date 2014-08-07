@@ -12,7 +12,7 @@
             {{#each administration in model}}
                 {{#link-to 'strategies.administration' administration.id tagName="li" href=false}}
                     {{#view App.StrategyTabAnchorView administration_id=administration.id}}
-                        {{administration.name}}
+                        {{administration.name}} <span class="badge">{{unbound administration.selectionCount}}</span>
                     {{/view}}
                 {{/link-to}}
             {{/each}}

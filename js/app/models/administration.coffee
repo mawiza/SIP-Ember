@@ -12,6 +12,28 @@ App.Administration = DS.Model.extend
         async: true
     )
 
+#    selectionCount:   Ember.arrayComputed('strategies',
+#        initialValue: 0
+#        addedItem: (accum, item) ->
+#            if item.get('totalResponses')
+#                accum += 1
+#            else
+#                accum -= 1
+#        removedItem: (accum, item) ->
+#            if item.get('totalResponses')
+#                accum -= 1
+#    )
+
+#    selectionCount: (->
+#        count = 0
+#        console.log "COUNT"
+#        @get('strategies').then (strategies) ->
+#            console.log "RESOLVED", strategies
+#            #count = strategies.filterBy('selected', true).get('length')
+#            count = strategies.get('length')
+#        count
+#    ).property('strategies.@each.selected')
+
     #this does not belong in here - it doesn't have anything to do with the model
     style: (->
         "background-color:" + @get('color') + ";width:200px;display: block; padding: 10px;margin-right: 150px;"

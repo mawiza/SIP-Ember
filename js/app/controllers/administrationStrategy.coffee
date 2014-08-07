@@ -5,9 +5,6 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
     instaSaveFields: ['selected']
     ready: false
 
-    #the reason the mixin doesn't detect the model is that it isn't resolved when the mixin
-    #starts with saving the data. Then we are still using the original model.
-    #make the mixin wait until the model is loaded.
     init: -> #reseting the passed in model to the found or created strategy model
         console.log "init called"
         focusarea = @get('model')
@@ -38,5 +35,6 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
             else
                 self.set('model', result.get('firstObject'))
 
+            self.set "_buffers", Ember.Map.create()
             self.set('ready', true)
             self._super()
