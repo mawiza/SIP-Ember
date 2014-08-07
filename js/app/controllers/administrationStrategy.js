@@ -8,7 +8,6 @@
     ready: false,
     init: function() {
       var administration, focusarea, self;
-      console.log("init called");
       focusarea = this.get('model');
       administration = this.get('strategiesAdministration.administration');
       self = this;
@@ -16,33 +15,34 @@
         focusarea: focusarea.get('id'),
         administration: administration.get('id')
       }).then(function(result) {
-        console.log("FOUND:", result.get('length'));
-        self.set("_buffers", Ember.Map.create());
-        if (result.get('length') === 0) {
-          console.log("CREATING...");
-          return administration.then(function(administration) {
-            var strategy;
-            strategy = self.store.createRecord('strategy', {
-              isSelected: false,
-              administration: administration,
-              focusarea: focusarea
+        var error;
+        try {
+          self.set("_buffers", Ember.Map.create());
+          if (result.get('length') === 0) {
+            return administration.then(function(administration) {
+              var strategy;
+              strategy = self.store.createRecord('strategy', {
+                isSelected: false,
+                administration: administration,
+                focusarea: focusarea
+              });
+              return strategy.save().then(function() {
+                administration.get('strategies').pushObject(strategy);
+                administration.save();
+                focusarea.get('strategies').pushObject(strategy);
+                focusarea.save();
+                self.set('model', strategy);
+                self.set('ready', true);
+                return self._super();
+              });
             });
-            console.log("SAVING...");
-            return strategy.save().then(function() {
-              console.log("SAVING AND PUSHING...");
-              administration.get('strategies').pushObject(strategy);
-              administration.save();
-              focusarea.get('strategies').pushObject(strategy);
-              focusarea.save();
-              console.log("STRATEGY:", strategy);
-              self.set('model', strategy);
-              self.set('ready', true);
-              return self._super();
-            });
-          });
-        } else {
-          self.set('model', result.get('firstObject'));
-          self.set('ready', true);
+          } else {
+            self.set('model', result.get('firstObject'));
+            self.set('ready', true);
+            return self._super();
+          }
+        } catch (_error) {
+          error = _error;
           return self._super();
         }
       });

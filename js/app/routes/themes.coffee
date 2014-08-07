@@ -22,6 +22,7 @@ App.ThemesRoute = Ember.Route.extend
         @store.find('theme')
 
     afterModel: (themes, transition) ->
+        console.log "AFTER MODEL - ThemesRoute", window.location.href
         theme_id = @utility.idFromURL(window.location.href)
         if theme_id?
             @transitionTo "/themes/" + theme_id + "/focusareas"

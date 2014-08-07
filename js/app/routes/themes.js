@@ -32,6 +32,7 @@
     },
     afterModel: function(themes, transition) {
       var theme_id;
+      console.log("AFTER MODEL - ThemesRoute", window.location.href);
       theme_id = this.utility.idFromURL(window.location.href);
       if (theme_id != null) {
         return this.transitionTo("/themes/" + theme_id + "/focusareas");

@@ -6,6 +6,8 @@
 # Includes hooks for pacifier from http://ricostacruz.com/nprogress
 # NOTE: This requires a 2 part install in which the controller and any models it loads have the corresponding mixin
 
+#https://gist.github.com/Genkilabs/8404456
+
 # This is how long we will wait on a form before saving. I like to put this in App.AUTOSAVE_DELAY
 AUTOSAVE_DELAY = 1500
 

@@ -26,6 +26,7 @@ Ember.Utility = Ember.Object.extend(
             #administration.rollback()
             controller.transitionToRoute('/administrations/new')
 
+
     idFromURL: (currentUrl)->
         regex = /([a-f0-9]{24})/
         result = regex.exec(currentUrl) || ["", null]
