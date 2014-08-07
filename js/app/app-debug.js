@@ -1010,31 +1010,35 @@
                 focusarea: focusarea.get("id"),
                 administration: administration.get("id")
             }).then(function(result) {
-                var strategy;
                 console.log("FOUND:", result.get("length"));
+                self.set("_buffers", Ember.Map.create());
                 if (result.get("length") === 0) {
                     console.log("CREATING...");
-                    strategy = self.store.createRecord("strategy", {
-                        isSelected: false,
-                        administration: administration,
-                        focusarea: focusarea
-                    });
-                    console.log("SAVING...");
-                    strategy.save().then(function() {
-                        console.log("SAVING AND PUSHING...");
-                        administration.get("strategies").pushObject(strategy);
-                        administration.save();
-                        focusarea.get("strategies").pushObject(strategy);
-                        focusarea.save();
-                        console.log("STRATEGY:", strategy);
-                        return self.set("model", strategy);
+                    return administration.then(function(administration) {
+                        var strategy;
+                        strategy = self.store.createRecord("strategy", {
+                            isSelected: false,
+                            administration: administration,
+                            focusarea: focusarea
+                        });
+                        console.log("SAVING...");
+                        return strategy.save().then(function() {
+                            console.log("SAVING AND PUSHING...");
+                            administration.get("strategies").pushObject(strategy);
+                            administration.save();
+                            focusarea.get("strategies").pushObject(strategy);
+                            focusarea.save();
+                            console.log("STRATEGY:", strategy);
+                            self.set("model", strategy);
+                            self.set("ready", true);
+                            return self._super();
+                        });
                     });
                 } else {
                     self.set("model", result.get("firstObject"));
+                    self.set("ready", true);
+                    return self._super();
                 }
-                self.set("_buffers", Ember.Map.create());
-                self.set("ready", true);
-                return self._super();
             });
         }
     });
