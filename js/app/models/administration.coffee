@@ -29,10 +29,13 @@ App.Administration = DS.Model.extend
 #        console.log "COUNT"
 #        @get('strategies').then (strategies) ->
 #            console.log "RESOLVED", strategies
-#            #count = strategies.filterBy('selected', true).get('length')
-#            count = strategies.get('length')
+#            strategies.forEach (strategy) ->
+#                if strategy.get('selected')
+#                    count += 1
+#
+#            console.log "COUNT:", count
 #        count
-#    ).property('strategies.@each.selected')
+#    ).property('strategies.@each.strategy.selected')
 
     #this does not belong in here - it doesn't have anything to do with the model
     style: (->

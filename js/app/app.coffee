@@ -30,3 +30,10 @@ App.ApplicationAdapter = DS.RESTAdapter.extend
     host: 'http://127.0.0.1:4567'
     corsWithCredentials: true
 
+#TODO Use pace!!
+window.App.ready = ->
+    $(document).ajaxStart ->
+        NProgress.start()
+
+    $(document).ajaxStop ->
+        NProgress.done()

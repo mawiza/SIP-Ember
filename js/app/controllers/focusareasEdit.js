@@ -28,16 +28,7 @@
         }
       },
       "delete": function() {
-        var focusarea, self, theme;
-        self = this;
-        focusarea = this.get('model');
-        theme = focusarea.get('theme');
-        theme.get('focusareas').removeObject(focusarea);
-        return theme.save().then(function() {
-          return focusarea.destroyRecord().then(function() {
-            return self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas');
-          });
-        });
+        return alert('Delete disabled');
       },
       cancel: function() {
         this.get('model').rollback();

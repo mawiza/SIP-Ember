@@ -1,3 +1,14 @@
-<div>
-    {{x-graph}}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div>
+            <h4>
+                {{t graph.heading}} <span style="background-color: #C4CEDD;" class="badge">{{unbound selectedStrategiesCount}}</span>
+            </h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        {{unbound selectedStrategies}}
+        <br>
+        {{x-graph data=selectedStrategies}}
+    </div>
 </div>

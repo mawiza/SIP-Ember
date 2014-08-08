@@ -75,6 +75,14 @@ textarea.strategy-description {
     margin-bottom: 20px;
 }
 
+h4 {
+    vertical-align:middle;
+}
+
+h4>.badge {
+    vertical-align:middle;
+}
+
 div.strategy-administration {
     padding-bottom: 0px;
 }

@@ -267,6 +267,14 @@
         host: "http://127.0.0.1:4567",
         corsWithCredentials: true
     });
+    window.App.ready = function() {
+        $(document).ajaxStart(function() {
+            return NProgress.start();
+        });
+        return $(document).ajaxStop(function() {
+            return NProgress.done();
+        });
+    };
 }).call(this);
 
 (function() {
@@ -625,6 +633,27 @@
 }).call(this);
 
 (function() {
+    App.ApplicationRoute = Ember.Route.extend({
+        actions: {
+            loading: function() {
+                NProgress.start();
+                this.router.one("didTransition", function() {
+                    return setTimeout(function() {
+                        return NProgress.done();
+                    }, 50);
+                });
+                return true;
+            },
+            error: function() {
+                return setTimeout(function() {
+                    return NProgress.done();
+                }, 50);
+            }
+        }
+    });
+}).call(this);
+
+(function() {
     App.GraphRoute = Ember.Route.extend({
         model: function() {
             return this.store.findAll("strategy");
@@ -811,15 +840,7 @@
                 return this.utility.updateOrSave(this, administration);
             },
             "delete": function() {
-                var administration, self;
-                self = this;
-                administration = this.get("model");
-                this.store.find("strategy", {
-                    administration: administration
-                }).then(function(strategies) {
-                    return console.log(strategies);
-                });
-                return console.log("delete administration");
+                return alert("Delete disabled");
             },
             cancel: function() {
                 return this.transitionToRoute("/administrations");
@@ -967,16 +988,7 @@
                 }
             },
             "delete": function() {
-                var focusarea, self, theme;
-                self = this;
-                focusarea = this.get("model");
-                theme = focusarea.get("theme");
-                theme.get("focusareas").removeObject(focusarea);
-                return theme.save().then(function() {
-                    return focusarea.destroyRecord().then(function() {
-                        return self.transitionToRoute("/themes/" + self.utility.idFromURL(window.location.href) + "/focusareas");
-                    });
-                });
+                return alert("Delete disabled");
             },
             cancel: function() {
                 this.get("model").rollback();
@@ -1045,5 +1057,51 @@
                 }
             });
         }
+    });
+}).call(this);
+
+(function() {
+    App.GraphController = Ember.ArrayController.extend({
+        selectedStrategies: function() {
+            var data, serealizedStrategies, strategies;
+            serealizedStrategies = [];
+            strategies = this.get("model").filterProperty("selected", true);
+            strategies.forEach(function(strategy) {
+                var hash;
+                hash = strategy.getProperties("id", "description", "selected", "administration.id", "focusarea.id");
+                return serealizedStrategies.push(hash);
+            });
+            data = new vis.DataSet(JSON.stringify(serealizedStrategies));
+            data = new vis.DataSet([ {
+                id: 1,
+                content: "item 1",
+                start: "2013-04-20"
+            }, {
+                id: 2,
+                content: "item 2",
+                start: "2013-04-14"
+            }, {
+                id: 3,
+                content: "item 3",
+                start: "2013-04-18"
+            }, {
+                id: 4,
+                content: "item 4",
+                start: "2013-04-16",
+                end: "2013-04-19"
+            }, {
+                id: 5,
+                content: "item 5",
+                start: "2013-04-25"
+            }, {
+                id: 6,
+                content: "item 6",
+                start: "2013-04-27"
+            } ]);
+            return data;
+        }.property("strategies.@each"),
+        selectedStrategiesCount: function() {
+            return this.get("model").filterProperty("selected", true).get("length");
+        }.property("strategies.@each")
     });
 }).call(this);

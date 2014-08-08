@@ -38,6 +38,15 @@
     corsWithCredentials: true
   });
 
+  window.App.ready = function() {
+    $(document).ajaxStart(function() {
+      return NProgress.start();
+    });
+    return $(document).ajaxStop(function() {
+      return NProgress.done();
+    });
+  };
+
 }).call(this);
 
 //# sourceMappingURL=app.map
