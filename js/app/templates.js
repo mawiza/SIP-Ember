@@ -667,15 +667,11 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "selectedStrategiesCount", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</span>\r\n            </h4>\r\n        </div>\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "selectedStrategies", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n        <br>\r\n        ");
+  data.buffer.push("</span>\r\n            </h4>\r\n        </div>\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <br>\r\n        ");
   hashContexts = {'data': depth0};
   hashTypes = {'data': "ID"};
   options = {hash:{
-    'data': ("selectedStrategies")
+    'data': ("data")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['x-graph'] || (depth0 && depth0['x-graph'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "x-graph", options))));
   data.buffer.push("\r\n    </div>\r\n</div>\r\n");

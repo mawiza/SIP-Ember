@@ -19,7 +19,7 @@ module.exports = function(config) {
         'js/libs/handlebars-1.1.2.js',
         'js/libs/ember.js',
         'js/libs/ember-data.js',
-        'js/libs/vis.min.js',
+        'js/libs/vis.js',
         'js/libs/adapter.js',
         'js/libs/bootstrap.min.js',
         'js/libs/bootstrap-colorpicker.js',

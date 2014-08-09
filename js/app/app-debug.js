@@ -426,8 +426,9 @@
                 stabilizationIterations: 1,
                 dataManipulation: this.get("editing")
             };
-            this.graph = new vis.Graph(container, data, options);
+            this.graph = new vis.Network(container, data, options);
             this.graph.on("click", function(data) {
+                console.log("Graph click");
                 if (data.nodes.length > 0) {
                     _this.set("selected", data.nodes[0]);
                 }
@@ -442,6 +443,7 @@
                 this.setup();
             }
             md = this.get("data");
+            console.log("DATA:", md);
             d = this.get("graphDataSet");
             if (d != null && md != null) {
                 delNodes = d.nodes.get({
@@ -511,6 +513,14 @@
 (function() {}).call(this);
 
 (function() {
+    App.GraphView = Ember.View.extend({
+        willInsertElement: function() {
+            return this.get("controller").send("loadStrategies");
+        }
+    });
+}).call(this);
+
+(function() {
     App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
         attrs: {
             strategies: {
@@ -572,7 +582,7 @@
     App.Focusarea = DS.Model.extend({
         definition: DS.attr("string"),
         theme: DS.belongsTo("theme", {
-            embedded: true
+            embedded: "always"
         }),
         strategies: DS.hasMany("strategy", {
             async: true
@@ -1062,46 +1072,47 @@
 
 (function() {
     App.GraphController = Ember.ArrayController.extend({
-        selectedStrategies: function() {
-            var data, serealizedStrategies, strategies;
-            serealizedStrategies = [];
-            strategies = this.get("model").filterProperty("selected", true);
-            strategies.forEach(function(strategy) {
-                var hash;
-                hash = strategy.getProperties("id", "description", "selected", "administration.id", "focusarea.id");
-                return serealizedStrategies.push(hash);
-            });
-            data = new vis.DataSet(JSON.stringify(serealizedStrategies));
-            data = new vis.DataSet([ {
-                id: 1,
-                content: "item 1",
-                start: "2013-04-20"
-            }, {
-                id: 2,
-                content: "item 2",
-                start: "2013-04-14"
-            }, {
-                id: 3,
-                content: "item 3",
-                start: "2013-04-18"
-            }, {
-                id: 4,
-                content: "item 4",
-                start: "2013-04-16",
-                end: "2013-04-19"
-            }, {
-                id: 5,
-                content: "item 5",
-                start: "2013-04-25"
-            }, {
-                id: 6,
-                content: "item 6",
-                start: "2013-04-27"
-            } ]);
-            return data;
-        }.property("strategies.@each"),
+        nodes: [],
+        edges: [],
+        data: function() {
+            return {
+                nodes: this.get("nodes"),
+                edges: this.get("edges")
+            };
+        }.property("nodes", "edges"),
+        actions: {
+            loadStrategies: function() {
+                var self, strategies;
+                this.nodes = [];
+                this.edges = [];
+                strategies = this.get("model").filterProperty("selected", true);
+                self = this;
+                return strategies.forEach(function(strategy) {
+                    return self._buildNode(strategy);
+                });
+            }
+        },
         selectedStrategiesCount: function() {
             return this.get("model").filterProperty("selected", true).get("length");
-        }.property("strategies.@each")
+        }.property("strategies.@each.strategy"),
+        _buildNode: function(strategy) {
+            var node, self;
+            self = this;
+            node = {};
+            node["id"] = strategy.get("id");
+            node["description"] = strategy.get("description");
+            node["selected"] = strategy.get("selected");
+            return this.store.find("administration", strategy.get("administration.id")).then(function(administration) {
+                node["group"] = administration.get("name");
+                node["color"] = administration.get("color");
+                node["administration_id"] = administration.get("id");
+                return self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
+                    node["focusarea"] = focusarea.get("definition");
+                    node["focusarea_id"] = focusarea.get("id");
+                    self.nodes.push(node);
+                    return console.log("NODE:", node);
+                });
+            });
+        }
     });
 }).call(this);

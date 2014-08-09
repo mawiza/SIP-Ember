@@ -23,10 +23,11 @@ App.XGraphComponent = Ember.View.extend(
             dataManipulation: @get("editing")
 
         # Initialise vis.js
-        @graph = new vis.Graph(container, data, options)
+        @graph = new vis.Network(container, data, options)
 
         # This sets the new selected item on click
         @graph.on "click", (data) ->
+            console.log "Graph click"
             _this.set "selected", data.nodes[0]  if data.nodes.length > 0
             return
 
@@ -49,6 +50,7 @@ App.XGraphComponent = Ember.View.extend(
     dataUpdates: (->
         @setup()  if @graph is null
         md = @get("data")
+        console.log "DATA:", md
         d = @get("graphDataSet")
         if d? and md?
             delNodes = d.nodes.get(filter: (i) ->

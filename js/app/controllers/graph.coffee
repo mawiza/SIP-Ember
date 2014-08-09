@@ -1,49 +1,63 @@
 App.GraphController = Ember.ArrayController.extend
-    selectedStrategies: (->
-        serealizedStrategies = []
-        strategies = @get('model').filterProperty('selected', true)
-        strategies.forEach (strategy) ->
-            hash = strategy.getProperties('id', 'description', 'selected', 'administration.id', 'focusarea.id')
-            serealizedStrategies.push hash
-        data = new vis.DataSet(JSON.stringify(serealizedStrategies))
+    nodes: []
+    edges: []
 
-        data = new vis.DataSet([
-            {
-                id: 1
-                content: "item 1"
-                start: "2013-04-20"
-            }
-            {
-                id: 2
-                content: "item 2"
-                start: "2013-04-14"
-            }
-            {
-                id: 3
-                content: "item 3"
-                start: "2013-04-18"
-            }
-            {
-                id: 4
-                content: "item 4"
-                start: "2013-04-16"
-                end: "2013-04-19"
-            }
-            {
-                id: 5
-                content: "item 5"
-                start: "2013-04-25"
-            }
-            {
-                id: 6
-                content: "item 6"
-                start: "2013-04-27"
-            }
-        ])
-        data
-    ).property('strategies.@each')
+    data: ( ->
+        nodes: @get('nodes')
+        edges: @get('edges')
+    ).property('nodes', 'edges')
+
+#    selectedStrategies: ->
+#        strategies = @get('model').filterProperty('selected', true)
+#        strategies.forEach (strategy) ->
+#            @_buildNode(strategy)
+
+#    selectedStrategies: (->
+#        serealizedStrategies = []
+#        strategies = @get('model').filterProperty('selected', true)
+#        self = @
+#        strategies.forEach (strategy) ->
+#            self._buildNode(strategy)
+#        #            hash = strategy.getProperties('id', 'description', 'selected', 'administration.id', 'focusarea.id')
+#        #            serealizedStrategies.push hash
+#        #        edges = []
+#        #        graphDataSet =
+#        #            nodes: JSON.parse(JSON.stringify(serealizedStrategies))
+#        #            edges: edges
+#        #        console.log "GRAPH", graphDataSet
+#        #        graphDataSet
+#        "loading..."
+#    ).property('strategies.@each')
+
+    actions:
+        loadStrategies: ->
+            @nodes = []
+            @edges = []
+            strategies = @get('model').filterProperty('selected', true)
+            self = @
+            strategies.forEach (strategy) ->
+                self._buildNode(strategy)
 
     selectedStrategiesCount: (->
         @get('model').filterProperty('selected', true).get('length')
-    ).property('strategies.@each')
+    ).property('strategies.@each.strategy')
+
+    _buildNode: (strategy) ->
+        self = this
+        node = {}
+        node['id'] = strategy.get('id')
+        node['description'] = strategy.get('description')
+        node['selected'] = strategy.get('selected')
+        @store.find('administration', strategy.get('administration.id')).then (administration) ->
+            node['group'] = administration.get('name')
+            node['color'] = administration.get('color')
+            node['administration_id'] = administration.get('id')
+            self.store.find('focusarea', strategy.get('focusarea.id')).then (focusarea) ->
+                node['focusarea'] = focusarea.get('definition')
+                node['focusarea_id'] = focusarea.get('id')
+                #node['theme'] = strategy.get('focusarea.theme.definition')
+                #node['theme_id'] = strategy.get('focusarea.theme.id')
+                self.nodes.push node
+                console.log "NODE:", node
+
 

@@ -26,6 +26,7 @@ var files = [
     "js/app/views/strategyTabAnchorView.js",
     "js/app/views/strategyTabPaneView.js",
     "js/app/views/administrationStrategy.js",
+    "js/app/views/graph.js",
     "js/app/models/administration.js",
     "js/app/models/theme.js",
     "js/app/models/focusarea.js",

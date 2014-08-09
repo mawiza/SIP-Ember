@@ -26,8 +26,9 @@
         stabilizationIterations: 1,
         dataManipulation: this.get("editing")
       };
-      this.graph = new vis.Graph(container, data, options);
+      this.graph = new vis.Network(container, data, options);
       this.graph.on("click", function(data) {
+        console.log("Graph click");
         if (data.nodes.length > 0) {
           _this.set("selected", data.nodes[0]);
         }
@@ -42,6 +43,7 @@
         this.setup();
       }
       md = this.get("data");
+      console.log("DATA:", md);
       d = this.get("graphDataSet");
       if ((d != null) && (md != null)) {
         delNodes = d.nodes.get({
