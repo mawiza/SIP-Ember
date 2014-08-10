@@ -1075,28 +1075,34 @@
         nodes: [],
         edges: [],
         data: function() {
-            return {
-                nodes: this.get("nodes"),
+            var dataset;
+            console.log("fired!");
+            dataset = {
+                nodes: JSON.parse(JSON.stringify(this.get("nodes"))),
                 edges: this.get("edges")
             };
-        }.property("nodes", "edges"),
+            return dataset;
+        }.property("nodes.[]", "edges"),
         actions: {
             loadStrategies: function() {
                 var self, strategies;
+                console.log("NODE:", this.get("nodes"));
+                console.log("Loading strategies", this.get("data"));
                 this.nodes = [];
                 this.edges = [];
                 strategies = this.get("model").filterProperty("selected", true);
                 self = this;
                 return strategies.forEach(function(strategy) {
-                    return self._buildNode(strategy);
+                    return self.buildNode(strategy);
                 });
             }
         },
         selectedStrategiesCount: function() {
             return this.get("model").filterProperty("selected", true).get("length");
         }.property("strategies.@each.strategy"),
-        _buildNode: function(strategy) {
+        buildNode: function(strategy) {
             var node, self;
+            console.log("Building the node for ", strategy.get("id"));
             self = this;
             node = {};
             node["id"] = strategy.get("id");
@@ -1109,8 +1115,8 @@
                 return self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
                     node["focusarea"] = focusarea.get("definition");
                     node["focusarea_id"] = focusarea.get("id");
-                    self.nodes.push(node);
-                    return console.log("NODE:", node);
+                    self.get("nodes").pushObject(node);
+                    return console.log("NODE:", self.get("nodes"));
                 });
             });
         }

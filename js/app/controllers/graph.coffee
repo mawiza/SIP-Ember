@@ -3,46 +3,30 @@ App.GraphController = Ember.ArrayController.extend
     edges: []
 
     data: ( ->
-        nodes: @get('nodes')
-        edges: @get('edges')
+        console.log "fired!"
+        dataset =
+            nodes: JSON.parse(JSON.stringify(@get('nodes')))
+            edges: @get('edges')
+        dataset
     ).property('nodes', 'edges')
-
-#    selectedStrategies: ->
-#        strategies = @get('model').filterProperty('selected', true)
-#        strategies.forEach (strategy) ->
-#            @_buildNode(strategy)
-
-#    selectedStrategies: (->
-#        serealizedStrategies = []
-#        strategies = @get('model').filterProperty('selected', true)
-#        self = @
-#        strategies.forEach (strategy) ->
-#            self._buildNode(strategy)
-#        #            hash = strategy.getProperties('id', 'description', 'selected', 'administration.id', 'focusarea.id')
-#        #            serealizedStrategies.push hash
-#        #        edges = []
-#        #        graphDataSet =
-#        #            nodes: JSON.parse(JSON.stringify(serealizedStrategies))
-#        #            edges: edges
-#        #        console.log "GRAPH", graphDataSet
-#        #        graphDataSet
-#        "loading..."
-#    ).property('strategies.@each')
 
     actions:
         loadStrategies: ->
+            console.log "NODE:", @get('nodes')
+            console.log "Loading strategies", @get('data')
             @nodes = []
             @edges = []
             strategies = @get('model').filterProperty('selected', true)
-            self = @
+            self = this
             strategies.forEach (strategy) ->
-                self._buildNode(strategy)
+                self.buildNode(strategy)
 
     selectedStrategiesCount: (->
         @get('model').filterProperty('selected', true).get('length')
     ).property('strategies.@each.strategy')
 
-    _buildNode: (strategy) ->
+    buildNode: (strategy) ->
+        console.log "Building the node for ", strategy.get('id')
         self = this
         node = {}
         node['id'] = strategy.get('id')
@@ -57,7 +41,6 @@ App.GraphController = Ember.ArrayController.extend
                 node['focusarea_id'] = focusarea.get('id')
                 #node['theme'] = strategy.get('focusarea.theme.definition')
                 #node['theme_id'] = strategy.get('focusarea.theme.id')
-                self.nodes.push node
-                console.log "NODE:", node
-
-
+                self.get('nodes').pushObject node
+                #console.log "NODE:", self.get('data')
+                console.log "NODE:", self.get('nodes')
