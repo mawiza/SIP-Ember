@@ -22,6 +22,8 @@
       container = $("<div>").appendTo(this.$())[0];
       data = this.get("graphDataSet");
       options = {
+        width: "100%",
+        height: "600px",
         stabilize: false,
         stabilizationIterations: 1,
         dataManipulation: this.get("editing")

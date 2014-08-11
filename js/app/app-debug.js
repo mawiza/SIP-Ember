@@ -422,6 +422,8 @@
             container = $("<div>").appendTo(this.$())[0];
             data = this.get("graphDataSet");
             options = {
+                width: "100%",
+                height: "600px",
                 stabilize: false,
                 stabilizationIterations: 1,
                 dataManipulation: this.get("editing")
@@ -707,22 +709,20 @@
                         console.log("Strategies:", strategies, "=", strategies.get("length"));
                         if (strategies != null && strategies.get("length") > 1) {
                             strategiesA = strategies.toArray();
-                            if (strategiesA.length === 2) {
-                                edge = {};
-                                edge["to"] = strategiesA[0].get("id");
-                                edge["from"] = strategiesA[1].get("id");
-                                return controller.get("edges").pushObject(edge);
-                            } else {
-                                _results = [];
-                                for (i = _i = 1, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
+                            _results = [];
+                            for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
+                                if (i > 0 && i < strategiesA.length) {
+                                    console.log("I:", i);
                                     edge = {};
-                                    edge["to"] = strategiesA[0].get("id");
+                                    edge["to"] = strategiesA[i - 1].get("id");
                                     edge["from"] = strategiesA[i].get("id");
                                     console.log("Edge:", edge);
                                     _results.push(controller.get("edges").pushObject(edge));
+                                } else {
+                                    _results.push(void 0);
                                 }
-                                return _results;
                             }
+                            return _results;
                         }
                     });
                 });

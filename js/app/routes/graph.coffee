@@ -39,19 +39,12 @@ App.GraphRoute = Ember.Route.extend
                     console.log 'Strategies:', strategies, "=", strategies.get('length')
                     if strategies? and strategies.get('length') > 1
                         strategiesA = strategies.toArray()
-                        #console.log "StrategiesA:", strategiesA
-                        if strategiesA.length == 2
-                            edge = {}
-                            edge['to'] = strategiesA[0].get('id')
-                            edge['from'] = strategiesA[1].get('id')
-                            #console.log "Edge:", edge
-                            controller.get('edges').pushObject edge
-                        else
-                            for i in [1..strategiesA.length-1] by 1
+                        for i in [0..strategiesA.length-1] by 1
+                            if i > 0 and i < strategiesA.length
                                 edge = {}
-                                edge['to'] = strategiesA[0].get('id')
+                                edge['to'] = strategiesA[i-1].get('id')
                                 edge['from'] = strategiesA[i].get('id')
-                                console.log "Edge:", edge
+                                console.log "Edge(", i, "):", edge
                                 controller.get('edges').pushObject edge
 
 

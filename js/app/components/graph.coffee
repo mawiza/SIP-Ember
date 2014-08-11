@@ -23,6 +23,8 @@ App.XGraphComponent = Ember.View.extend(
         container = $("<div>").appendTo(@$())[0]
         data = @get("graphDataSet")
         options =
+            width: "100%"
+            height: "600px"
             stabilize: false
             stabilizationIterations: 1
             dataManipulation: @get("editing")
