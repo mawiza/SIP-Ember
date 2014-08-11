@@ -3,52 +3,21 @@
   App.GraphController = Ember.ArrayController.extend({
     nodes: [],
     edges: [],
-    data: (function() {
-      var dataset;
-      console.log("fired!");
-      dataset = {
-        nodes: JSON.parse(JSON.stringify(this.get('nodes'))),
+    dataSet: (function() {
+      var data;
+      data = {
+        nodes: this.get('nodes'),
         edges: this.get('edges')
       };
-      return dataset;
-    }).property('nodes', 'edges'),
-    actions: {
-      loadStrategies: function() {
-        var self, strategies;
-        console.log("NODE:", this.get('nodes'));
-        console.log("Loading strategies", this.get('data'));
-        this.nodes = [];
-        this.edges = [];
-        strategies = this.get('model').filterProperty('selected', true);
-        self = this;
-        return strategies.forEach(function(strategy) {
-          return self.buildNode(strategy);
-        });
-      }
+      return data;
+    }).property('nodes.@each', 'edges.@each'),
+    init: function() {
+      this.set('nodes', []);
+      return this.set('edges', []);
     },
     selectedStrategiesCount: (function() {
-      return this.get('model').filterProperty('selected', true).get('length');
-    }).property('strategies.@each.strategy'),
-    buildNode: function(strategy) {
-      var node, self;
-      console.log("Building the node for ", strategy.get('id'));
-      self = this;
-      node = {};
-      node['id'] = strategy.get('id');
-      node['description'] = strategy.get('description');
-      node['selected'] = strategy.get('selected');
-      return this.store.find('administration', strategy.get('administration.id')).then(function(administration) {
-        node['group'] = administration.get('name');
-        node['color'] = administration.get('color');
-        node['administration_id'] = administration.get('id');
-        return self.store.find('focusarea', strategy.get('focusarea.id')).then(function(focusarea) {
-          node['focusarea'] = focusarea.get('definition');
-          node['focusarea_id'] = focusarea.get('id');
-          self.get('nodes').pushObject(node);
-          return console.log("NODE:", self.get('nodes'));
-        });
-      });
-    }
+      return this.get('model').get('length');
+    }).property('strategies.@each.strategy')
   });
 
 }).call(this);

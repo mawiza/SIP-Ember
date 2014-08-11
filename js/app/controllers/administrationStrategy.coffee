@@ -42,4 +42,3 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
             catch error
                 #console.log error
                 self._super()
-

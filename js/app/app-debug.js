@@ -443,7 +443,6 @@
                 this.setup();
             }
             md = this.get("data");
-            console.log("DATA:", md);
             d = this.get("graphDataSet");
             if (d != null && md != null) {
                 delNodes = d.nodes.get({
@@ -512,13 +511,7 @@
 
 (function() {}).call(this);
 
-(function() {
-    App.GraphView = Ember.View.extend({
-        willInsertElement: function() {
-            return this.get("controller").send("loadStrategies");
-        }
-    });
-}).call(this);
+(function() {}).call(this);
 
 (function() {
     App.AdministrationSerializer = DS.ActiveModelSerializer.extend(DS.EmbeddedRecordsMixin).extend({
@@ -666,7 +659,74 @@
 (function() {
     App.GraphRoute = Ember.Route.extend({
         model: function() {
-            return this.store.findAll("strategy");
+            var model;
+            return model = this.store.findAll("strategy");
+        },
+        setupController: function(controller, model) {
+            var strategies;
+            strategies = model.filterProperty("selected", true);
+            controller.set(model, strategies);
+            controller.get("nodes").clear();
+            this.loadNodes(controller, strategies);
+            controller.get("edges").clear();
+            return this.loadEdges(controller, strategies);
+        },
+        loadNodes: function(controller, strategies) {
+            var self;
+            self = this;
+            return strategies.forEach(function(strategy) {
+                var node;
+                node = {};
+                node["id"] = strategy.get("id");
+                node["description"] = strategy.get("description");
+                node["selected"] = strategy.get("selected");
+                return self.store.find("administration", strategy.get("administration.id")).then(function(administration) {
+                    node["group"] = administration.get("name");
+                    node["label"] = administration.get("name");
+                    node["color"] = administration.get("color");
+                    node["color.highlight"] = administration.get("shadedTabStyle");
+                    node["administration_id"] = administration.get("id");
+                    return self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
+                        node["focusarea"] = focusarea.get("definition");
+                        node["focusarea_id"] = focusarea.get("id");
+                        return self.store.find("theme", focusarea.get("theme.id")).then(function(theme) {
+                            node["title"] = "<b><u>" + theme.get("definition") + "</u></b><br><em>" + focusarea.get("definition") + "</em><br>" + strategy.get("description");
+                            node["theme"] = theme.get("definition");
+                            node["theme_id"] = theme.get("id");
+                            return controller.get("nodes").pushObject(node);
+                        });
+                    });
+                });
+            });
+        },
+        loadEdges: function(controller) {
+            return this.store.find("focusarea").then(function(focusareas) {
+                return focusareas.forEach(function(focusarea) {
+                    return focusarea.get("strategies").then(function(strategies) {
+                        var edge, i, strategiesA, _i, _ref, _results;
+                        console.log("Strategies:", strategies, "=", strategies.get("length"));
+                        if (strategies != null && strategies.get("length") > 1) {
+                            strategiesA = strategies.toArray();
+                            if (strategiesA.length === 2) {
+                                edge = {};
+                                edge["to"] = strategiesA[0].get("id");
+                                edge["from"] = strategiesA[1].get("id");
+                                return controller.get("edges").pushObject(edge);
+                            } else {
+                                _results = [];
+                                for (i = _i = 1, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
+                                    edge = {};
+                                    edge["to"] = strategiesA[0].get("id");
+                                    edge["from"] = strategiesA[i].get("id");
+                                    console.log("Edge:", edge);
+                                    _results.push(controller.get("edges").pushObject(edge));
+                                }
+                                return _results;
+                            }
+                        }
+                    });
+                });
+            });
         }
     });
 }).call(this);
@@ -1074,51 +1134,20 @@
     App.GraphController = Ember.ArrayController.extend({
         nodes: [],
         edges: [],
-        data: function() {
-            var dataset;
-            console.log("fired!");
-            dataset = {
-                nodes: JSON.parse(JSON.stringify(this.get("nodes"))),
+        dataSet: function() {
+            var data;
+            data = {
+                nodes: this.get("nodes"),
                 edges: this.get("edges")
             };
-            return dataset;
-        }.property("nodes.[]", "edges"),
-        actions: {
-            loadStrategies: function() {
-                var self, strategies;
-                console.log("NODE:", this.get("nodes"));
-                console.log("Loading strategies", this.get("data"));
-                this.nodes = [];
-                this.edges = [];
-                strategies = this.get("model").filterProperty("selected", true);
-                self = this;
-                return strategies.forEach(function(strategy) {
-                    return self.buildNode(strategy);
-                });
-            }
+            return data;
+        }.property("nodes.@each", "edges.@each"),
+        init: function() {
+            this.set("nodes", []);
+            return this.set("edges", []);
         },
         selectedStrategiesCount: function() {
-            return this.get("model").filterProperty("selected", true).get("length");
-        }.property("strategies.@each.strategy"),
-        buildNode: function(strategy) {
-            var node, self;
-            console.log("Building the node for ", strategy.get("id"));
-            self = this;
-            node = {};
-            node["id"] = strategy.get("id");
-            node["description"] = strategy.get("description");
-            node["selected"] = strategy.get("selected");
-            return this.store.find("administration", strategy.get("administration.id")).then(function(administration) {
-                node["group"] = administration.get("name");
-                node["color"] = administration.get("color");
-                node["administration_id"] = administration.get("id");
-                return self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
-                    node["focusarea"] = focusarea.get("definition");
-                    node["focusarea_id"] = focusarea.get("id");
-                    self.get("nodes").pushObject(node);
-                    return console.log("NODE:", self.get("nodes"));
-                });
-            });
-        }
+            return this.get("model").get("length");
+        }.property("strategies.@each.strategy")
     });
 }).call(this);

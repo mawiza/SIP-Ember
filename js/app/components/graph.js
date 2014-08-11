@@ -43,7 +43,6 @@
         this.setup();
       }
       md = this.get("data");
-      console.log("DATA:", md);
       d = this.get("graphDataSet");
       if ((d != null) && (md != null)) {
         delNodes = d.nodes.get({

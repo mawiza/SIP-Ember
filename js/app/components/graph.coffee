@@ -2,17 +2,22 @@
 
 App.XGraphComponent = Ember.View.extend(
     editing: false
+
     toggleEditing: (->
         @graph.setOptions dataManipulation: @get("editing")  if @graph isnt null
         return
     ).observes("editing")
+
     data: null
+
     graphDataSet:
         nodes: new vis.DataSet()
         edges: new vis.DataSet()
 
     selected: ""
+
     graph: null
+
     setup: ->
         _this = this
         container = $("<div>").appendTo(@$())[0]
@@ -50,7 +55,6 @@ App.XGraphComponent = Ember.View.extend(
     dataUpdates: (->
         @setup()  if @graph is null
         md = @get("data")
-        console.log "DATA:", md
         d = @get("graphDataSet")
         if d? and md?
             delNodes = d.nodes.get(filter: (i) ->
@@ -58,7 +62,6 @@ App.XGraphComponent = Ember.View.extend(
                 md.nodes.forEach (j) ->
                     yes_ = false  if i.id is j.id
                     return
-
                 yes_
             )
             d.nodes.remove delNodes
@@ -68,7 +71,6 @@ App.XGraphComponent = Ember.View.extend(
                 md.edges.forEach (j) ->
                     yes_ = false  if i.id is j.id
                     return
-
                 yes_
             )
             d.edges.remove delEdges
