@@ -17,8 +17,10 @@
       }).then(function(result) {
         var error;
         try {
+          console.log("FOUND:", result.get('length'));
           self.set("_buffers", Ember.Map.create());
           if (result.get('length') === 0) {
+            console.log("CREATING...");
             return administration.then(function(administration) {
               var strategy;
               strategy = self.store.createRecord('strategy', {
@@ -26,15 +28,8 @@
                 administration: administration,
                 focusarea: focusarea
               });
-              return strategy.save().then(function() {
-                administration.get('strategies').pushObject(strategy);
-                administration.save();
-                focusarea.get('strategies').pushObject(strategy);
-                focusarea.save();
-                self.set('model', strategy);
-                self.set('ready', true);
-                return self._super();
-              });
+              console.log("SAVING...");
+              return strategy.save();
             });
           } else {
             self.set('model', result.get('firstObject'));
@@ -43,6 +38,7 @@
           }
         } catch (_error) {
           error = _error;
+          console.error(error);
           return self._super();
         }
       });

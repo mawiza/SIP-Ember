@@ -17,18 +17,24 @@
         }
         if (shouldSave) {
           self = this;
-          return this.store.find('theme', theme_id).then(function(theme) {
-            focusarea.set('theme', theme);
-            return focusarea.save().then(function() {
-              return self.transitionToRoute('/themes/' + theme_id + '/focusareas');
-            });
+          return focusarea.save().then(function() {
+            return self.transitionToRoute('/themes/' + theme_id + '/focusareas');
           });
         } else {
           return this.transitionToRoute('/themes/' + theme_id + '/focusareas/edit');
         }
       },
       "delete": function() {
-        return alert('Delete disabled');
+        var focusarea, self, theme;
+        self = this;
+        focusarea = this.get('model');
+        theme = focusarea.get('theme');
+        theme.get('focusareas').removeObject(focusarea);
+        return theme.save().then(function() {
+          return focusarea.destroyRecord().then(function() {
+            return self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas');
+          });
+        });
       },
       cancel: function() {
         this.get('model').rollback();

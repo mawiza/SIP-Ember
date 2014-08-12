@@ -22,11 +22,23 @@
       container = $("<div>").appendTo(this.$())[0];
       data = this.get("graphDataSet");
       options = {
+        configurePhysics: false,
+        navigation: true,
         width: "100%",
         height: "600px",
         stabilize: false,
         stabilizationIterations: 1,
-        dataManipulation: this.get("editing")
+        dataManipulation: this.get("editing"),
+        tooltip: {
+          delay: 300,
+          fontColor: "black",
+          fontSize: 14,
+          fontFace: "verdana",
+          color: {
+            border: "#666",
+            background: "#FFFFC6"
+          }
+        }
       };
       this.graph = new vis.Network(container, data, options);
       this.graph.on("click", function(data) {

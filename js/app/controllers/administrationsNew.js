@@ -3,9 +3,32 @@
   App.AdministrationsNewController = Ember.ObjectController.extend({
     actions: {
       submit: function() {
-        var administration;
+        var administration, count, shouldSave;
         administration = this.get('model');
-        return this.utility.updateOrSave(this, administration);
+        shouldSave = true;
+        if (Ember.isEmpty(administration.get('name'))) {
+          this.notify.danger("Name cannot be empty.");
+          shouldSave = false;
+        }
+        count = 0;
+        this.store.all('administration').forEach(function(record) {
+          if (record.get('name') === administration.get('name')) {
+            return count += 1;
+          }
+        });
+        if (count > 1) {
+          this.notify.danger(administration.get('name') + " is already used.");
+          shouldSave = false;
+        }
+        if (Ember.isEmpty(administration.get('color'))) {
+          this.notify.danger("Color cannot be empty.");
+          shouldSave = false;
+        }
+        if (shouldSave) {
+          return administration.save().then(function() {
+            return this.transitionToRoute('/administrations');
+          });
+        }
       },
       cancel: function() {
         return this.transitionToRoute('/administrations');

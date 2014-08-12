@@ -15,22 +15,21 @@ App.FocusareasEditController = Ember.ObjectController.extend
 
             if shouldSave
                 self = this
-                @store.find('theme', theme_id).then (theme) ->
-                    focusarea.set('theme', theme)
-                    focusarea.save().then ->
-                        self.transitionToRoute('/themes/' + theme_id + '/focusareas')
+                #@store.find('theme', theme_id).then (theme) ->
+                    #focusarea.set('theme', theme)
+                focusarea.save().then ->
+                    self.transitionToRoute('/themes/' + theme_id + '/focusareas')
             else
                 @transitionToRoute('/themes/' + theme_id + '/focusareas/edit')
 
         delete: ->
-            alert('Delete disabled')
-#            self = this
-#            focusarea = @get('model')
-#            theme = focusarea.get('theme')
-#            theme.get('focusareas').removeObject(focusarea)
-#            theme.save().then ->
-#                focusarea.destroyRecord().then ->
-#                    self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas')
+            self = this
+            focusarea = @get('model')
+            theme = focusarea.get('theme')
+            theme.get('focusareas').removeObject(focusarea)
+            theme.save().then ->
+                focusarea.destroyRecord().then ->
+                    self.transitionToRoute('/themes/' + self.utility.idFromURL(window.location.href) + '/focusareas')
 
         cancel: ->
             @get('model').rollback()

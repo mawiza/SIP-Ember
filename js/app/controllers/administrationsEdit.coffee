@@ -1,14 +1,34 @@
-#TODO add focus to the first element
 App.AdministrationsEditController = Ember.ObjectController.extend
     actions:
         update: ->
             administration = @get('model')
-            @utility.updateOrSave(this, administration)
+            shouldSave = true
+
+            if Ember.isEmpty(administration.get('name'))
+                @notify.danger "Name cannot be empty."
+                shouldSave = false
+
+            #A real crappy way of doing this
+            count = 0
+            @store.all('administration').forEach (record) ->
+                if(record.get('name') is administration.get('name'))
+                    count += 1
+
+            if count > 1
+                @notify.danger administration.get('name') + " is already used."
+                shouldSave = false
+
+            if Ember.isEmpty(administration.get('color'))
+                @notify.danger "Color cannot be empty."
+                shouldSave = false
+
+            if shouldSave
+                administration.save().then ->
+                    @transitionToRoute('/administrations')
 
         delete: ->
-            alert('Delete disabled')
-#            self = this
-#            administration = @get('model')
+            self = this
+            administration = @get('model')
 #            @store.find('strategy',
 #                administration: administration.get('id')
 #            ).then (strategies) ->
@@ -27,9 +47,9 @@ App.AdministrationsEditController = Ember.ObjectController.extend
 ##                            #    administration.save().then ->
 ##                            #        strategy.destroyRecord()
 #
-#            console.log 'delete administration'
-#            #administration.destroyRecord().then ->
-#            #    self.transitionToRoute('/administrations')
+            console.log 'delete administration'
+            administration.destroyRecord().then ->
+                self.transitionToRoute('/administrations')
 #
 #            self.transitionToRoute('/administrations')
 

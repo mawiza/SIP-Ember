@@ -1,4 +1,4 @@
-#https://gist.github.com/xypaul
+#https://gist.github.com/xypaul/8320b4a92a97d628207b
 
 App.XGraphComponent = Ember.View.extend(
     editing: false
@@ -23,11 +23,28 @@ App.XGraphComponent = Ember.View.extend(
         container = $("<div>").appendTo(@$())[0]
         data = @get("graphDataSet")
         options =
+            configurePhysics:false
+            physics:
+                barnesHut:
+                gravitationalConstant: -1175
+                centralGravity: 0.35
+                springLength: 133
+                springConstant: 0.031
+                damping: 0.175
+            navigation: true
             width: "100%"
             height: "600px"
             stabilize: false
             stabilizationIterations: 1
             dataManipulation: @get("editing")
+            tooltip:
+                delay: 300
+                fontColor: "black"
+                fontSize: 14 # px
+                fontFace: "verdana"
+                color:
+                    border: "#666"
+                    background: "#FFFFC6"
 
         # Initialise vis.js
         @graph = new vis.Network(container, data, options)

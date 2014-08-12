@@ -49,35 +49,6 @@
 
 (function() {
     Ember.Utility = Ember.Object.extend({
-        updateOrSave: function(controller, administration) {
-            var count, shouldSave;
-            shouldSave = true;
-            if (Ember.isEmpty(administration.get("name"))) {
-                controller.notify.danger("Name cannot be empty.");
-                shouldSave = false;
-            }
-            count = 0;
-            controller.store.all("administration").forEach(function(record) {
-                if (record.get("name") === administration.get("name")) {
-                    return count += 1;
-                }
-            });
-            if (count > 1) {
-                controller.notify.danger(administration.get("name") + " is already used.");
-                shouldSave = false;
-            }
-            if (Ember.isEmpty(administration.get("color"))) {
-                controller.notify.danger("Color cannot be empty.");
-                shouldSave = false;
-            }
-            if (shouldSave) {
-                return administration.save().then(function() {
-                    return controller.transitionToRoute("/administrations");
-                });
-            } else {
-                return controller.transitionToRoute("/administrations/new");
-            }
-        },
         idFromURL: function(currentUrl) {
             var regex, result;
             regex = /([a-f0-9]{24})/;
@@ -422,11 +393,23 @@
             container = $("<div>").appendTo(this.$())[0];
             data = this.get("graphDataSet");
             options = {
+                configurePhysics: false,
+                navigation: true,
                 width: "100%",
                 height: "600px",
                 stabilize: false,
                 stabilizationIterations: 1,
-                dataManipulation: this.get("editing")
+                dataManipulation: this.get("editing"),
+                tooltip: {
+                    delay: 300,
+                    fontColor: "black",
+                    fontSize: 14,
+                    fontFace: "verdana",
+                    color: {
+                        border: "#666",
+                        background: "#FFFFC6"
+                    }
+                }
             };
             this.graph = new vis.Network(container, data, options);
             this.graph.on("click", function(data) {
@@ -712,11 +695,10 @@
                             _results = [];
                             for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
                                 if (i > 0 && i < strategiesA.length) {
-                                    console.log("I:", i);
                                     edge = {};
                                     edge["to"] = strategiesA[i - 1].get("id");
                                     edge["from"] = strategiesA[i].get("id");
-                                    console.log("Edge:", edge);
+                                    console.log("Edge(", i, "):", edge);
                                     _results.push(controller.get("edges").pushObject(edge));
                                 } else {
                                     _results.push(void 0);
@@ -866,6 +848,7 @@
             });
         },
         setupController: function(controller, model) {
+            console.log("LOADED");
             controller.set("administration", model.administration);
             return controller.set("themes", model.themes);
         }
@@ -890,9 +873,32 @@
     App.AdministrationsNewController = Ember.ObjectController.extend({
         actions: {
             submit: function() {
-                var administration;
+                var administration, count, shouldSave;
                 administration = this.get("model");
-                return this.utility.updateOrSave(this, administration);
+                shouldSave = true;
+                if (Ember.isEmpty(administration.get("name"))) {
+                    this.notify.danger("Name cannot be empty.");
+                    shouldSave = false;
+                }
+                count = 0;
+                this.store.all("administration").forEach(function(record) {
+                    if (record.get("name") === administration.get("name")) {
+                        return count += 1;
+                    }
+                });
+                if (count > 1) {
+                    this.notify.danger(administration.get("name") + " is already used.");
+                    shouldSave = false;
+                }
+                if (Ember.isEmpty(administration.get("color"))) {
+                    this.notify.danger("Color cannot be empty.");
+                    shouldSave = false;
+                }
+                if (shouldSave) {
+                    return administration.save().then(function() {
+                        return this.transitionToRoute("/administrations");
+                    });
+                }
             },
             cancel: function() {
                 return this.transitionToRoute("/administrations");
@@ -905,12 +911,41 @@
     App.AdministrationsEditController = Ember.ObjectController.extend({
         actions: {
             update: function() {
-                var administration;
+                var administration, count, shouldSave;
                 administration = this.get("model");
-                return this.utility.updateOrSave(this, administration);
+                shouldSave = true;
+                if (Ember.isEmpty(administration.get("name"))) {
+                    this.notify.danger("Name cannot be empty.");
+                    shouldSave = false;
+                }
+                count = 0;
+                this.store.all("administration").forEach(function(record) {
+                    if (record.get("name") === administration.get("name")) {
+                        return count += 1;
+                    }
+                });
+                if (count > 1) {
+                    this.notify.danger(administration.get("name") + " is already used.");
+                    shouldSave = false;
+                }
+                if (Ember.isEmpty(administration.get("color"))) {
+                    this.notify.danger("Color cannot be empty.");
+                    shouldSave = false;
+                }
+                if (shouldSave) {
+                    return administration.save().then(function() {
+                        return this.transitionToRoute("/administrations");
+                    });
+                }
             },
             "delete": function() {
-                return alert("Delete disabled");
+                var administration, self;
+                self = this;
+                administration = this.get("model");
+                console.log("delete administration");
+                return administration.destroyRecord().then(function() {
+                    return self.transitionToRoute("/administrations");
+                });
             },
             cancel: function() {
                 return this.transitionToRoute("/administrations");
@@ -1047,18 +1082,24 @@
                 }
                 if (shouldSave) {
                     self = this;
-                    return this.store.find("theme", theme_id).then(function(theme) {
-                        focusarea.set("theme", theme);
-                        return focusarea.save().then(function() {
-                            return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
-                        });
+                    return focusarea.save().then(function() {
+                        return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
                     });
                 } else {
                     return this.transitionToRoute("/themes/" + theme_id + "/focusareas/edit");
                 }
             },
             "delete": function() {
-                return alert("Delete disabled");
+                var focusarea, self, theme;
+                self = this;
+                focusarea = this.get("model");
+                theme = focusarea.get("theme");
+                theme.get("focusareas").removeObject(focusarea);
+                return theme.save().then(function() {
+                    return focusarea.destroyRecord().then(function() {
+                        return self.transitionToRoute("/themes/" + self.utility.idFromURL(window.location.href) + "/focusareas");
+                    });
+                });
             },
             cancel: function() {
                 this.get("model").rollback();
@@ -1097,8 +1138,10 @@
             }).then(function(result) {
                 var error;
                 try {
+                    console.log("FOUND:", result.get("length"));
                     self.set("_buffers", Ember.Map.create());
                     if (result.get("length") === 0) {
+                        console.log("CREATING...");
                         return administration.then(function(administration) {
                             var strategy;
                             strategy = self.store.createRecord("strategy", {
@@ -1106,15 +1149,8 @@
                                 administration: administration,
                                 focusarea: focusarea
                             });
-                            return strategy.save().then(function() {
-                                administration.get("strategies").pushObject(strategy);
-                                administration.save();
-                                focusarea.get("strategies").pushObject(strategy);
-                                focusarea.save();
-                                self.set("model", strategy);
-                                self.set("ready", true);
-                                return self._super();
-                            });
+                            console.log("SAVING...");
+                            return strategy.save();
                         });
                     } else {
                         self.set("model", result.get("firstObject"));
@@ -1123,6 +1159,7 @@
                     }
                 } catch (_error) {
                     error = _error;
+                    console.error(error);
                     return self._super();
                 }
             });
