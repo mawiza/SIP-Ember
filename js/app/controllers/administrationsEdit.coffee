@@ -23,8 +23,9 @@ App.AdministrationsEditController = Ember.ObjectController.extend
                 shouldSave = false
 
             if shouldSave
+                self = this
                 administration.save().then ->
-                    @transitionToRoute('/administrations')
+                    self.transitionToRoute('/administrations')
 
         delete: ->
             self = this

@@ -11,6 +11,8 @@
           shouldSave = false;
         }
         if (shouldSave) {
+          console.log("Finding the focusareas");
+          console.log("saving the theme");
           theme.save();
           return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
         } else {

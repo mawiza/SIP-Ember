@@ -3,7 +3,7 @@
   App.AdministrationsEditController = Ember.ObjectController.extend({
     actions: {
       update: function() {
-        var administration, count, shouldSave;
+        var administration, count, self, shouldSave;
         administration = this.get('model');
         shouldSave = true;
         if (Ember.isEmpty(administration.get('name'))) {
@@ -25,8 +25,9 @@
           shouldSave = false;
         }
         if (shouldSave) {
+          self = this;
           return administration.save().then(function() {
-            return this.transitionToRoute('/administrations');
+            return self.transitionToRoute('/administrations');
           });
         }
       },

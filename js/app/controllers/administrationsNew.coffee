@@ -23,8 +23,38 @@ App.AdministrationsNewController = Ember.ObjectController.extend
                 shouldSave = false
 
             if shouldSave
+                self = this
                 administration.save().then ->
-                    @transitionToRoute('/administrations')
+                    self.transitionToRoute('/administrations')
+
+#                #calling save to get the id from the server
+#                administration.save().then ->
+#                    console.log "Creating strategies"
+#                    self.store.findAll('focusarea').then (focusareas) ->
+#                        focusareas.forEach (focusarea) ->
+#                            console.log "create strategy for", administration, "and", focusarea
+#                            strategy = self.store.createRecord('strategy'
+#                                description: ''
+#                                administration: administration
+#                                focusarea: focusarea
+#                                selected: false
+#                            )
+#                            console.log "Saving the strategy"
+#                            strategy.save().then ->
+#                                console.log "saving the administration"
+#                                administration.get('strategies').then (strategies)->
+#                                    strategies.pushObject(strategy)
+#                                    administration.save().then ->
+#                                        console.log "saved the administration"
+#
+#                                console.log "saving the focusarea"
+#                                focusarea.get('strategies').then (strategies)->
+#                                    strategies.pushObject(strategy)
+#                                    focusarea.save().then ->
+#                                        console.log "saved the focusarea"
+#
+#                            self.transitionToRoute('/administrations')
 
         cancel: ->
+            @get('model').rollback()
             @transitionToRoute('/administrations')

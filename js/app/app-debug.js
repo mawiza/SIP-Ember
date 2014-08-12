@@ -848,7 +848,6 @@
             });
         },
         setupController: function(controller, model) {
-            console.log("LOADED");
             controller.set("administration", model.administration);
             return controller.set("themes", model.themes);
         }
@@ -873,7 +872,7 @@
     App.AdministrationsNewController = Ember.ObjectController.extend({
         actions: {
             submit: function() {
-                var administration, count, shouldSave;
+                var administration, count, self, shouldSave;
                 administration = this.get("model");
                 shouldSave = true;
                 if (Ember.isEmpty(administration.get("name"))) {
@@ -895,12 +894,14 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
+                    self = this;
                     return administration.save().then(function() {
-                        return this.transitionToRoute("/administrations");
+                        return self.transitionToRoute("/administrations");
                     });
                 }
             },
             cancel: function() {
+                this.get("model").rollback();
                 return this.transitionToRoute("/administrations");
             }
         }
@@ -911,7 +912,7 @@
     App.AdministrationsEditController = Ember.ObjectController.extend({
         actions: {
             update: function() {
-                var administration, count, shouldSave;
+                var administration, count, self, shouldSave;
                 administration = this.get("model");
                 shouldSave = true;
                 if (Ember.isEmpty(administration.get("name"))) {
@@ -933,8 +934,9 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
+                    self = this;
                     return administration.save().then(function() {
-                        return this.transitionToRoute("/administrations");
+                        return self.transitionToRoute("/administrations");
                     });
                 }
             },
@@ -997,6 +999,13 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
+                    console.log("Finding the focusareas");
+                    theme.get("focusareas").then(function(focusareas) {
+                        return focusareas.forEach(function(focusarea) {
+                            return console.log("FOCUSAREA:", focusarea);
+                        });
+                    });
+                    console.log("saving the theme");
                     theme.save();
                     return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 } else {
@@ -1081,6 +1090,11 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
+                    focusarea.get("strategies").then(function(strategies) {
+                        return strategies.forEach(function(strategy) {
+                            return console.log("STRATEGY:", strategy);
+                        });
+                    });
                     self = this;
                     return focusarea.save().then(function() {
                         return self.transitionToRoute("/themes/" + theme_id + "/focusareas");
@@ -1136,12 +1150,10 @@
                 focusarea: focusarea.get("id"),
                 administration: administration.get("id")
             }).then(function(result) {
-                var error;
+                var error, strategy;
                 try {
-                    console.log("FOUND:", result.get("length"));
                     self.set("_buffers", Ember.Map.create());
                     if (result.get("length") === 0) {
-                        console.log("CREATING...");
                         return administration.then(function(administration) {
                             var strategy;
                             strategy = self.store.createRecord("strategy", {
@@ -1149,11 +1161,62 @@
                                 administration: administration,
                                 focusarea: focusarea
                             });
-                            console.log("SAVING...");
-                            return strategy.save();
+                            return strategy.save().then(function() {
+                                administration.get("strategies").then(function(strategies) {
+                                    strategies.pushObject(strategy);
+                                    return administration.save().then(function() {
+                                        return console.log("SAVED ADMINISTRATION RESOLVED");
+                                    });
+                                });
+                                focusarea.get("strategies").then(function(strategies) {
+                                    strategies.pushObject(strategy);
+                                    return focusarea.save().then(function() {
+                                        return console.log("SAVED FOCUSAREA RESOLVED");
+                                    });
+                                });
+                                self.set("model", strategy);
+                                self.set("ready", true);
+                                return self._super();
+                            });
                         });
                     } else {
-                        self.set("model", result.get("firstObject"));
+                        strategy = result.get("firstObject");
+                        self.store.find("administration", strategy.get("administration.id")).then(function(administration) {
+                            return administration.get("strategies").then(function(strategies) {
+                                var found;
+                                found = false;
+                                strategies.forEach(function(savedStrategy) {
+                                    if (savedStrategy.get("id") === strategy.get("id")) {
+                                        return found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    strategies.pushObject(strategy);
+                                    return administration.save().then(function() {
+                                        return console.log("SAVED ADMINISTRATION RESOLVED");
+                                    });
+                                }
+                            });
+                        });
+                        self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
+                            console.log("focusarea->", focusarea);
+                            return focusarea.get("strategies").then(function(strategies) {
+                                var found;
+                                found = false;
+                                strategies.forEach(function(savedStrategy) {
+                                    if (savedStrategy.get("id") === strategy.get("id")) {
+                                        return found = true;
+                                    }
+                                });
+                                if (!found) {
+                                    strategies.pushObject(strategy);
+                                    return focusarea.save().then(function() {
+                                        return console.log("SAVED FOCUSAREA RESOLVED");
+                                    });
+                                }
+                            });
+                        });
+                        self.set("model", strategy);
                         self.set("ready", true);
                         return self._super();
                     }

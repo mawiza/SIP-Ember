@@ -15,8 +15,6 @@ App.FocusareasEditController = Ember.ObjectController.extend
 
             if shouldSave
                 self = this
-                #@store.find('theme', theme_id).then (theme) ->
-                    #focusarea.set('theme', theme)
                 focusarea.save().then ->
                     self.transitionToRoute('/themes/' + theme_id + '/focusareas')
             else

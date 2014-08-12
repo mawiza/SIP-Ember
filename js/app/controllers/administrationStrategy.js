@@ -15,12 +15,10 @@
         focusarea: focusarea.get('id'),
         administration: administration.get('id')
       }).then(function(result) {
-        var error;
+        var error, strategy;
         try {
-          console.log("FOUND:", result.get('length'));
           self.set("_buffers", Ember.Map.create());
           if (result.get('length') === 0) {
-            console.log("CREATING...");
             return administration.then(function(administration) {
               var strategy;
               strategy = self.store.createRecord('strategy', {
@@ -28,11 +26,62 @@
                 administration: administration,
                 focusarea: focusarea
               });
-              console.log("SAVING...");
-              return strategy.save();
+              return strategy.save().then(function() {
+                administration.get('strategies').then(function(strategies) {
+                  strategies.pushObject(strategy);
+                  return administration.save().then(function() {
+                    return console.log("SAVED ADMINISTRATION RESOLVED");
+                  });
+                });
+                focusarea.get('strategies').then(function(strategies) {
+                  strategies.pushObject(strategy);
+                  return focusarea.save().then(function() {
+                    return console.log("SAVED FOCUSAREA RESOLVED");
+                  });
+                });
+                self.set('model', strategy);
+                self.set('ready', true);
+                return self._super();
+              });
             });
           } else {
-            self.set('model', result.get('firstObject'));
+            strategy = result.get('firstObject');
+            self.store.find("administration", strategy.get('administration.id')).then(function(administration) {
+              return administration.get('strategies').then(function(strategies) {
+                var found;
+                found = false;
+                strategies.forEach(function(savedStrategy) {
+                  if (savedStrategy.get('id') === strategy.get('id')) {
+                    return found = true;
+                  }
+                });
+                if (!found) {
+                  strategies.pushObject(strategy);
+                  return administration.save().then(function() {
+                    return console.log("SAVED ADMINISTRATION RESOLVED");
+                  });
+                }
+              });
+            });
+            self.store.find("focusarea", strategy.get('focusarea.id')).then(function(focusarea) {
+              console.log("focusarea->", focusarea);
+              return focusarea.get('strategies').then(function(strategies) {
+                var found;
+                found = false;
+                strategies.forEach(function(savedStrategy) {
+                  if (savedStrategy.get('id') === strategy.get('id')) {
+                    return found = true;
+                  }
+                });
+                if (!found) {
+                  strategies.pushObject(strategy);
+                  return focusarea.save().then(function() {
+                    return console.log("SAVED FOCUSAREA RESOLVED");
+                  });
+                }
+              });
+            });
+            self.set('model', strategy);
             self.set('ready', true);
             return self._super();
           }
