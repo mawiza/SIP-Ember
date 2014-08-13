@@ -9,25 +9,21 @@ App.ThemesEditController = Ember.ObjectController.extend
                 shouldSave = false
 
             if shouldSave
-                console.log "Finding the focusareas"
                 #this is just so damn unnecessary
                 #when I save, it saves only the updated text, but removes all the focusareas????
-#                self.store.find("focusarea", theme.get('focusarea.id')).then (focusarea) ->
-#                    console.log "focusarea->", focusarea
-#                    theme.get('focusareas').then (focusareas) ->
-#                        found = false
-#                        focusareas.forEach (savedFocusarea) ->
-#                            if savedFocusarea.get('id') == focusarea.get('id')
-#                                found = true
-#                        unless found
-#                            #console.log "NOT FOUND"
-#                            focusareas.pushObject (focusarea)
-#                            theme.save().then ->
-#                                console.log "SAVED FOCUSAREA RESOLVED"
-
-                console.log "saving the theme"
-                theme.save()
-                @transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
+                console.log "Finding the focusareas"
+                self = this
+                @store.find("focusarea",
+                    theme_id: theme.get('id')
+                ).then (focusareas) ->
+                    console.log "focusarea->", focusareas
+                    theme.get('focusareas').then (themeFocusareas) ->
+                        themeFocusareas.clear()
+                        focusareas.forEach (focusarea) ->
+                            themeFocusareas.pushObject (focusarea)
+                        theme.save().then ->
+                            console.log "SAVED FOCUSAREA RESOLVED"
+                            self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas')
             else
                 @transitionToRoute('/themes/edit')
 

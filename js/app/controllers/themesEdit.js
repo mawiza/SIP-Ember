@@ -3,7 +3,7 @@
   App.ThemesEditController = Ember.ObjectController.extend({
     actions: {
       update: function() {
-        var shouldSave, theme;
+        var self, shouldSave, theme;
         theme = this.get('model');
         shouldSave = true;
         if (Ember.isEmpty(theme.get('definition'))) {
@@ -12,9 +12,22 @@
         }
         if (shouldSave) {
           console.log("Finding the focusareas");
-          console.log("saving the theme");
-          theme.save();
-          return this.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+          self = this;
+          return this.store.find("focusarea", {
+            theme_id: theme.get('id')
+          }).then(function(focusareas) {
+            console.log("focusarea->", focusareas);
+            return theme.get('focusareas').then(function(themeFocusareas) {
+              themeFocusareas.clear();
+              focusareas.forEach(function(focusarea) {
+                return themeFocusareas.pushObject(focusarea);
+              });
+              return theme.save().then(function() {
+                console.log("SAVED FOCUSAREA RESOLVED");
+                return self.transitionToRoute('/themes/' + theme.get('id') + '/focusareas');
+              });
+            });
+          });
         } else {
           return this.transitionToRoute('/themes/edit');
         }

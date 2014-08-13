@@ -991,7 +991,7 @@
     App.ThemesEditController = Ember.ObjectController.extend({
         actions: {
             update: function() {
-                var shouldSave, theme;
+                var self, shouldSave, theme;
                 theme = this.get("model");
                 shouldSave = true;
                 if (Ember.isEmpty(theme.get("definition"))) {
@@ -1000,14 +1000,22 @@
                 }
                 if (shouldSave) {
                     console.log("Finding the focusareas");
-                    theme.get("focusareas").then(function(focusareas) {
-                        return focusareas.forEach(function(focusarea) {
-                            return console.log("FOCUSAREA:", focusarea);
+                    self = this;
+                    return this.store.find("focusarea", {
+                        theme_id: theme.get("id")
+                    }).then(function(focusareas) {
+                        console.log("focusarea->", focusareas);
+                        return theme.get("focusareas").then(function(themeFocusareas) {
+                            themeFocusareas.clear();
+                            focusareas.forEach(function(focusarea) {
+                                return themeFocusareas.pushObject(focusarea);
+                            });
+                            return theme.save().then(function() {
+                                console.log("SAVED FOCUSAREA RESOLVED");
+                                return self.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
+                            });
                         });
                     });
-                    console.log("saving the theme");
-                    theme.save();
-                    return this.transitionToRoute("/themes/" + theme.get("id") + "/focusareas");
                 } else {
                     return this.transitionToRoute("/themes/edit");
                 }
@@ -1090,11 +1098,6 @@
                     shouldSave = false;
                 }
                 if (shouldSave) {
-                    focusarea.get("strategies").then(function(strategies) {
-                        return strategies.forEach(function(strategy) {
-                            return console.log("STRATEGY:", strategy);
-                        });
-                    });
                     self = this;
                     return focusarea.save().then(function() {
                         return self.transitionToRoute("/themes/" + theme_id + "/focusareas");

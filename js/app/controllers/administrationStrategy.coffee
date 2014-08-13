@@ -64,7 +64,7 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
                     ## code start
                     ##
                     ## This needs to be moved - this is an unoptimized way of doing this
-                    ## The strategies needs to be creted properly from the start.
+                    ## The strategies needs to be created properly from the start.
                     ##
                     #console.log strategy.get('administration.id')
                     self.store.find("administration", strategy.get('administration.id')).then (administration) ->
