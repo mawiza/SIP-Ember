@@ -4,6 +4,18 @@ Ember.Handlebars.helper "capitalize", (value) ->
     else
         value.capitalize()
 
+Handlebars.registerHelper "key_value", (obj, fn) ->
+    buffer = ""
+    key = undefined
+    console.log "OBJECT!!!", obj
+    for key of obj
+        if obj.hasOwnProperty(key)
+            buffer += fn(
+                key: key
+                value: obj[key]
+            )
+    buffer
+
 Ember.MODEL_FACTORY_INJECTIONS = true
 
 window.App = Ember.Application.create

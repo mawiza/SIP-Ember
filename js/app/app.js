@@ -8,6 +8,22 @@
     }
   });
 
+  Handlebars.registerHelper("key_value", function(obj, fn) {
+    var buffer, key;
+    buffer = "";
+    key = void 0;
+    console.log("OBJECT!!!", obj);
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        buffer += fn({
+          key: key,
+          value: obj[key]
+        });
+      }
+    }
+    return buffer;
+  });
+
   Ember.MODEL_FACTORY_INJECTIONS = true;
 
   window.App = Ember.Application.create({

@@ -504,13 +504,15 @@
             return this.set("grouped", grouped);
         }.observes("dataSet").on("didInsertElement"),
         dataSetToHtml: function() {
-            var html;
+            var html, key, values, _i, _len, _ref;
             html = "<div>";
-            if (this.get("grouped")) {
-                console.log("DATA!!!!", this.get("grouped"));
-                this.get("grouped").forEach(function(key) {
-                    return console.log("!!!!------------!!!", key);
-                });
+            if (this.grouped != null) {
+                console.log("DATA!!!!", this.grouped);
+                _ref = this.grouped;
+                for (values = _i = 0, _len = _ref.length; _i < _len; values = ++_i) {
+                    key = _ref[values];
+                    console.log("!!!!", key);
+                }
             }
             html += "</div>";
             return this.set("orderedByGroup", html);
