@@ -9,6 +9,7 @@
       var strategies;
       strategies = model.filterProperty('selected', true);
       controller.set(model, strategies);
+      controller.set('selectedStrategiesCount', strategies.get('length'));
       controller.get('nodes').clear();
       this.loadNodes(controller, strategies);
       controller.get('edges').clear();
@@ -52,7 +53,7 @@
               strategiesA = strategies.toArray();
               _results = [];
               for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
-                if (i > 0 && i < strategiesA.length) {
+                if (i > 0 && i <= strategiesA.length) {
                   edge = {};
                   edge['to'] = strategiesA[i - 1].get('id');
                   edge['from'] = strategiesA[i].get('id');

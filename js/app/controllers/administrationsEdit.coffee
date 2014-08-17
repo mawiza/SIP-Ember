@@ -30,6 +30,14 @@ App.AdministrationsEditController = Ember.ObjectController.extend
         delete: ->
             self = this
             administration = @get('model')
+
+            #Because of the bug, we can just call update
+            #which will clean out the has many array, removing the association
+            #that is not the way to do, because if it gets fixed, then
+            #this will become a bug.
+
+
+
 #            @store.find('strategy',
 #                administration: administration.get('id')
 #            ).then (strategies) ->

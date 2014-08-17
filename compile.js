@@ -22,6 +22,7 @@ var files = [
     "js/app/mixins/autoSaveMixin.js",
     "js/app/components/notify.js",
     "js/app/components/graph.js",
+    "js/app/components/graphSummary.js",
     "js/app/views/colorPicker.js",
     "js/app/views/strategyTabAnchorView.js",
     "js/app/views/strategyTabPaneView.js",

@@ -5,6 +5,7 @@ App.GraphRoute = Ember.Route.extend
     setupController: (controller, model) ->
         strategies = model.filterProperty('selected', true)
         controller.set(model, strategies)
+        controller.set('selectedStrategiesCount', strategies.get('length'))
         controller.get('nodes').clear()
         @loadNodes(controller, strategies)
         controller.get('edges').clear()
@@ -40,11 +41,9 @@ App.GraphRoute = Ember.Route.extend
                     if strategies? and strategies.get('length') > 1
                         strategiesA = strategies.toArray()
                         for i in [0..strategiesA.length-1] by 1
-                            if i > 0 and i < strategiesA.length
+                            if i > 0 and i <= strategiesA.length
                                 edge = {}
                                 edge['to'] = strategiesA[i-1].get('id')
                                 edge['from'] = strategiesA[i].get('id')
                                 console.log "Edge(", i, "):", edge
                                 controller.get('edges').pushObject edge
-
-

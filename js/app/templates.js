@@ -394,6 +394,20 @@ function program11(depth0,data) {
   return buffer;
   
 });
+Ember.TEMPLATES['components/x-graph-summary'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading panel-info\">\r\n        Oversigt\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "orderedByGroup", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\r\n    </div>\r\n</div>\r\n");
+  return buffer;
+  
+});
 Ember.TEMPLATES['components/x-graph'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
@@ -671,14 +685,21 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "selectedStrategiesCount", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</span>\r\n            </h4>\r\n        </div>\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        ");
+  data.buffer.push("</span>\r\n            </h4>\r\n        </div>\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <div class=\"col-md-8\">");
   hashContexts = {'data': depth0};
   hashTypes = {'data': "ID"};
   options = {hash:{
     'data': ("dataSet")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['x-graph'] || (depth0 && depth0['x-graph'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "x-graph", options))));
-  data.buffer.push("\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("</div>\r\n        <div class=\"col-md-4\">\r\n            ");
+  hashContexts = {'dataSet': depth0};
+  hashTypes = {'dataSet': "ID"};
+  options = {hash:{
+    'dataSet': ("dataSet")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['x-graph-summary'] || (depth0 && depth0['x-graph-summary'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "x-graph-summary", options))));
+  data.buffer.push("\r\n        </div>\r\n    </div>\r\n</div>\r\n");
   return buffer;
   
 });

@@ -12,7 +12,3 @@ App.GraphController = Ember.ArrayController.extend
     init: ->
         @set('nodes', [])
         @set('edges', [])
-
-    selectedStrategiesCount: (->
-        @get('model').get('length')
-    ).property('strategies.@each.strategy')

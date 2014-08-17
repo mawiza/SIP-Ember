@@ -211,6 +211,21 @@
             return value.capitalize();
         }
     });
+    Handlebars.registerHelper("key_value", function(obj, fn) {
+        var buffer, key;
+        buffer = "";
+        key = void 0;
+        console.log("OBJECT!!!", obj);
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                buffer += fn({
+                    key: key,
+                    value: obj[key]
+                });
+            }
+        }
+        return buffer;
+    });
     Ember.MODEL_FACTORY_INJECTIONS = true;
     window.App = Ember.Application.create({
         LOG_TRANSITIONS: true,
@@ -467,6 +482,43 @@
 }).call(this);
 
 (function() {
+    App.XGraphSummaryComponent = Ember.Component.extend({
+        dataSet: null,
+        nodes: [],
+        edges: [],
+        grouped: {},
+        orderedByGroup: null,
+        processDataSet: function() {
+            var dataSet, grouped;
+            dataSet = this.get("dataSet");
+            this.set("nodes", dataSet["nodes"]);
+            this.set("edges", dataSet["edges"]);
+            grouped = {};
+            dataSet["nodes"].forEach(function(node) {
+                if (grouped[node.group] != null) {
+                    return grouped[node.group].push(node);
+                } else {
+                    return grouped[node.group] = [ node ];
+                }
+            });
+            return this.set("grouped", grouped);
+        }.observes("dataSet").on("didInsertElement"),
+        dataSetToHtml: function() {
+            var html;
+            html = "<div>";
+            if (this.get("grouped")) {
+                console.log("DATA!!!!", this.get("grouped"));
+                this.get("grouped").forEach(function(key) {
+                    return console.log("!!!!------------!!!", key);
+                });
+            }
+            html += "</div>";
+            return this.set("orderedByGroup", html);
+        }.observes("grouped")
+    });
+}).call(this);
+
+(function() {
     App.ColorPicker = Ember.View.extend({
         didInsertElement: function() {
             return $("#color").colorpicker();
@@ -651,6 +703,7 @@
             var strategies;
             strategies = model.filterProperty("selected", true);
             controller.set(model, strategies);
+            controller.set("selectedStrategiesCount", strategies.get("length"));
             controller.get("nodes").clear();
             this.loadNodes(controller, strategies);
             controller.get("edges").clear();
@@ -694,7 +747,7 @@
                             strategiesA = strategies.toArray();
                             _results = [];
                             for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
-                                if (i > 0 && i < strategiesA.length) {
+                                if (i > 0 && i <= strategiesA.length) {
                                     edge = {};
                                     edge["to"] = strategiesA[i - 1].get("id");
                                     edge["from"] = strategiesA[i].get("id");
@@ -1248,9 +1301,6 @@
         init: function() {
             this.set("nodes", []);
             return this.set("edges", []);
-        },
-        selectedStrategiesCount: function() {
-            return this.get("model").get("length");
-        }.property("strategies.@each.strategy")
+        }
     });
 }).call(this);

@@ -7,6 +7,9 @@
         </div>
     </div>
     <div class="panel-body">
-        {{x-graph data=dataSet}}
+        <div class="col-md-8">{{x-graph data=dataSet}}</div>
+        <div class="col-md-4">
+            {{x-graph-summary dataSet=dataSet}}
+        </div>
     </div>
 </div>

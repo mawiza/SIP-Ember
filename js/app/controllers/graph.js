@@ -14,10 +14,7 @@
     init: function() {
       this.set('nodes', []);
       return this.set('edges', []);
-    },
-    selectedStrategiesCount: (function() {
-      return this.get('model').get('length');
-    }).property('strategies.@each.strategy')
+    }
   });
 
 }).call(this);
