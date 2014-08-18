@@ -18,19 +18,22 @@ App.XGraphSummaryComponent = Ember.Component.extend
                 grouped[node.group] = [node]
 
         @set('grouped', grouped)
+        @get('dataSetToHtml')
     ).observes('dataSet').on('didInsertElement')
 
     dataSetToHtml: (->
         html = "<div>"
-        if @grouped?
-            console.log "DATA!!!!", @grouped
-            for key, values in @grouped
-                console.log "!!!!", key
-                #html += "<div>" + key + "</div>"
-                #values.forEach (value) ->
-                #    html += "<div>" + value['id'] + "</div>"
-
+        groupedNodes = @get('grouped')
+        Object.keys(groupedNodes).forEach (group) ->
+            nodes = groupedNodes[group]
+            html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]['color'] + ";'>" + group + "</div>"
+            html += "<div>"
+            nodes.forEach (value) ->
+                html += "<div>" + value['description'] + "</div>"
+            html += "</div><br>"
         html += "</div>"
 
-        @set('orderedByGroup', html)
-    ).observes('grouped')
+        console.log html
+        $('#ordered_by_group').html(html)
+        #@set('orderedByGroup', html)
+    ).property('grouped.@each')

@@ -501,22 +501,27 @@
                     return grouped[node.group] = [ node ];
                 }
             });
-            return this.set("grouped", grouped);
+            this.set("grouped", grouped);
+            return this.get("dataSetToHtml");
         }.observes("dataSet").on("didInsertElement"),
         dataSetToHtml: function() {
-            var html, key, values, _i, _len, _ref;
+            var groupedNodes, html;
             html = "<div>";
-            if (this.grouped != null) {
-                console.log("DATA!!!!", this.grouped);
-                _ref = this.grouped;
-                for (values = _i = 0, _len = _ref.length; _i < _len; values = ++_i) {
-                    key = _ref[values];
-                    console.log("!!!!", key);
-                }
-            }
+            groupedNodes = this.get("grouped");
+            Object.keys(groupedNodes).forEach(function(group) {
+                var nodes;
+                nodes = groupedNodes[group];
+                html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]["color"] + ";'>" + group + "</div>";
+                html += "<div>";
+                nodes.forEach(function(value) {
+                    return html += "<div>" + value["description"] + "</div>";
+                });
+                return html += "</div><br>";
+            });
             html += "</div>";
-            return this.set("orderedByGroup", html);
-        }.observes("grouped")
+            console.log(html);
+            return $("#ordered_by_group").html(html);
+        }.property("grouped.@each")
     });
 }).call(this);
 
