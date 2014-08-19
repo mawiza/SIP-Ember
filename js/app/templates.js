@@ -795,7 +795,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts;
-  data.buffer.push("\r\n        <div class=\"strategies-theme panel panel-info\">\r\n            <div class=\"panel-heading\">\r\n                <h4 class=\"panel-title\">\r\n                    <a data-toggle=\"collapse\" data-parent=\"#accordion\"  href=\"#");
+  data.buffer.push("\r\n        <div  class=\"strategies-theme panel panel-info\">\r\n            <div class=\"panel-heading\">\r\n                <h4 class=\"panel-title\">\r\n                    <a data-toggle=\"collapse\" data-parent=\"#accordion\"  href=\"#");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "administration.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));

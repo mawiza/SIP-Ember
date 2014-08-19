@@ -25,6 +25,35 @@ Ember.Utility = Ember.Object.extend(
             rgb += ("00" + c).substr(c.length)
             i++
         rgb
+
+    d2h: (d) ->
+        d.toString 16
+
+    h2d: (h) ->
+        parseInt h, 16
+
+    stringToHex: (tmp) ->
+        str = ""
+        i = 0
+        tmp_len = tmp.length
+        c = undefined
+        while i < tmp_len
+            c = tmp.charCodeAt(i)
+            str += @d2h(c) + " "
+            i += 1
+        str
+
+    hexToString: (tmp) ->
+        arr = tmp.split(" ")
+        str = ""
+        i = 0
+        arr_len = arr.length
+        c = undefined
+        while i < arr_len
+            c = String.fromCharCode(@h2d(arr[i]))
+            str += c
+            i += 1
+        str
 )
 
 Ember.Application.initializer
@@ -40,4 +69,5 @@ Ember.Application.initializer
         application.inject "route", "utility", "utility:main"
         application.inject "model", "utility", "utility:main"
         application.inject "view", "utility", "utility:main"
+        application.inject "component", "utility", "utility:main"
         return

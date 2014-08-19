@@ -55,8 +55,14 @@ App.XGraphComponent = Ember.View.extend(
 
         # This sets the new selected item on click
         @graph.on "click", (data) ->
-            console.log "Graph click"
-            _this.set "selected", data.nodes[0]  if data.nodes.length > 0
+            console.log "clicked"
+            if data.nodes.length > 0
+                node_id = data.nodes[0]
+                _this.set "selected", node_id
+                _this.get("data").nodes.forEach (node) ->
+                    if node.id == node_id
+                        id = "#focusarea" + node.focusarea_id
+                        $(id).collapse('toggle')
             return
 
         $(window).resize ->

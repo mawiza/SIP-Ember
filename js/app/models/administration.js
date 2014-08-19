@@ -24,6 +24,9 @@
     shadedTabStyle: (function() {
       return "background-color:" + this.utility.colorLuminance(this.get('color'), 0.4) + ";width: 100%; height: 3px;";
     }).property("color"),
+    shadedTabContentStyle: (function() {
+      return "background-color:" + this.utility.colorLuminance(this.get('color'), 0.8) + ";";
+    }).property("color"),
     hashedID: (function() {
       return "#" + this.get('id');
     }).property("id")

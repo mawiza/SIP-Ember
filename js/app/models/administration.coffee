@@ -25,6 +25,10 @@ App.Administration = DS.Model.extend
         "background-color:" + @utility.colorLuminance(@get('color'), 0.4) + ";width: 100%; height: 3px;"
     ).property("color")
 
+    shadedTabContentStyle: (->
+        "background-color:" + @utility.colorLuminance(@get('color'), 0.8) + ";"
+    ).property("color")
+
     hashedID: (->
         "#" + @get('id')
     ).property("id")

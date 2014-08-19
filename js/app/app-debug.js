@@ -76,6 +76,39 @@
                 i++;
             }
             return rgb;
+        },
+        d2h: function(d) {
+            return d.toString(16);
+        },
+        h2d: function(h) {
+            return parseInt(h, 16);
+        },
+        stringToHex: function(tmp) {
+            var c, i, str, tmp_len;
+            str = "";
+            i = 0;
+            tmp_len = tmp.length;
+            c = void 0;
+            while (i < tmp_len) {
+                c = tmp.charCodeAt(i);
+                str += this.d2h(c) + " ";
+                i += 1;
+            }
+            return str;
+        },
+        hexToString: function(tmp) {
+            var arr, arr_len, c, i, str;
+            arr = tmp.split(" ");
+            str = "";
+            i = 0;
+            arr_len = arr.length;
+            c = void 0;
+            while (i < arr_len) {
+                c = String.fromCharCode(this.h2d(arr[i]));
+                str += c;
+                i += 1;
+            }
+            return str;
         }
     });
     Ember.Application.initializer({
@@ -91,6 +124,7 @@
             application.inject("route", "utility", "utility:main");
             application.inject("model", "utility", "utility:main");
             application.inject("view", "utility", "utility:main");
+            application.inject("component", "utility", "utility:main");
         }
     });
 }).call(this);
@@ -428,9 +462,18 @@
             };
             this.graph = new vis.Network(container, data, options);
             this.graph.on("click", function(data) {
-                console.log("Graph click");
+                var node_id;
+                console.log("clicked");
                 if (data.nodes.length > 0) {
-                    _this.set("selected", data.nodes[0]);
+                    node_id = data.nodes[0];
+                    _this.set("selected", node_id);
+                    _this.get("data").nodes.forEach(function(node) {
+                        var id;
+                        if (node.id === node_id) {
+                            id = "#focusarea" + node.focusarea_id;
+                            return $(id).collapse("toggle");
+                        }
+                    });
                 }
             });
             $(window).resize(function() {
@@ -517,12 +560,12 @@
             Object.keys(groupedNodes).forEach(function(group) {
                 var nodes;
                 nodes = groupedNodes[group];
-                html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]["color"] + ";'>" + group + "</div>";
-                html += "<div><br>";
+                html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div style='color:" + nodes[0]["color"] + ";' class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#administration" + nodes[0].administration_id + "'><b>" + group + "</b></a></h4></div>";
+                html += "<div id='administration" + nodes[0].administration_id + "' class='panel-collapse collapse out'><div class='panel-body'>";
                 nodes.forEach(function(value) {
                     return html += "<div>" + value["description"] + "</div><hr>";
                 });
-                return html += "</div><br>";
+                return html += "</div></div></div>";
             });
             html += "</div>";
             return $("#ordered_by_group").html(html);
@@ -546,12 +589,12 @@
             Object.keys(groupedFocusareasNodes).forEach(function(focusarea) {
                 var nodes;
                 nodes = groupedFocusareasNodes[focusarea];
-                html += "<div class='well well-sm' style='margin-bottom: 5px;'>" + focusarea + "</div>";
-                html += "<div>";
+                html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#focusarea" + nodes[0].focusarea_id + "'>" + focusarea + "</a></h4></div>";
+                html += "<div id='focusarea" + nodes[0].focusarea_id + "' class='panel-collapse collapse out'><div class='panel-body'>";
                 nodes.forEach(function(value) {
                     return html += "<div><span class='badge' style='background-color: " + value["color"] + "'>" + value["group"] + "</span> " + value["description"] + "</div>";
                 });
-                return html += "</div><br>";
+                return html += "</div></div></div>";
             });
             html += "</div>";
             return $("#ordered_by_focusareas").html(html);
@@ -614,6 +657,9 @@
         }.property("color"),
         shadedTabStyle: function() {
             return "background-color:" + this.utility.colorLuminance(this.get("color"), .4) + ";width: 100%; height: 3px;";
+        }.property("color"),
+        shadedTabContentStyle: function() {
+            return "background-color:" + this.utility.colorLuminance(this.get("color"), .8) + ";";
         }.property("color"),
         hashedID: function() {
             return "#" + this.get("id");
