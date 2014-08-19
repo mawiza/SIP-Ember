@@ -815,7 +815,7 @@
                         node["focusarea"] = focusarea.get("definition");
                         node["focusarea_id"] = focusarea.get("id");
                         return self.store.find("theme", focusarea.get("theme.id")).then(function(theme) {
-                            node["title"] = "<b><u>" + theme.get("definition") + "</u></b><br><em>" + focusarea.get("definition") + "</em><br>" + strategy.get("description");
+                            node["title"] = "<b><u>" + theme.get("definition") + "</u></b><br><em>" + focusarea.get("definition") + "</em>";
                             node["theme"] = theme.get("definition");
                             node["theme_id"] = theme.get("id");
                             return controller.get("nodes").pushObject(node);

@@ -28,7 +28,8 @@ App.GraphRoute = Ember.Route.extend
                     node['focusarea'] = focusarea.get('definition')
                     node['focusarea_id'] = focusarea.get('id')
                     self.store.find('theme', focusarea.get('theme.id')).then (theme) ->
-                        node['title'] = "<b><u>" + theme.get('definition') + "</u></b><br><em>" + focusarea.get('definition') + "</em><br>" + strategy.get('description')
+                        node['title'] = "<b><u>" + theme.get('definition') + "</u></b><br><em>" + focusarea.get('definition') + "</em>"
+                        #node['title'] = "<b><u>" + theme.get('definition') + "</u></b><br><em>" + focusarea.get('definition') + "</em><br>" + strategy.get('description')
                         node['theme'] = theme.get('definition')
                         node['theme_id'] = theme.get('id')
                         controller.get('nodes').pushObject node

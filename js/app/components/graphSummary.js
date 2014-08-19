@@ -36,12 +36,12 @@
       Object.keys(groupedNodes).forEach(function(group) {
         var nodes;
         nodes = groupedNodes[group];
-        html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]['color'] + ";'>" + group + "</div>";
-        html += "<div><br>";
+        html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div style='color:" + nodes[0]['color'] + ";' class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#administration" + nodes[0].administration_id + "'><b>" + group + "</b></a></h4></div>";
+        html += "<div id='administration" + nodes[0].administration_id + "' class='panel-collapse collapse out'><div class='panel-body'>";
         nodes.forEach(function(value) {
           return html += "<div>" + value['description'] + "</div><hr>";
         });
-        return html += "</div><br>";
+        return html += "</div></div></div>";
       });
       html += "</div>";
       return $('#ordered_by_group').html(html);
@@ -65,12 +65,12 @@
       Object.keys(groupedFocusareasNodes).forEach(function(focusarea) {
         var nodes;
         nodes = groupedFocusareasNodes[focusarea];
-        html += "<div class='well well-sm' style='margin-bottom: 5px;'>" + focusarea + "</div>";
-        html += "<div>";
+        html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#focusarea" + nodes[0].focusarea_id + "'>" + focusarea + "</a></h4></div>";
+        html += "<div id='focusarea" + nodes[0].focusarea_id + "' class='panel-collapse collapse out'><div class='panel-body'>";
         nodes.forEach(function(value) {
           return html += "<div><span class='badge' style='background-color: " + value['color'] + "'>" + value['group'] + "</span> " + value['description'] + "</div>";
         });
-        return html += "</div><br>";
+        return html += "</div></div></div>";
       });
       html += "</div>";
       return $('#ordered_by_focusareas').html(html);

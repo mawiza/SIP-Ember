@@ -42,9 +42,18 @@
       };
       this.graph = new vis.Network(container, data, options);
       this.graph.on("click", function(data) {
-        console.log("Graph click");
+        var node_id;
+        console.log("clicked");
         if (data.nodes.length > 0) {
-          _this.set("selected", data.nodes[0]);
+          node_id = data.nodes[0];
+          _this.set("selected", node_id);
+          _this.get("data").nodes.forEach(function(node) {
+            var id;
+            if (node.id === node_id) {
+              id = "#focusarea" + node.focusarea_id;
+              return $(id).collapse('toggle');
+            }
+          });
         }
       });
       $(window).resize(function() {

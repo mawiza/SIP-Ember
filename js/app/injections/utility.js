@@ -28,6 +28,39 @@
         i++;
       }
       return rgb;
+    },
+    d2h: function(d) {
+      return d.toString(16);
+    },
+    h2d: function(h) {
+      return parseInt(h, 16);
+    },
+    stringToHex: function(tmp) {
+      var c, i, str, tmp_len;
+      str = "";
+      i = 0;
+      tmp_len = tmp.length;
+      c = void 0;
+      while (i < tmp_len) {
+        c = tmp.charCodeAt(i);
+        str += this.d2h(c) + " ";
+        i += 1;
+      }
+      return str;
+    },
+    hexToString: function(tmp) {
+      var arr, arr_len, c, i, str;
+      arr = tmp.split(" ");
+      str = "";
+      i = 0;
+      arr_len = arr.length;
+      c = void 0;
+      while (i < arr_len) {
+        c = String.fromCharCode(this.h2d(arr[i]));
+        str += c;
+        i += 1;
+      }
+      return str;
     }
   });
 
@@ -45,6 +78,7 @@
       application.inject("route", "utility", "utility:main");
       application.inject("model", "utility", "utility:main");
       application.inject("view", "utility", "utility:main");
+      application.inject("component", "utility", "utility:main");
     }
   });
 
