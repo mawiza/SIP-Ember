@@ -37,9 +37,9 @@
         var nodes;
         nodes = groupedNodes[group];
         html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]['color'] + ";'>" + group + "</div>";
-        html += "<div>";
+        html += "<div><br>";
         nodes.forEach(function(value) {
-          return html += "<div>" + value['description'] + "</div>";
+          return html += "<div>" + value['description'] + "</div><hr>";
         });
         return html += "</div><br>";
       });

@@ -482,17 +482,23 @@
 }).call(this);
 
 (function() {
+    var focusareas;
     App.XGraphSummaryComponent = Ember.Component.extend({
         dataSet: null,
         nodes: [],
         edges: [],
-        grouped: {},
-        orderedByGroup: null,
+        grouped: {}
+    }, focusareas = {}, {
         processDataSet: function() {
-            var dataSet, grouped;
+            var dataSet;
             dataSet = this.get("dataSet");
             this.set("nodes", dataSet["nodes"]);
             this.set("edges", dataSet["edges"]);
+            this.orderByGroup(dataSet);
+            return this.orderByFocusareas(dataSet);
+        }.observes("dataSet").on("didInsertElement"),
+        orderByGroup: function(dataSet) {
+            var grouped;
             grouped = {};
             dataSet["nodes"].forEach(function(node) {
                 if (grouped[node.group] != null) {
@@ -502,9 +508,9 @@
                 }
             });
             this.set("grouped", grouped);
-            return this.get("dataSetToHtml");
-        }.observes("dataSet").on("didInsertElement"),
-        dataSetToHtml: function() {
+            return this.get("orderedGroupToHtml");
+        },
+        orderedGroupToHtml: function() {
             var groupedNodes, html;
             html = "<div>";
             groupedNodes = this.get("grouped");
@@ -512,16 +518,44 @@
                 var nodes;
                 nodes = groupedNodes[group];
                 html += "<div class='well well-sm' style='margin-bottom: 0px; background-color:" + nodes[0]["color"] + ";'>" + group + "</div>";
-                html += "<div>";
+                html += "<div><br>";
                 nodes.forEach(function(value) {
-                    return html += "<div>" + value["description"] + "</div>";
+                    return html += "<div>" + value["description"] + "</div><hr>";
                 });
                 return html += "</div><br>";
             });
             html += "</div>";
-            console.log(html);
             return $("#ordered_by_group").html(html);
-        }.property("grouped.@each")
+        }.property("grouped.@each"),
+        orderByFocusareas: function(dataSet) {
+            focusareas = {};
+            dataSet["nodes"].forEach(function(node) {
+                if (focusareas[node.focusarea] != null) {
+                    return focusareas[node.focusarea].push(node);
+                } else {
+                    return focusareas[node.focusarea] = [ node ];
+                }
+            });
+            this.set("focusareas", focusareas);
+            return this.get("orderedFocusareasToHtml");
+        },
+        orderedFocusareasToHtml: function() {
+            var groupedFocusareasNodes, html;
+            html = "<div>";
+            groupedFocusareasNodes = this.get("focusareas");
+            Object.keys(groupedFocusareasNodes).forEach(function(focusarea) {
+                var nodes;
+                nodes = groupedFocusareasNodes[focusarea];
+                html += "<div class='well well-sm' style='margin-bottom: 5px;'>" + focusarea + "</div>";
+                html += "<div>";
+                nodes.forEach(function(value) {
+                    return html += "<div><span class='badge' style='background-color: " + value["color"] + "'>" + value["group"] + "</span> " + value["description"] + "</div>";
+                });
+                return html += "</div><br>";
+            });
+            html += "</div>";
+            return $("#ordered_by_focusareas").html(html);
+        }.property("focusareas.@each")
     });
 }).call(this);
 
@@ -748,17 +782,22 @@
             return this.store.find("focusarea").then(function(focusareas) {
                 return focusareas.forEach(function(focusarea) {
                     return focusarea.get("strategies").then(function(strategies) {
-                        var edge, i, strategiesA, _i, _ref, _results;
+                        var edge, i, selectedStrategies, strategiesA, _i, _j, _ref, _ref1, _results;
                         console.log("Strategies:", strategies, "=", strategies.get("length"));
                         if (strategies != null && strategies.get("length") > 1) {
                             strategiesA = strategies.toArray();
-                            _results = [];
+                            selectedStrategies = [];
                             for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
-                                if (i > 0 && i <= strategiesA.length) {
+                                if (strategiesA[i].get("selected")) {
+                                    selectedStrategies.push(strategiesA[i]);
+                                }
+                            }
+                            _results = [];
+                            for (i = _j = 0, _ref1 = selectedStrategies.length - 1; _j <= _ref1; i = _j += 1) {
+                                if (i > 0 && i <= selectedStrategies.length) {
                                     edge = {};
-                                    edge["to"] = strategiesA[i - 1].get("id");
-                                    edge["from"] = strategiesA[i].get("id");
-                                    console.log("Edge(", i, "):", edge);
+                                    edge["to"] = selectedStrategies[i - 1].get("id");
+                                    edge["from"] = selectedStrategies[i].get("id");
                                     _results.push(controller.get("edges").pushObject(edge));
                                 } else {
                                     _results.push(void 0);

@@ -3,7 +3,14 @@
         Oversigt
     </div>
     <div class="panel-body">
-        <div id="ordered_by_group"></div>
-        {{orderedByGroup}}
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="active"><a data-toggle="tab" href="#ordered_by_focusareas">Fokusområde</a></li>
+            <li><a data-toggle="tab" href="#ordered_by_group">Forvaltning</a></li>
+        </ul>
+        <div class="tab-content">
+            <br>
+            <div class="tab-pane" id="ordered_by_group"></div>
+            <div class="tab-pane active" id="ordered_by_focusareas"></div>
+        </div>
     </div>
 </div>

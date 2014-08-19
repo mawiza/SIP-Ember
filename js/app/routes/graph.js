@@ -47,17 +47,22 @@
       return this.store.find('focusarea').then(function(focusareas) {
         return focusareas.forEach(function(focusarea) {
           return focusarea.get('strategies').then(function(strategies) {
-            var edge, i, strategiesA, _i, _ref, _results;
+            var edge, i, selectedStrategies, strategiesA, _i, _j, _ref, _ref1, _results;
             console.log('Strategies:', strategies, "=", strategies.get('length'));
             if ((strategies != null) && strategies.get('length') > 1) {
               strategiesA = strategies.toArray();
-              _results = [];
+              selectedStrategies = [];
               for (i = _i = 0, _ref = strategiesA.length - 1; _i <= _ref; i = _i += 1) {
-                if (i > 0 && i <= strategiesA.length) {
+                if (strategiesA[i].get('selected')) {
+                  selectedStrategies.push(strategiesA[i]);
+                }
+              }
+              _results = [];
+              for (i = _j = 0, _ref1 = selectedStrategies.length - 1; _j <= _ref1; i = _j += 1) {
+                if (i > 0 && i <= selectedStrategies.length) {
                   edge = {};
-                  edge['to'] = strategiesA[i - 1].get('id');
-                  edge['from'] = strategiesA[i].get('id');
-                  console.log("Edge(", i, "):", edge);
+                  edge['to'] = selectedStrategies[i - 1].get('id');
+                  edge['from'] = selectedStrategies[i].get('id');
                   _results.push(controller.get('edges').pushObject(edge));
                 } else {
                   _results.push(void 0);

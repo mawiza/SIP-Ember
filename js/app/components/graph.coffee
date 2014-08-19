@@ -23,14 +23,14 @@ App.XGraphComponent = Ember.View.extend(
         container = $("<div>").appendTo(@$())[0]
         data = @get("graphDataSet")
         options =
-            configurePhysics:false
-            physics:
-                barnesHut:
-                gravitationalConstant: -1175
-                centralGravity: 0.35
-                springLength: 133
-                springConstant: 0.031
-                damping: 0.175
+            configurePhysics: false
+#            physics:
+#                barnesHut:
+#                    gravitationalConstant: -1175
+#                    centralGravity: 0.35
+#                    springLength: 133
+#                    springConstant: 0.031
+#                    damping: 0.175
             navigation: true
             width: "100%"
             height: "600px"
@@ -48,6 +48,10 @@ App.XGraphComponent = Ember.View.extend(
 
         # Initialise vis.js
         @graph = new vis.Network(container, data, options)
+
+        #@graph.on "stabilized", (data) ->
+        #    console.log data
+        #    _this.graph.zoomExtent()
 
         # This sets the new selected item on click
         @graph.on "click", (data) ->

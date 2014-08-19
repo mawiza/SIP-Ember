@@ -397,15 +397,10 @@ function program11(depth0,data) {
 Ember.TEMPLATES['components/x-graph-summary'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', hashTypes, hashContexts, escapeExpression=this.escapeExpression;
+  
 
 
-  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading panel-info\">\r\n        Oversigt\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <div id=\"ordered_by_group\"></div>\r\n        ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "orderedByGroup", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\r\n    </div>\r\n</div>\r\n");
-  return buffer;
+  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading panel-info\">\r\n        Oversigt\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <ul class=\"nav nav-tabs nav-justified\" role=\"tablist\">\r\n            <li class=\"active\"><a data-toggle=\"tab\" href=\"#ordered_by_focusareas\">Fokusområde</a></li>\r\n            <li><a data-toggle=\"tab\" href=\"#ordered_by_group\">Forvaltning</a></li>\r\n        </ul>\r\n        <div class=\"tab-content\">\r\n            <br>\r\n            <div class=\"tab-pane\" id=\"ordered_by_group\"></div>\r\n            <div class=\"tab-pane active\" id=\"ordered_by_focusareas\"></div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
   
 });
 Ember.TEMPLATES['components/x-graph'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
@@ -822,7 +817,7 @@ function program1(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "theme.id", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\" class=\"panel-collapse collapse out\">\r\n                <div class=\"strategy-administration panel-body\">\r\n                    ");
+  data.buffer.push("\" class=\"panel-collapse collapse in\">\r\n                <div class=\"strategy-administration panel-body\">\r\n                    ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "focusarea", "in", "theme.focusareas", {hash:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});

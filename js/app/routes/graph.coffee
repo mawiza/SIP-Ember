@@ -40,10 +40,22 @@ App.GraphRoute = Ember.Route.extend
                     console.log 'Strategies:', strategies, "=", strategies.get('length')
                     if strategies? and strategies.get('length') > 1
                         strategiesA = strategies.toArray()
+
+                        selectedStrategies = []
                         for i in [0..strategiesA.length-1] by 1
-                            if i > 0 and i <= strategiesA.length
+                            if strategiesA[i].get('selected')
+                                selectedStrategies.push(strategiesA[i])
+
+                        for i in [0..selectedStrategies.length-1] by 1
+                            if i > 0 and i <= selectedStrategies.length
+#                                if selectedStrategies[i-1].get('selected') and selectedStrategies[i].get('selected')
+#                                    console.log selectedStrategies[i-1].get('description'), "->", selectedStrategies[i].get('description')
+#                                else if selectedStrategies[i-1].get('selected') and not selectedStrategies[i].get('selected')
+#                                    console.log selectedStrategies[i-1].get('description'), "->", ""
+#                                else if not selectedStrategies[i-1].get('selected') and selectedStrategies[i].get('selected')
+#                                    console.log "", "->", selectedStrategies[i].get('description')
                                 edge = {}
-                                edge['to'] = strategiesA[i-1].get('id')
-                                edge['from'] = strategiesA[i].get('id')
-                                console.log "Edge(", i, "):", edge
+                                edge['to'] = selectedStrategies[i-1].get('id')
+                                edge['from'] = selectedStrategies[i].get('id')
+                                #console.log "Edge(", i, "):", edge
                                 controller.get('edges').pushObject edge
