@@ -25,7 +25,7 @@ Ember.I18n.translations =
 
     administrations:
         index:
-            heading: "Forvalninger"
+            heading: "Forvaltninger"
             add: "Tilføj forvaltning"
             name: "Forvaltning"
             color: "Farve"

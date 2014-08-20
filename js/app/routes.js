@@ -25,13 +25,11 @@
         });
       });
     });
-    this.resource('strategies', function() {
+    return this.resource('strategies', function() {
       return this.route('administration', {
         path: '/administration/:administration_id'
       });
     });
-    this.resource('about');
-    return this.resource('settings');
   });
 
 }).call(this);

@@ -27,12 +27,6 @@
   Ember.MODEL_FACTORY_INJECTIONS = true;
 
   window.App = Ember.Application.create({
-    LOG_TRANSITIONS: true,
-    LOG_TRANSITIONS_INTERNAL: true,
-    LOG_VIEW_LOOKUPS: true,
-    LOG_BINDINGS: true,
-    LOG_ACTIVE_GENERATION: true,
-    LOG_DEBUG: true,
     log: function(message, location, data) {
       if (this.LOG_DEBUG) {
         if (data != null) {

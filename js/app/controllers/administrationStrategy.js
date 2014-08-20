@@ -29,15 +29,11 @@
               return strategy.save().then(function() {
                 administration.get('strategies').then(function(strategies) {
                   strategies.pushObject(strategy);
-                  return administration.save().then(function() {
-                    return console.log("SAVED ADMINISTRATION RESOLVED");
-                  });
+                  return administration.save().then(function() {});
                 });
                 focusarea.get('strategies').then(function(strategies) {
                   strategies.pushObject(strategy);
-                  return focusarea.save().then(function() {
-                    return console.log("SAVED FOCUSAREA RESOLVED");
-                  });
+                  return focusarea.save().then(function() {});
                 });
                 self.set('model', strategy);
                 self.set('ready', true);
@@ -57,14 +53,11 @@
                 });
                 if (!found) {
                   strategies.pushObject(strategy);
-                  return administration.save().then(function() {
-                    return console.log("SAVED ADMINISTRATION RESOLVED");
-                  });
+                  return administration.save().then(function() {});
                 }
               });
             });
             self.store.find("focusarea", strategy.get('focusarea.id')).then(function(focusarea) {
-              console.log("focusarea->", focusarea);
               return focusarea.get('strategies').then(function(strategies) {
                 var found;
                 found = false;
@@ -75,9 +68,7 @@
                 });
                 if (!found) {
                   strategies.pushObject(strategy);
-                  return focusarea.save().then(function() {
-                    return console.log("SAVED FOCUSAREA RESOLVED");
-                  });
+                  return focusarea.save().then(function() {});
                 }
               });
             });
@@ -87,7 +78,6 @@
           }
         } catch (_error) {
           error = _error;
-          console.error(error);
           return self._super();
         }
       });
