@@ -71,16 +71,6 @@ App.XGraphComponent = Ember.View.extend(
 
         return
 
-    # graph hasn't been initialised yet
-    # has to be synched with data
-
-    # Step 1: remove nodes which aren't in the d set anymore
-
-    # Step 2: add all the new nodes & update nodes
-
-    # Now same thing for edges
-
-    # This is longer than Step 2 for nodes, as edges with no exisiting nodes need to be filtered out first
     dataUpdates: (->
         @setup()  if @graph is null
         md = @get("data")

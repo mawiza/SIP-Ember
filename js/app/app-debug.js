@@ -262,12 +262,6 @@
     });
     Ember.MODEL_FACTORY_INJECTIONS = true;
     window.App = Ember.Application.create({
-        LOG_TRANSITIONS: true,
-        LOG_TRANSITIONS_INTERNAL: true,
-        LOG_VIEW_LOOKUPS: true,
-        LOG_BINDINGS: true,
-        LOG_ACTIVE_GENERATION: true,
-        LOG_DEBUG: true,
         log: function(message, location, data) {
             if (this.LOG_DEBUG) {
                 if (data != null) {
@@ -560,7 +554,7 @@
             Object.keys(groupedNodes).forEach(function(group) {
                 var nodes;
                 nodes = groupedNodes[group];
-                html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div style='color:" + nodes[0]["color"] + ";' class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#administration" + nodes[0].administration_id + "'><b>" + group + "</b></a></h4></div>";
+                html += "<div style='margin-bottom: 5px;' class='panel panel-info'><div style='color:" + nodes[0]["color"] + ";' class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#administration" + nodes[0].administration_id + "'>" + group + "</a></h4></div>";
                 html += "<div id='administration" + nodes[0].administration_id + "' class='panel-collapse collapse out'><div class='panel-body'>";
                 nodes.forEach(function(value) {
                     return html += "<div>" + value["description"] + "</div><hr>";
@@ -749,13 +743,11 @@
                 });
             });
         });
-        this.resource("strategies", function() {
+        return this.resource("strategies", function() {
             return this.route("administration", {
                 path: "/administration/:administration_id"
             });
         });
-        this.resource("about");
-        return this.resource("settings");
     });
 }).call(this);
 
@@ -1312,15 +1304,11 @@
                             return strategy.save().then(function() {
                                 administration.get("strategies").then(function(strategies) {
                                     strategies.pushObject(strategy);
-                                    return administration.save().then(function() {
-                                        return console.log("SAVED ADMINISTRATION RESOLVED");
-                                    });
+                                    return administration.save().then(function() {});
                                 });
                                 focusarea.get("strategies").then(function(strategies) {
                                     strategies.pushObject(strategy);
-                                    return focusarea.save().then(function() {
-                                        return console.log("SAVED FOCUSAREA RESOLVED");
-                                    });
+                                    return focusarea.save().then(function() {});
                                 });
                                 self.set("model", strategy);
                                 self.set("ready", true);
@@ -1340,14 +1328,11 @@
                                 });
                                 if (!found) {
                                     strategies.pushObject(strategy);
-                                    return administration.save().then(function() {
-                                        return console.log("SAVED ADMINISTRATION RESOLVED");
-                                    });
+                                    return administration.save().then(function() {});
                                 }
                             });
                         });
                         self.store.find("focusarea", strategy.get("focusarea.id")).then(function(focusarea) {
-                            console.log("focusarea->", focusarea);
                             return focusarea.get("strategies").then(function(strategies) {
                                 var found;
                                 found = false;
@@ -1358,9 +1343,7 @@
                                 });
                                 if (!found) {
                                     strategies.pushObject(strategy);
-                                    return focusarea.save().then(function() {
-                                        return console.log("SAVED FOCUSAREA RESOLVED");
-                                    });
+                                    return focusarea.save().then(function() {});
                                 }
                             });
                         });
@@ -1370,7 +1353,6 @@
                     }
                 } catch (_error) {
                     error = _error;
-                    console.error(error);
                     return self._super();
                 }
             });

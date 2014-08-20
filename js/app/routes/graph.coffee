@@ -49,12 +49,6 @@ App.GraphRoute = Ember.Route.extend
 
                         for i in [0..selectedStrategies.length-1] by 1
                             if i > 0 and i <= selectedStrategies.length
-#                                if selectedStrategies[i-1].get('selected') and selectedStrategies[i].get('selected')
-#                                    console.log selectedStrategies[i-1].get('description'), "->", selectedStrategies[i].get('description')
-#                                else if selectedStrategies[i-1].get('selected') and not selectedStrategies[i].get('selected')
-#                                    console.log selectedStrategies[i-1].get('description'), "->", ""
-#                                else if not selectedStrategies[i-1].get('selected') and selectedStrategies[i].get('selected')
-#                                    console.log "", "->", selectedStrategies[i].get('description')
                                 edge = {}
                                 edge['to'] = selectedStrategies[i-1].get('id')
                                 edge['from'] = selectedStrategies[i].get('id')

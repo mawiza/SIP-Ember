@@ -17,14 +17,14 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
                 #console.log "FOUND:", result.get('length')
                 self.set "_buffers", Ember.Map.create()
                 if result.get('length') == 0
-                    #console.log "CREATING..."
+                    ##console.log "CREATING..."
                     administration.then (administration) ->
                         strategy = self.store.createRecord('strategy',
                             isSelected: false
                             administration: administration
                             focusarea: focusarea
                         )
-                        #console.log "SAVING..."
+                        ##console.log "SAVING..."
 
                         #this creates inconsistency when we update the administration
                         #this does not affect the focusare, but it will eventually,
@@ -42,18 +42,18 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
                         #update - have the same issue when creating an administration
 
                         strategy.save().then ->
-                            #console.log "SAVING AND PUSHING..."
+                            ##console.log "SAVING AND PUSHING..."
                             administration.get('strategies').then (strategies) ->
                                 strategies.pushObject(strategy)
                                 administration.save().then ->
-                                    console.log "SAVED ADMINISTRATION RESOLVED"
+                                    #console.log "SAVED ADMINISTRATION RESOLVED"
 
                             focusarea.get('strategies').then (strategies) ->
                                 strategies.pushObject(strategy)
                                 focusarea.save().then ->
-                                    console.log "SAVED FOCUSAREA RESOLVED"
+                                    #console.log "SAVED FOCUSAREA RESOLVED"
 
-                            #console.log "STRATEGY:", strategy
+                            ##console.log "STRATEGY:", strategy
                             self.set('model', strategy)
                             self.set('ready', true)
                             self._super()
@@ -66,32 +66,32 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
                     ## This needs to be moved - this is an unoptimized way of doing this
                     ## The strategies needs to be created properly from the start.
                     ##
-                    #console.log strategy.get('administration.id')
+                    ##console.log strategy.get('administration.id')
                     self.store.find("administration", strategy.get('administration.id')).then (administration) ->
-                        #console.log "administration->", administration
+                        ##console.log "administration->", administration
                         administration.get('strategies').then (strategies) ->
                             found = false
                             strategies.forEach (savedStrategy) ->
                                 if savedStrategy.get('id') == strategy.get('id')
                                     found = true
                             unless found
-                                #console.log "NOT FOUND"
+                                ##console.log "NOT FOUND"
                                 strategies.pushObject (strategy)
                                 administration.save().then ->
-                                    console.log "SAVED ADMINISTRATION RESOLVED"
+                                    #console.log "SAVED ADMINISTRATION RESOLVED"
 
                     self.store.find("focusarea", strategy.get('focusarea.id')).then (focusarea) ->
-                        console.log "focusarea->", focusarea
+                        #console.log "focusarea->", focusarea
                         focusarea.get('strategies').then (strategies) ->
                             found = false
                             strategies.forEach (savedStrategy) ->
                                 if savedStrategy.get('id') == strategy.get('id')
                                     found = true
                             unless found
-                                #console.log "NOT FOUND"
+                                ##console.log "NOT FOUND"
                                 strategies.pushObject (strategy)
                                 focusarea.save().then ->
-                                    console.log "SAVED FOCUSAREA RESOLVED"
+                                    #console.log "SAVED FOCUSAREA RESOLVED"
                     ##
                     ## code end
                     ##
@@ -100,5 +100,5 @@ App.AdministrationStrategyController = Ember.ObjectController.extend App.Autosav
                     self.set('ready', true)
                     self._super()
             catch error
-                console.error error
+                #console.error error
                 self._super()
