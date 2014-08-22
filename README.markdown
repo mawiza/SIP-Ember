@@ -19,11 +19,10 @@ Web app to visualize grouped nodes and their associated edges, using EmberJS/Kar
 ![Create](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/create-focusarea.png)
 
 ##Strategies
-![Strategies1](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-1.png)
 
-![Strategies2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-2.png)
+![Strategies2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-3.png)
 
-![Strategies3](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-3.png)
+![Strategies3](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-4.png)
 
 ##Graph
 ###A clickable node expands the associated common focus area
