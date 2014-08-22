@@ -1,31 +1,37 @@
-SIP is a project I am working on for the local municipality, using the Ember javascript library.
+Web app to visualize grouped nodes and their associated edges, using EmberJS/Karma/Mocha/Vis
 
-##Administrations
-### List
-![List](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/administrations.png)
+##Groups
+###List
+![List](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/group-list.png)
 
-###Create
-![Create](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/create-administration.png)
+###Group creation
+![Create](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/create-group.png)
 
 ##Themes and focus areas
-###Each theme has many focusareas
-![List](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/themes-focusareas.png)
 
-###Create focus area
+###Theme creation
+![Create](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/create-theme.png)
+
+###Each theme has many focus areas
+![List](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/themes-focusareas-list.png)
+
+###Focus area creation
 ![Create](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/create-focusarea.png)
 
-##Action plan 
-![Plan1](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/action-plan.png)
+##Strategies
+![Strategies1](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/strategies-1.png)
 
-![Plan2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/action-plan-1.png)
+![Strategies2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/astrategies-2.png)
+
+![Strategies3](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/astrategies-3.png)
 
 ##Graph
-###Clickable node expands the associated common focus area
-![Graph1](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-view-1.png)
+###A clickable node expands the associated common focus area
+![Graph1](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-1.png)
 
-###Expandable administrations
-![Graph2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-view-2.png)
+![Graph2](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-2.png)
 
-###Action plan description for the selected(expanded) administration
-![Graph3](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-view-3.png)
+###Expandable groups
+![Graph3](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-3.png)
 
+![Graph4](https://raw.githubusercontent.com/mawiza/SIP-Ember/master-2/img/screenshots/graph-4.png)
