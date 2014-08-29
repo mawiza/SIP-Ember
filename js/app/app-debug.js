@@ -139,7 +139,7 @@
                 administrations: "Forvaltninger",
                 themes: "Indsatsplaner",
                 settings: "Indstillinger",
-                about: "Om"
+                setup: "Opsætning"
             },
             footer: {
                 organization: "Herning Kommune"
@@ -653,7 +653,7 @@
             return "background-color:" + this.utility.colorLuminance(this.get("color"), .4) + ";width: 100%; height: 3px;";
         }.property("color"),
         shadedTabContentStyle: function() {
-            return "background-color:" + this.utility.colorLuminance(this.get("color"), .8) + ";";
+            return "background-color:" + this.utility.colorLuminance(this.get("color"), .4) + ";width: 100%; height: 3px;";
         }.property("color"),
         hashedID: function() {
             return "#" + this.get("id");
@@ -775,8 +775,7 @@
 (function() {
     App.GraphRoute = Ember.Route.extend({
         model: function() {
-            var model;
-            return model = this.store.findAll("strategy");
+            return this.store.findAll("strategy");
         },
         setupController: function(controller, model) {
             var strategies;
@@ -821,7 +820,6 @@
                 return focusareas.forEach(function(focusarea) {
                     return focusarea.get("strategies").then(function(strategies) {
                         var edge, i, selectedStrategies, strategiesA, _i, _j, _ref, _ref1, _results;
-                        console.log("Strategies:", strategies, "=", strategies.get("length"));
                         if (strategies != null && strategies.get("length") > 1) {
                             strategiesA = strategies.toArray();
                             selectedStrategies = [];

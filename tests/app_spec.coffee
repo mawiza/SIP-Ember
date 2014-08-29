@@ -18,6 +18,3 @@ describe "The home page should display", ->
 
         it 'a working themes link', ->
             assertNavbarLink('themes')
-
-        it 'a working about link', ->
-            assertNavbarLink('about')

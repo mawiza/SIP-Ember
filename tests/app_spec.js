@@ -18,11 +18,8 @@
       it('a working administrations link', function() {
         return assertNavbarLink('administrations');
       });
-      it('a working themes link', function() {
+      return it('a working themes link', function() {
         return assertNavbarLink('themes');
-      });
-      return it('a working about link', function() {
-        return assertNavbarLink('about');
       });
     });
   });

@@ -1,6 +1,6 @@
 App.GraphRoute = Ember.Route.extend
     model: ->
-        model = @store.findAll('strategy')
+        @store.findAll('strategy')
 
     setupController: (controller, model) ->
         strategies = model.filterProperty('selected', true)
@@ -38,7 +38,7 @@ App.GraphRoute = Ember.Route.extend
         @store.find('focusarea').then (focusareas) ->
             focusareas.forEach (focusarea) ->
                 focusarea.get('strategies').then (strategies) ->
-                    console.log 'Strategies:', strategies, "=", strategies.get('length')
+                    #console.log 'Strategies:', strategies, "=", strategies.get('length')
                     if strategies? and strategies.get('length') > 1
                         strategiesA = strategies.toArray()
 

@@ -353,7 +353,12 @@ function program9(depth0,data) {
   },inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   stack2 = ((stack1 = helpers['link-to'] || (depth0 && depth0['link-to'])),stack1 ? stack1.call(depth0, "strategies", options) : helperMissing.call(depth0, "link-to", "strategies", options));
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("</li>\r\n                    <li class=\"dropdown\">\r\n                        <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">Opsætning <span class=\"caret\"></span></a>\r\n                        <ul class=\"dropdown-menu\" role=\"menu\">\r\n                            <li>");
+  data.buffer.push("</li>\r\n                    <li class=\"dropdown\">\r\n                        <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['t'] || (depth0 && depth0['t'])),stack1 ? stack1.call(depth0, "application.navbar.setup", options) : helperMissing.call(depth0, "t", "application.navbar.setup", options))));
+  data.buffer.push("<span class=\"caret\"></span></a>\r\n                        <ul class=\"dropdown-menu\" role=\"menu\">\r\n                            <li>");
   hashContexts = {'class': depth0};
   hashTypes = {'class': "STRING"};
   options = {hash:{
@@ -383,7 +388,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading panel-info\">\r\n        Oversigt\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <ul class=\"nav nav-tabs nav-justified\" role=\"tablist\">\r\n            <li class=\"active\"><a data-toggle=\"tab\" href=\"#ordered_by_focusareas\">Fokusområde</a></li>\r\n            <li><a data-toggle=\"tab\" href=\"#ordered_by_group\">Forvaltning</a></li>\r\n        </ul>\r\n        <div class=\"tab-content\">\r\n            <br>\r\n            <div class=\"tab-pane\" id=\"ordered_by_group\"></div>\r\n            <div class=\"tab-pane active\" id=\"ordered_by_focusareas\"></div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
+  data.buffer.push("<div class=\"panel panel-default\">\r\n    <div class=\"panel-heading panel-info\">\r\n        Overview grouped by\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <ul class=\"nav nav-tabs nav-justified\" role=\"tablist\">\r\n            <li class=\"active\"><a data-toggle=\"tab\" href=\"#ordered_by_focusareas\">Fokus area</a></li>\r\n            <li><a data-toggle=\"tab\" href=\"#ordered_by_group\">Group</a></li>\r\n        </ul>\r\n        <div class=\"tab-content\">\r\n            <br>\r\n            <div class=\"tab-pane\" id=\"ordered_by_group\"></div>\r\n            <div class=\"tab-pane active\" id=\"ordered_by_focusareas\"></div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
   
 });
 Ember.TEMPLATES['components/x-graph'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {

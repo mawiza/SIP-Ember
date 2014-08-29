@@ -9,7 +9,7 @@
         administrations: "Forvaltninger",
         themes: "Indsatsplaner",
         settings: "Indstillinger",
-        about: "Om"
+        setup: "Opsætning"
       },
       footer: {
         organization: "Herning Kommune"

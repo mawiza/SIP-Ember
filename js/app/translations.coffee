@@ -1,4 +1,92 @@
 #create an interface for this
+#Ember.I18n.translations =
+#    application:
+#        title: "SIP"
+#        navbar:
+#            graph: "Overview"
+#            strategies: "Strategies"
+#            administrations: "Groups"
+#            themes: "Theme"
+#            settings: "Settings"
+#            setup: "Setup"
+#        footer:
+#            organization: "not used"
+#    index:
+#        heading: "Overview"
+#        description: ""
+#
+#    graph:
+#        heading: "Graph overview"
+#        description: ""
+#
+#    strategies:
+#        index:
+#            heading: "Strategies"
+#
+#    administrations:
+#        index:
+#            heading: "Groups"
+#            add: "Add group"
+#            name: "Group"
+#            color: "Color"
+#        new:
+#            heading: "Create new group"
+#            name: "Name"
+#            color: "Color"
+#            create: "Create"
+#        edit:
+#            heading: "Edit group"
+#            name: "Name"
+#            color: "Color"
+#            update: "Update"
+#            delete: "Delete"
+#            cancel: "Cancel"
+#            modal:
+#                info: "Are you sure you would like to delete this group?"
+#    themes:
+#        index:
+#            heading: "Themes"
+#            add: 'Add theme'
+#            definition: 'Definition'
+#        new:
+#            heading: "Create a new theme"
+#            definition: "Definition"
+#            create: "Create"
+#        edit:
+#            heading: "Edit theme"
+#            name: "Definition"
+#            update: "Update"
+#            delete: "Delete"
+#            cancel: "Cancel"
+#            modal:
+#                info: "Are you sure you would like to delete this theme?"
+#
+#    focusareas:
+#        index:
+#            heading: "Focus area"
+#            add: 'Add focus area'
+#            definition: 'Definition'
+#            theme: 'Theme'
+#        new:
+#            heading: "Create new focus area"
+#            definition: "Definition"
+#            create: "Create"
+#        edit:
+#            heading: "Edit focus area"
+#            name: "Definition"
+#            update: "Update"
+#            delete: "Delete"
+#            cancel: "Cancel"
+#            modal:
+#                info: "Are you sure you would like to delete this focus area?"
+#
+#    notify:
+#        danger: "Error"
+#        warning: "Warning"
+#        info: "Info"
+#        success: "Success"
+
+
 Ember.I18n.translations =
     application:
         title: "Strategiske Indsatsplan"
@@ -8,7 +96,7 @@ Ember.I18n.translations =
             administrations: "Forvaltninger"
             themes: "Indsatsplaner"
             settings: "Indstillinger"
-            about: "Om"
+            setup: "Opsætning"
         footer:
             organization: "Herning Kommune"
     index:
